@@ -2,7 +2,7 @@ import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/admin',
-    name: "admin",
+    name: 'admin',
     component: () => import('../../layouts/AdminView.vue'),
     children: [
       {
