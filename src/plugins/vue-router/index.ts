@@ -11,7 +11,12 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import('../../HomeView.vue'),
       }
     ]
-    }
+    },
+    {
+      path: '/login',
+      name: 'login',
+      component: () => import('../../features/auth/pages/LoginForm.vue'),
+    },
 ]
 
 const router = createRouter({
