@@ -1,10 +1,10 @@
 <template>
-    <el-container class="min-h-screen">
-      <SideBar/>  
-      <el-main class="w-full">
-        <router-view></router-view>
-      </el-main>
-    </el-container>
+  <el-container class="min-h-screen">
+    <SideBar />
+    <el-main class="w-full">
+      <router-view></router-view>
+    </el-main>
+  </el-container>
 </template>
 
 <script lang="ts" setup>
@@ -18,9 +18,7 @@ import SideBar from "./components/SildeBar.vue"
   font-weight: 700;
 }
 
-body {
-  font-family: Nunito Sans, sans-serif;
-}
+
 
 .scrollbar-none::-webkit-scrollbar {
   width: 0;

@@ -10,7 +10,10 @@ export default {
         '14': '14px',
       },
       colors:{
-        "main":"#4764c3"
+        "main":"#4764c3",
+        blue: {
+          'hover': '#5875d4', 
+        },
       }
     },
   },
