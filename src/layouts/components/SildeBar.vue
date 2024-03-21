@@ -100,6 +100,7 @@
               </div>
               <div v-if="!isCollapse" class="ml-2 text-white">
                 <p class="text-sm font-normal">trinhcongtrieu2972002@gmail.com</p>
+                <p class="text-sm font-normal">Trịnh Công Triệu</p>
               </div>
             </div>
             <div class="relative flex justify-center items-center">
@@ -121,7 +122,7 @@ import { ref } from 'vue'
 import {
   CaretRight
 } from '@element-plus/icons-vue'
-const isCollapse = ref(false)
+const isCollapse = ref(true)
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
