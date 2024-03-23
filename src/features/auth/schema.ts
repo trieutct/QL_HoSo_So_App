@@ -1,5 +1,5 @@
 import * as yup from 'yup';
-import { FORM_VALIDATION, MESSAGE_ERROR, Regex } from '../../common/contants/contants';
+import { FORM_VALIDATION, MESSAGE_ERROR, Regex } from '../../common/contants/constants.ts';
 
 
 
