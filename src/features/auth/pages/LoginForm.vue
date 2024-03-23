@@ -3,7 +3,8 @@
         <div class="w-2/5 flex items-center justify-center ">
             <div class="w-3/4">
                 <h2 class="font-bold text-3xl text-center">Đăng nhập</h2>
-                <div class="rounded-sm mt-8">
+                <form @submit.prevent="loginform.handleLogin" @keyup.enter="loginform.handleLogin">
+                    <div class="rounded-sm mt-8">
                     <el-input
                     class="mt-5"
                     v-model="loginform.email"
@@ -22,9 +23,10 @@
                         :prefix-icon="WarningFilled"
                     />
                     <span class="text-red-400 text-xs" v-show="loginform.passwordError">{{ loginform.passwordError }}</span>
-                    <el-button style="color: white;box-shadow: none;background-color: #4764c3;font-weight: bold;" size="large" class="w-full mt-14">Đăng nhập</el-button>
+                    <el-button @click="loginform.handleLogin" @keyup.enter="loginform.handleLogin" style="color: white;box-shadow: none;background-color: #4764c3;font-weight: bold;" size="large" class="w-full mt-14">Đăng nhập</el-button>
                     <p class="text-center mt-5">Bạn chưa có tài khoản?<span class="text-main font-bold"> Đăng ký</span></p>
                 </div>
+                </form>
             </div>
         </div>
         <div class="w-3/5 sm:block right">

@@ -46,14 +46,15 @@ export function showErrorNotification(message: string) {
   if (!message) return;
   // const toast = useToast();
   // toast.error(message);
-  alert(message)
+  alert(" showErrorNotification "+ message)
 }
 
 export function showSuccessNotification(message: string) {
   if (!message) return;
   // const toast = useToast();
   // toast.success(message);
-  alert(message)
+  alert(" showSuccessNotification "+ message)
+
 
 }
 
@@ -61,7 +62,8 @@ export function showWarningsNotification(message: string) {
   if (!message) return;
   // const toast = useToast();
   // toast.warning(message);
-  alert(message)
+  alert(" showWarningsNotification "+ message)
+
 
 }
 

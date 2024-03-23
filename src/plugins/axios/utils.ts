@@ -20,7 +20,7 @@ export const logout = (redirectToLogin = true) => {
 export const sendRefreshToken = async () => {
   let response;
   try {
-    const API_URL = import.meta.env.VUE_APP_API_URL;
+    const API_URL = "http://localhost:5235/api";
     const formData=new FormData()
     formData.append("refresh_token",localStorageAuthService.getRefreshToken())
     response = await axios.post(

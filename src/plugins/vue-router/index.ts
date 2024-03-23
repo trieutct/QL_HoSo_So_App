@@ -1,13 +1,14 @@
 import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
+import { PageName } from '../../common/contants/contants'
 const routes: Array<RouteRecordRaw> = [
   {
     path: '/admin',
-    name: 'admin',
+    name: PageName.ADMIN,
     component: () => import('../../layouts/AdminView.vue'),
     children: [
       {
         path: '',
-        name:'dashboard',
+        name:PageName.DASHBOARD_PAGE,
         component: () => import('../../HomeView.vue'),
       }
     ]
