@@ -35,7 +35,7 @@
         </div>
     </div>
 </template>
-<script setup>
+<script lang="ts" setup>
 import { ref,reactive } from 'vue';
 import { Message,WarningFilled } from '@element-plus/icons-vue'
 import {userLoginForm} from '../forms/loginforms'
