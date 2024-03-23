@@ -2,7 +2,6 @@
 import dayjs from '../../plugins/dayjs/index';
 // import i18n from '../plugins/vue-i18n';
 import {
-  DATE_TIME_FORMAT,
   DEFAULT_FIRST_PAGE,
   DEFAULT_LIMIT_FOR_PAGINATION,
   OrderDirection,

@@ -9,7 +9,7 @@ import {
   ProfileType,
   Role,
   UserStatus,
-} from '../contant/contants';
+} from '../contants/contants';
 
 export interface IResponseError<T = any> {
   key: string;
