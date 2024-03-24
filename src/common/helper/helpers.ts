@@ -45,7 +45,7 @@ export function isStringify<T>(obj: T | Record<string, unknown>): boolean {
 export function showErrorNotification(message: string) {
   if (!message) return;
   ElNotification({
-    title: 'Error',
+    title: 'Thông báo',
     message: message,
     type: 'error',
   })
@@ -54,7 +54,7 @@ export function showErrorNotification(message: string) {
 export function showSuccessNotification(message: string) {
   if (!message) return;
   ElNotification({
-    title: 'Success',
+    title: 'Thông báo',
     message: message,
     type: 'success',
   })
@@ -63,7 +63,7 @@ export function showSuccessNotification(message: string) {
 export function showWarningsNotification(message: string) {
   if (!message) return;
   ElNotification({
-    title: 'Warning',
+    title: 'Thông báo',
     message: message,
     type: 'warning',
   })
