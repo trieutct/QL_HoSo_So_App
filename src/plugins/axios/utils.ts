@@ -1,11 +1,11 @@
 import { HttpStatus, PageName } from '../../common/contants/contants';
 import localStorageAuthService from '../../common/storages/authStorage';
 import axios from 'axios';
-import { showWarningsNotification } from '../../common/helper/helpers';
+// import { showWarningsNotification } from '../../common/helper/helpers';
 import router from '../../plugins/vue-router/index';
 
 export const logout = (redirectToLogin = true) => {
-  showWarningsNotification("Hết phiên đăng nhập. Vui lòng đăng nhập lại")
+  // showWarningsNotification("Hết phiên đăng nhập. Vui lòng đăng nhập lại")
   localStorageAuthService.removeAll();
   const currentPage = router.currentRoute;
   if (redirectToLogin && currentPage.value.name !== PageName.LOGIN_PAGE) {

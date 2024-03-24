@@ -7,7 +7,7 @@ import {
   OrderDirection,
 } from '../contants/contants';
 import { type IOption, type IOrderDirection } from '../interface/interfaces';
-// import { useToast } from 'vue-toastification';
+import { ElNotification } from 'element-plus'
 export function isValidJSON(str: string) {
   try {
     const object = JSON.parse(str);
@@ -44,27 +44,29 @@ export function isStringify<T>(obj: T | Record<string, unknown>): boolean {
 
 export function showErrorNotification(message: string) {
   if (!message) return;
-  // const toast = useToast();
-  // toast.error(message);
-  alert(" showErrorNotification "+ message)
+  ElNotification({
+    title: 'Error',
+    message: message,
+    type: 'error',
+  })
 }
 
 export function showSuccessNotification(message: string) {
   if (!message) return;
-  // const toast = useToast();
-  // toast.success(message);
-  alert(" showSuccessNotification "+ message)
-
-
+  ElNotification({
+    title: 'Success',
+    message: message,
+    type: 'success',
+  })
 }
 
 export function showWarningsNotification(message: string) {
   if (!message) return;
-  // const toast = useToast();
-  // toast.warning(message);
-  alert(" showWarningsNotification "+ message)
-
-
+  ElNotification({
+    title: 'Warning',
+    message: message,
+    type: 'warning',
+  })
 }
 
 export function maskPhone(value: string, pattern = '### #### ###') {
