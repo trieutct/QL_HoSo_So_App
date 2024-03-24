@@ -86,7 +86,7 @@
 </template>
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import { Search, Plus } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue'
 const tableData = [
   {
     date: '2016-05-03',
