@@ -107,7 +107,7 @@
               <div v-if="!isCollapse">
                 <i class="ri-more-2-line text-lg text-white cursor-pointer " @click="showMenuUser=!showMenuUser"></i>
               </div>
-              <div v-if="showMenuUser" class="w-48 duration-700 shadow-xl absolute right-[-200px] bottom-1 text-white font-normal text-sm" style="background-color: #4764c3;">
+              <div v-if="showMenuUser" class="w-48 duration-700 shadow-xl absolute right-[-200px] bottom-1 text-white font-normal text-sm z-20" style="background-color: #4764c3;">
                   <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="ri-user-line mr-2"></i>Hồ sơ của tôi</a>
                   <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-key mr-2"></i>Đổi mật khẩu</a>
                   <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Đăng xuất</a>
