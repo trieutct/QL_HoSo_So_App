@@ -4,5 +4,8 @@
 *{
   margin: 0;
   padding: 0;
-  
+}
+:root {
+  --el-color-primary: #4764c3!important;
+  --el-color-danger:rgb(19, 231, 19) !important;
 }

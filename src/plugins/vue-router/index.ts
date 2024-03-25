@@ -10,6 +10,11 @@ const routes: Array<RouteRecordRaw> = [
         path: '',
         name:PageName.DASHBOARD_PAGE,
         component: () => import('../../HomeView.vue'),
+      },
+      {
+        path: 'user',
+        name:PageName.ADMIN_USER,
+        component: () => import('../../features/user/pages/UserView.vue'),
       }
     ]
     },

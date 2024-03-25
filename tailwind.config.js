@@ -11,6 +11,7 @@ export default {
       },
       colors:{
         "main":"#4764c3",
+        "dot":"rgb(38, 202, 82)",
         blue: {
           'hover': '#5875d4', 
         },

@@ -1,9 +1,9 @@
 <template>
   <h2 class="text-main font-semibold">Quản lý tài sản</h2>
   <div class="flex mt-5">
-    <div class="w-8/12 flex justify-between">
-      <el-input style="width: 240px;" size="large" placeholder="Tìm kiếm" :prefix-icon="Search" />
-      <el-select size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
+    <div class="w-8/12 flex">
+      <el-input v-model="value" style="width: 240px;" size="large" placeholder="Tìm kiếm" :prefix-icon="Search" />
+      <el-select class="ml-2" size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
             popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
             <template #header>
               <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
@@ -12,7 +12,7 @@
             </template>
             <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value" />
           </el-select>
-          <el-select size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
+          <el-select class="ml-2" size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
             popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
             <template #header>
               <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
