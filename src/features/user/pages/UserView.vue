@@ -29,7 +29,7 @@
         </div>
     </div>
     <div class="custom-table mt-10">
-        <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4">
+        <div class="grid lg:grid-cols-4 md:grid-cols-3 sm:grid-cols-1 gap-4 h-[calc(100vh-220px)] overflow-auto">
             <div v-for="i in 10" :key="i"
                 class="hover-border-red lg:w-3/9 min-h-[200px] rounded-md flex flex-col items-center border border-neutral-300 hover:cursor-pointer relative">
                 <div class="mt-5 relative">
@@ -63,12 +63,29 @@
                 </div>
             </div>
         </div>
+        <div class="mt-5 flex items-center">
+            <div class="w-[15%]">
+                <p style="color: #5b6178;" class="text-sm">Tổng số bản ghi: <span style="color: #454a5f">13</span></p>
+            </div>
+            <div class="w-full flex justify-end">
+                <el-pagination background layout="prev, pager, next" :total="50" />
+                <el-select class="ml-2" v-model="number" style="width: 60px">
+                    <el-option
+                        v-for="item in options"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value"
+                    />
+                </el-select>
+                <div class="ml-2 mr-5 flex items-center">
+                    <span class="text-sm mr-1" style="color:#5b6178 ">Trang</span>
+                    <el-input v-model="page" style="width: 30px"  />
+                </div>
+            </div>
+            
+        </div>
+        <DialogView v-model="showDialog" />
     </div>
-
-
-
-
-    <DialogView v-model="showDialog" />
 </template>
 <script lang="ts" setup>
 import DialogView from './DialogView.vue';
@@ -134,6 +151,20 @@ const handleCheckAll = (val: CheckboxValueType) => {
         value.value = []
     }
 }
+
+
+const number=ref(10)
+const page=ref(1)
+const options = [
+  {
+    value: '10',
+    label: '10',
+  },
+  {
+    value: '20',
+    label: '20',
+  }
+]
 </script>
 
 <style scoped>
