@@ -82,7 +82,6 @@
                     <el-input v-model="page" style="width: 30px"  />
                 </div>
             </div>
-            
         </div>
         <DialogView v-model="showDialog" />
     </div>

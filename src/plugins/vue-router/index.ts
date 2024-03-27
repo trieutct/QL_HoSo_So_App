@@ -15,6 +15,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'user',
         name:PageName.ADMIN_USER,
         component: () => import('../../features/user/pages/UserView.vue'),
+      },
+      {
+        path: 'kho',
+        name:PageName.KHO_PAGE,
+        component: () => import('../../features/Kho/pages/KhoView.vue'),
       }
     ]
     },

@@ -1,5 +1,5 @@
 <template>
-    <el-menu class="w-[380px] max-h-screen font-semibold relative" background-color="#4764c3"
+    <el-menu class="w-[380px] min-h-screen font-semibold relative" background-color="#4764c3"
         menu-active-background-color="white" active-text-color="#ffd04c" text-color="rgb(250 250 250)"
         :collapse="isCollapse" @open="handleOpen" @close="handleClose">
         <el-button type="primary" style="background-color: #4764c3!important;border-color: rgb(255 255 255);"

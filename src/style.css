@@ -7,5 +7,11 @@
 }
 :root {
   --el-color-primary: #4764c3!important;
-  --el-color-danger:rgb(19, 231, 19) !important;
+  
+}
+.el-button--danger,
+.el-button--error {
+    background-color: #e02b1d !important;
+    border-color: #e02b1d !important;
+    color: #fff !important;
 }

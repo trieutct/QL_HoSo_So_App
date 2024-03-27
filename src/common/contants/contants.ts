@@ -63,7 +63,8 @@ export const FORM_VALIDATION = {
     ADMIN='admin',
     ADMIN_PRODUCT='product',
     ADMIN_USER='user',
-    BLOG='blog'
+    BLOG='blog',
+    KHO_PAGE="kho_page"
   }
   
   
@@ -149,6 +150,28 @@ export const FORM_VALIDATION = {
   
   export const DEFAULT_LIMIT_FOR_PAGINATION = 10;
   export const DEFAULT_FIRST_PAGE = 1;
+  export const OPTION_SELECTED_PAGE=[
+    {
+        value: '10',
+        label: '10',
+    },
+    {
+        value: '20',
+        label: '20',
+    },
+    {
+      value: '30',
+      label: '30',
+  },
+  {
+    value: '40',
+    label: '40',
+},
+{
+  value: '50',
+  label: '50',
+}
+]
   
   export enum Role {
     USER = 'User',
@@ -236,7 +259,7 @@ export const FORM_VALIDATION = {
     page: DEFAULT_FIRST_PAGE,
     keyword: undefined,
     orderBy: 'createdAt',
-    orderDirection: 'desc',
+    // orderDirection: 'desc',
     limit: DEFAULT_LIMIT_FOR_PAGINATION,
   };
   
