@@ -6,7 +6,7 @@
                 :prefix-icon="Search" />
         </div>
         <div class="w-4/12 flex justify-end">
-            <el-button @click="showDialog = true" type="primary" size="large">
+            <el-button @click="openDialog" type="primary" size="large">
                 <i class="ri-add-line text-xl font-bold"></i>
             </el-button>
         </div>
@@ -20,28 +20,19 @@
             <el-table-column prop="description" label="Mô Tả" width="300" />
             <el-table-column prop="note" label="Ghi Chú" width="400" />
             <el-table-column fixed="right" label="Hành Động" width="120">
-                <template #default>
-                    <el-button type="warning" :icon="Edit" circle />
+                <template #default="scope">
+                    <el-button type="warning" :icon="Edit" circle  @click="handleEdit(scope.row)"/>
                     <el-button type="danger" :icon="Delete" circle />
                 </template>
             </el-table-column>
         </el-table>
         <div class="mt-5 flex items-center">
             <div class="w-[15%]">
-                <p style="color: #5b6178;" class="text-sm">Tổng số bản ghi: <span style="color: #454a5f">{{ TotalKho
-                        }}</span>
+                <p style="color: #5b6178;" class="text-sm">Tổng số bản ghi: <span style="color: #454a5f">{{ Total}}</span>
                 </p>
             </div>
             <div class="w-full flex justify-end">
-                <el-pagination v-model:current-page="page" v-model:page-size="selectedPage" background
-                    layout="prev, pager, next" :total="TotalKho" />
-                <!-- <el-pagination
-                    v-model:current-page="currentPage4"
-                    v-model:page-size="pageSize4"
-                    :background="background"
-                    layout="total, sizes, prev, pager, next, jumper"
-                    :total="1000"
-                /> -->
+                <el-pagination prev-text background layout="prev, pager, next" :total="TotalKho" />
                 <el-select class="ml-2" v-model="selectedPage" style="width: 60px">
                     <el-option v-model="selectedPage" v-for="item in options" :key="item.value" :label="item.label"
                         :value="item.value" />
@@ -52,7 +43,7 @@
                 </div>
             </div>
         </div>
-        <DialogView v-model="showDialog" />
+        <DialogView v-model="showDialog" :itemEdit="idEdit" @close="closeDialog" @loadData="loadData" />
     </div>
 </template>
 <script setup>
@@ -62,7 +53,9 @@ import { Search, Edit, Delete } from '@element-plus/icons-vue'
 import { DEFAULT_LIMIT_FOR_PAGINATION, OPTION_SELECTED_PAGE } from '../../../common/contants/contants';
 import { useKho } from '../kho'
 import { useLoadingTableStore } from '../../loading/store/loading_table';
-import { isEmpty } from 'lodash';
+import { fa } from 'element-plus/es/locale/index.mjs';
+
+const idEdit=ref(null)
 const loading = useLoadingTableStore()
 
 
@@ -71,6 +64,7 @@ const showDialog = ref(false)
 const options = OPTION_SELECTED_PAGE
 const page = ref(1)
 const TotalKho = ref(0)
+const Total=ref(0)
 const selectedPage = ref(DEFAULT_LIMIT_FOR_PAGINATION)
 const search = ref(null)
 
@@ -98,7 +92,8 @@ const loadData = async () => {
     const res = await getDataKhos()
     if (res.data) {
         khos.value = res.data;
-        TotalKho.value = res.totalItems
+        TotalKho.value = Math.ceil(res.totalItems / selectedPage.value) * 10;
+        Total.value=res.totalItems ;
         return
     }
     khos.value = []
@@ -113,6 +108,21 @@ const searchData = async () => {
     else
         query.keyword = search.value
     loadData()
+}
+
+
+const handleEdit=(item)=>{
+    showDialog.value=true
+    idEdit.value=(item.id)
+}
+
+const openDialog=()=>{
+    showDialog.value=true
+    idEdit.value=null
+}
+const closeDialog=()=>{
+    showDialog.value=false
+    idEdit.value=null
 }
 </script>
 

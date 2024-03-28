@@ -1,10 +1,17 @@
-// import { IBodyResponse } from "../../../common/interface/interfaces";
+import { IBodyResponse } from "../../../common/interface/interfaces";
 import axiosInstance, { ApiService } from "../../../plugins/axios";
 
 class KhoApiService extends ApiService{
-    // async login(body: IBodyLogin): Promise<IBodyResponse<any>> {
-    //     return await this.client.post(`${this.baseUrl}/login`, body);
-    // }
+    async create(formData: FormData): Promise<IBodyResponse<any>> {
+        return await this.client.post(`${this.baseUrl}`, formData);
+      }
+
+      async update(
+        id: string,
+        formData: FormData
+      ): Promise<IBodyResponse<any>> {
+        return await this.client.put(`${this.baseUrl}/${id}`, formData);
+      }
 }
 
 
