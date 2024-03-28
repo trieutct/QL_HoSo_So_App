@@ -5,12 +5,11 @@ class KhoApiService extends ApiService{
     async create(formData: FormData): Promise<IBodyResponse<any>> {
         return await this.client.post(`${this.baseUrl}`, formData);
       }
-
       async update(
         id: string,
         formData: FormData
       ): Promise<IBodyResponse<any>> {
-        return await this.client.put(`${this.baseUrl}/${id}`, formData);
+        return await this.client.patch(`${this.baseUrl}/${id}`, formData);
       }
 }
 

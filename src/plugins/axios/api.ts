@@ -67,4 +67,19 @@ export class ApiService {
             }
         });
     }
+    _softDelete<R>(id: number | string): Promise<R> {
+        return this.client.delete<R, R>(this.deleteUrl + '/softDelete/' + id,{
+            headers: {
+                'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
+            }
+        });
+    }
+    _softDeleteMutiple<R>(id: number[] | string[]): Promise<R> {
+        const ids=Object.values(id)
+        return this.client.post<R, R>(this.deleteUrl + '/softDeleteMutiple',ids,{
+            headers: {
+                'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
+            },
+        });
+    }
 }

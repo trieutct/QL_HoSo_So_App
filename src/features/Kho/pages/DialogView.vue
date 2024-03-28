@@ -5,7 +5,7 @@
         <p>Mã Kho
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="MaKho" size="large" style="width: 100%" placeholder="Mã kho" />
+        <el-input :disabled="props.itemEdit" v-model="MaKho" size="large" style="width: 100%" placeholder="Mã kho" />
         <span class="text-red-500 ml-2">{{ MaKhoError }}</span>
       </el-col>
       <el-col :span="12">
@@ -78,8 +78,6 @@ const getKhoById = async (id) => {
     loading.setLoading(false)
   }
 }
-
-
 
 const loading = useLoadingStore()
 const { handleSubmit, resetForm } = useForm();
