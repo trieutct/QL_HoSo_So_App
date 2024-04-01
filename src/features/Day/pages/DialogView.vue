@@ -186,6 +186,7 @@ onMounted(() => {
 const kho_dropdown = ref(null)
 const getKho_dropdown=async()=>{
     const res=await KhoServiceApi._getDropDown();
+    console.log(res)
     if(res.success)
     {
         kho_dropdown.value=res.data

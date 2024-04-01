@@ -25,6 +25,11 @@ const routes: Array<RouteRecordRaw> = [
         path: 'day',
         name:PageName.DAY_PAGE,
         component: () => import('../../features/Day/pages/DayView.vue'),
+      },
+      {
+        path: 'ke',
+        name:PageName.KE_PAGE,
+        component: () => import('../../features/Ke/pages/KeView.vue'),
       }
     ]
     },

@@ -1,10 +1,10 @@
 <template>
-    <h2 class="text-main font-semibold text-xl">Quản lý dãy</h2>
+    <h2 class="text-main font-semibold text-xl">Quản lý kệ</h2>
     <div class="flex mt-5">
         <div class="w-8/12 flex">
             <el-input v-model="search" @keyup.enter="searchData" clearable style="width: 30%;" size="large" placeholder="Tìm kiếm"
                 :prefix-icon="Search" />
-            <el-select class="ml-2" size="large" v-model="value" clearable collapse-tags placeholder="Tìm kiếm theo kho"
+            <el-select class="ml-2" size="large" v-model="searcMaKho" clearable collapse-tags placeholder="Tìm kiếm theo kho"
                 popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
                 <el-option v-for="item in kho_dropdown" :key="item.value" :label="item.text" :value="item.value" />
             </el-select>
@@ -17,10 +17,11 @@
     </div>
     <div class="custom-table mt-8">
         <!-- <el-table ref="multipleTableRef" @selection-change="handleSelectionChange" v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="days" border width="100%"> -->
-        <el-table  v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="days" border width="100%">
+        <el-table  v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="kes" border width="100%">
             <el-table-column fixed type="selection" width="55" />
-            <el-table-column prop="maDay" label="Mã Dãy" width="100" />
-            <el-table-column prop="name" label="Tên Dãy" width="200" />
+            <el-table-column prop="maKe" label="Mã Kệ" width="100" />
+            <el-table-column prop="name" label="Tên Kệ" width="100" />
+            <el-table-column prop="tenDay" label="Dãy" width="200" />
             <el-table-column prop="tenKho" label="Kho" width="200" />
             <el-table-column prop="location" label="Vị Trí" width="200" />
             <el-table-column prop="description" label="Mô Tả" width="300" />
@@ -50,7 +51,7 @@
             </div>
         </div>
         <DialogView v-model="showDialog" :itemEdit="idEdit" @close="closeDialog" @loadData="loadData" />
-        <ConfirmView v-model="showDialogDelete" @deleteItem="deleteDay" :idDelete="idDelete" @close="closeDialog"/>
+        <ConfirmView v-model="showDialogDelete" @deleteItem="deleteKe" :idDelete="idDelete" @close="closeDialog"/>
     </div>
 </template>
 <script lang="ts" setup>
@@ -59,9 +60,9 @@ import ConfirmView from '../../../layouts/components/ConfirmView.vue'
 import { ref, onMounted, watch } from 'vue'
 import { Search, Edit, Delete } from '@element-plus/icons-vue'
 import { DEFAULT_LIMIT_FOR_PAGINATION, OPTION_SELECTED_PAGE } from '../../../common/contants/contants';
-import { useDay } from '../day'
+import { useKe } from '../ke'
 import { useLoadingTableStore } from '../../loading/store/loading_table';
-import { dayServiceApi } from '../service/day.service';
+import { keServiceApi } from '../service/ke.service';
 import { showErrorNotification, showSuccessNotification } from '../../../common/helper/helpers';
 import { KhoServiceApi } from '../../Kho/service/kho.service';
 
@@ -70,7 +71,7 @@ const idDelete=ref(null)
 const loading = useLoadingTableStore()
 
 
-const { query, getDataDays, days } = useDay()
+const { query, getDataKes, kes } = useKe()
 const showDialog = ref(false)
 const showDialogDelete = ref(false)
 const options = OPTION_SELECTED_PAGE
@@ -102,14 +103,14 @@ watch(page, (newVal:any) => {
 })
 const loadData = async () => {
     query.keyword = search.value?search.value:undefined
-    const res = await getDataDays()
+    const res = await getDataKes()
     if (res?.data) {
-        days.value = res?.data;
+        kes.value = res?.data;
         TotalKho.value = Math.ceil(res?.totalItems / selectedPage.value) * 10;
         Total.value=res?.totalItems ;
         return
     }
-    days.value = []
+    kes.value = []
 }
 
 const searchData = async () => {
@@ -122,9 +123,9 @@ const searchData = async () => {
         query.keyword = search.value
     loadData()
 }
-const deleteDay=async(id:string)=>{
+const deleteKe=async(id:string)=>{
     try{
-        const res:any=await dayServiceApi._delete(id)
+        const res:any=await keServiceApi._delete(id)
         if(res.success)
         {
             showSuccessNotification(res.message)
@@ -157,14 +158,14 @@ const closeDialog=()=>{
 
 
 
-const value = ref('')
+const searcMaKho = ref('')
 const kho_dropdown = ref<[]|any>([])
 const getKho_dropdown=async()=>{
     const res:any=await KhoServiceApi._getDropDown();
     kho_dropdown.value=res.data;
 }
-watch(value,async(newval)=>{
-    query.MaKho=newval
+watch(searcMaKho,async()=>{
+    query.MaKho=searcMaKho.value
     loadData()
 })
 </script>

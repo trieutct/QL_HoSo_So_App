@@ -123,7 +123,7 @@ const searchData = async () => {
 }
 const deleteKho=async(id:string)=>{
     try{
-        const res:any=await KhoServiceApi._softDelete(id)
+        const res:any=await KhoServiceApi._delete(id)
         if(res.success)
         {
             showSuccessNotification(res.message)

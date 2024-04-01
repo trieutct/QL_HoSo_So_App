@@ -86,4 +86,7 @@ export class ApiService {
     _getDropDown<R>(): Promise<R> {
         return this.client.get<R, R>(this.baseUrl + '/getDropdown');
     }
+    _getDropDownByMa<R>(ma:string): Promise<R> {
+        return this.client.get<R, R>(this.baseUrl + '/getDropdown/'+ma);
+    }
 }

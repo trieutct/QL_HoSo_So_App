@@ -1,5 +1,5 @@
 <template>
-  <el-dialog
+  <el-dialog align-center
     title="Xác nhận"
     width="500"
   >
