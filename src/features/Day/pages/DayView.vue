@@ -1,9 +1,13 @@
 <template>
-    <h2 class="text-main font-semibold text-xl">Quản lý kho</h2>
+    <h2 class="text-main font-semibold text-xl">Quản lý dãy</h2>
     <div class="flex mt-5">
         <div class="w-8/12 flex">
-            <el-input v-model="search" @keyup.enter="searchData" style="width: 30%;" size="large" placeholder="Tìm kiếm"
+            <el-input v-model="search" @keyup.enter="searchData" clearable style="width: 30%;" size="large" placeholder="Tìm kiếm"
                 :prefix-icon="Search" />
+            <el-select class="ml-2" size="large" v-model="value" clearable collapse-tags placeholder="Tìm kiếm theo kho"
+                popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
+                <el-option v-for="item in kho_dropdown" :key="item.value" :label="item.text" :value="item.value" />
+            </el-select>
         </div>
         <div class="w-4/12 flex justify-end">
             <el-button @click="openDialog" type="primary" size="large">
@@ -12,17 +16,12 @@
         </div>
     </div>
     <div class="custom-table mt-8">
-        <div v-show="multipleSelection.length>0 " class="mb-2 text-xs">
-            <span class="text-slate-500 mr-2">{{ multipleSelection.length }} lựa chọn</span>
-            <el-button type="danger" @click="deleteMultiple(multipleSelection)" :icon="Delete" circle  />
-        </div>
-
-        
-        <el-table ref="multipleTableRef" @selection-change="handleSelectionChange" v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="khos" border width="100%">
-        <!-- <el-table  v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="khos" border width="100%"> -->
+        <!-- <el-table ref="multipleTableRef" @selection-change="handleSelectionChange" v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="days" border width="100%"> -->
+        <el-table  v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="days" border width="100%">
             <el-table-column fixed type="selection" width="55" />
-            <el-table-column prop="maKho" label="Mã Kho" width="100" />
-            <el-table-column prop="name" label="Tên Kho" width="200" />
+            <el-table-column prop="maDay" label="Mã Dãy" width="100" />
+            <el-table-column prop="name" label="Tên Dãy" width="200" />
+            <el-table-column prop="tenKho" label="Kho" width="200" />
             <el-table-column prop="location" label="Vị Trí" width="200" />
             <el-table-column prop="description" label="Mô Tả" width="300" />
             <el-table-column prop="note" label="Ghi Chú" width="400" />
@@ -60,17 +59,18 @@ import ConfirmView from '../../../layouts/components/ConfirmView.vue'
 import { ref, onMounted, watch } from 'vue'
 import { Search, Edit, Delete } from '@element-plus/icons-vue'
 import { DEFAULT_LIMIT_FOR_PAGINATION, OPTION_SELECTED_PAGE } from '../../../common/contants/contants';
-import { useKho } from '../kho'
+import { useDay } from '../day'
 import { useLoadingTableStore } from '../../loading/store/loading_table';
-import { KhoServiceApi } from '../service/kho.service';
+import { dayServiceApi } from '../service/day.service';
 import { showErrorNotification, showSuccessNotification } from '../../../common/helper/helpers';
+import { KhoServiceApi } from '../../Kho/service/kho.service';
 
 const idEdit=ref(null)
 const idDelete=ref(null)
 const loading = useLoadingTableStore()
 
 
-const { query, getDataKhos, khos } = useKho()
+const { query, getDataDays, days } = useDay()
 const showDialog = ref(false)
 const showDialogDelete = ref(false)
 const options = OPTION_SELECTED_PAGE
@@ -88,6 +88,7 @@ onMounted(async () => {
     query.page = 1
     query.limit = selectedPage.value
     loadData()
+    getKho_dropdown()
 })
 watch(selectedPage, (newVal:any) => {
     query.limit = newVal
@@ -95,20 +96,20 @@ watch(selectedPage, (newVal:any) => {
     page.value = 1
     loadData()
 })
-watch(page, (newVal:number) => {
+watch(page, (newVal:any) => {
     query.page = newVal
     loadData()
 })
 const loadData = async () => {
     query.keyword = search.value?search.value:undefined
-    const res:any = await getDataKhos()
-    if (res.data) {
-        khos.value = res.data;
-        TotalKho.value = Math.ceil(res.totalItems / selectedPage.value) * 10;
-        Total.value=res.totalItems ;
+    const res = await getDataDays()
+    if (res?.data) {
+        days.value = res?.data;
+        TotalKho.value = Math.ceil(res?.totalItems / selectedPage.value) * 10;
+        Total.value=res?.totalItems ;
         return
     }
-    khos.value = []
+    days.value = []
 }
 
 const searchData = async () => {
@@ -123,7 +124,7 @@ const searchData = async () => {
 }
 const deleteKho=async(id:string)=>{
     try{
-        const res:any=await KhoServiceApi._softDelete(id)
+        const res:any=await dayServiceApi._softDelete(id)
         if(res.success)
         {
             showSuccessNotification(res.message)
@@ -141,7 +142,7 @@ const deleteKho=async(id:string)=>{
 
 const handleEdit=(item:any)=>{
     showDialog.value=true
-    idEdit.value=(item.id)
+    idEdit.value=(item?.id)
 }
 
 const openDialog=()=>{
@@ -156,31 +157,16 @@ const closeDialog=()=>{
 
 
 
-//xóa multiple
-import { ElTable } from 'element-plus'
-import { IKho } from '../interface';
-const multipleTableRef = ref<InstanceType<typeof ElTable>>()
-const multipleSelection = ref<string[]|any>([])
-const handleSelectionChange = (val: IKho[]) => {
-  multipleSelection.value = val.map(item => item.id);
+const value = ref('')
+const kho_dropdown = ref<[]|any>([])
+const getKho_dropdown=async()=>{
+    const res:any=await KhoServiceApi._getDropDown();
+    kho_dropdown.value=res.data;
 }
-
-const deleteMultiple=async(list_id:any)=>{
-    try{
-        const res:any=await KhoServiceApi._softDeleteMutiple(list_id)
-        if(res.success)
-        {
-            showSuccessNotification(res.message)
-            loadData()
-        }
-        else
-        {
-            showErrorNotification(res.message)
-        }
-    }catch(error){
-        showErrorNotification("Errro deleteMultiple KhoView page")
-    }
-}
+watch(value,async(newval)=>{
+    query.MaKho=newval
+    loadData()
+})
 </script>
 
 <style scoped>

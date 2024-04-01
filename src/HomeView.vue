@@ -4,23 +4,23 @@
     <div class="w-8/12 flex">
       <el-input v-model="value" style="width: 240px;" size="large" placeholder="Tìm kiếm" :prefix-icon="Search" />
       <el-select class="ml-2" size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
-            popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
-            <template #header>
-              <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
-                All
-              </el-checkbox>
-            </template>
-            <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-          <el-select class="ml-2" size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
-            popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
-            <template #header>
-              <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
-                All
-              </el-checkbox>
-            </template>
-            <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
+        popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
+        <template #header>
+          <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
+            All
+          </el-checkbox>
+        </template>
+        <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
+      <el-select class="ml-2" size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
+        popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
+        <template #header>
+          <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
+            All
+          </el-checkbox>
+        </template>
+        <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value" />
+      </el-select>
     </div>
     <div class="w-4/12 flex justify-end">
       <el-button type="primary" size="large">

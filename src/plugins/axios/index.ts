@@ -9,6 +9,7 @@ import { throttle } from 'lodash';
 import localStorageAuthService from '../../common/storages/authStorage';
 import dayjs from '../dayjs';
 import { sendRefreshToken } from './utils';
+import { showWarningsNotification } from '../../common/helper/helpers';
 
 const options: AxiosRequestConfig = {
   headers: {
@@ -59,7 +60,10 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   async (error) => {
+    if(error.response?.status==HttpStatus.FORBIDDEN)
+      showWarningsNotification("Bạn không có quyền")
     if (error.code === 'ERR_NETWORK') {
+      showWarningsNotification(error.message)
       error.request.data = {
         ...(error?.request?.data || {}),
         success: false,

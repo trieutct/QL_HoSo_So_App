@@ -1,5 +1,5 @@
 import type { IBodyResponse, ICommonListQuery, IGetListResponse } from '../../common/interface/interfaces';
-import localStorageAuthService from '../../common/storages/authStorage';
+// import localStorageAuthService from '../../common/storages/authStorage';
 import { type AxiosInstance } from 'axios';
 
 
@@ -39,11 +39,12 @@ export class ApiService {
     _getList<T>(
         queryString: ICommonListQuery,
     ): Promise<IBodyResponse<IGetListResponse<T>>> {
+        // console.log(queryString)
         return this.client.get(`${this.baseUrl}`, {
             params: queryString,
-            headers: {
-                'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
-              }
+            // headers: {
+            //     'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
+            //   }
             }
         );
     }
@@ -62,24 +63,27 @@ export class ApiService {
 
     _delete<R>(id: number | string): Promise<R> {
         return this.client.delete<R, R>(this.deleteUrl + '/' + id,{
-            headers: {
-                'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
-            }
+            // headers: {
+            //     'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
+            // }
         });
     }
     _softDelete<R>(id: number | string): Promise<R> {
         return this.client.delete<R, R>(this.deleteUrl + '/softDelete/' + id,{
-            headers: {
-                'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
-            }
+            // headers: {
+            //     'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
+            // }
         });
     }
     _softDeleteMutiple<R>(id: number[] | string[]): Promise<R> {
         const ids=Object.values(id)
         return this.client.post<R, R>(this.deleteUrl + '/softDeleteMutiple',ids,{
-            headers: {
-                'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
-            },
+            // headers: {
+            //     'Authorization': 'Bearer '+localStorageAuthService.getAccessToken()
+            // },
         });
+    }
+    _getDropDown<R>(): Promise<R> {
+        return this.client.get<R, R>(this.baseUrl + '/getDropdown');
     }
 }
