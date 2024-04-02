@@ -1,5 +1,5 @@
 <template>
-    <el-dialog style="border-radius: 5px !important;" :title="props.itemEdit ? 'Cập nhật dãy' : 'Tạo mới dãy'" width="700">
+    <el-dialog align-center style="border-radius: 5px !important;" :title="props.itemEdit ? 'Cập nhật dãy' : 'Tạo mới dãy'" width="700">
       <el-row :gutter="20">
         <el-col :span="12">
           <p>Mã Dãy

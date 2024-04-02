@@ -22,10 +22,8 @@ export const AuthStore=defineStore('authStore', () => {
     
           return true
         }
-        showErrorNotification(res.message)
         return false;
       }
-
     return {
         login
     }

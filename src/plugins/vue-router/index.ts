@@ -13,7 +13,7 @@ const routes: Array<RouteRecordRaw> = [
       },
       {
         path: 'user',
-        name:PageName.ADMIN_USER,
+        name:PageName.USER_PAGE,
         component: () => import('../../features/user/pages/UserView.vue'),
       },
       {

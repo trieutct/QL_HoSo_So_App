@@ -66,7 +66,8 @@ export const FORM_VALIDATION = {
     BLOG='blog',
     KHO_PAGE="kho_page",
     DAY_PAGE="day_page",
-    KE_PAGE="ke_page"
+    KE_PAGE="ke_page",
+    USER_PAGE="user_page",
   }
   
   
