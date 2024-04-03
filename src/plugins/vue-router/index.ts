@@ -30,7 +30,12 @@ const routes: Array<RouteRecordRaw> = [
         path: 'ke',
         name:PageName.KE_PAGE,
         component: () => import('../../features/Ke/pages/KeView.vue'),
-      }
+      },
+      {
+        path: 'module',
+        name:PageName.MODULE_PAGE,
+        component: () => import('../../features/module/pages/ModuleView.vue'),
+      },
     ]
     },
     {
