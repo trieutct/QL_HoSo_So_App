@@ -5,8 +5,8 @@ export type IKe={
     maDay:string;
     tenDay:string;
     tenKho:string;
-    name:number;
-    location:number;
+    name:string;
+    location:string;
     description:string;
     note:string;
 }

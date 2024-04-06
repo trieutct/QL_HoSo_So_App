@@ -36,6 +36,16 @@ const routes: Array<RouteRecordRaw> = [
         name:PageName.MODULE_PAGE,
         component: () => import('../../features/module/pages/ModuleView.vue'),
       },
+      {
+        path: 'role',
+        name:PageName.ROLE_PAGE,
+        component: () => import('../../features/role/pages/RoleView.vue'),
+      },
+      {
+        path: 'role_operation',
+        name:PageName.ROLEOPERATION_PAGE,
+        component: () => import('../../features/role/pages/RoleOperation.vue'),
+      },
     ]
     },
     {

@@ -64,6 +64,7 @@ axiosInstance.interceptors.response.use(
       showWarningsNotification("Bạn không có quyền")
     if (error.code === 'ERR_NETWORK') {
       showWarningsNotification(error.message)
+
       error.request.data = {
         ...(error?.request?.data || {}),
         success: false,

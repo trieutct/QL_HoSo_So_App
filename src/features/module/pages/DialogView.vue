@@ -18,14 +18,12 @@
         <span class="text-red-500 ml-2">{{ nameError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
-        <!-- <p>Vị Trí</p>
-        <el-input v-model="ViTri" size="large" style="width: 100%" placeholder="Nhập vị trí" />
-        <span class="text-red-500 ml-2">{{ ViTriError }}</span> -->
-        <p>Hiển Thị</p>
+        <p>Hiển Thị <span class="text-red-500">*</span></p>
         <el-radio-group v-model="isShow" class="ml-2">
           <el-radio value="true" size="large">Hiển thị</el-radio>
           <el-radio value="false" size="large">Ẩn</el-radio>
         </el-radio-group>
+        <p class="text-red-500 ml-2">{{ isShowError }}</p>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Icon

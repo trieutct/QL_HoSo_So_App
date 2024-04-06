@@ -1,8 +1,8 @@
 export type IKho={
     id:string
     maKho:string;
-    name:number;
-    location:number;
+    name:string;
+    location:string;
     description:string;
     note:string;
 }

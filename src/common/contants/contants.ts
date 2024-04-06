@@ -68,7 +68,9 @@ export const FORM_VALIDATION = {
     DAY_PAGE="day_page",
     KE_PAGE="ke_page",
     USER_PAGE="user_page",
-    MODULE_PAGE="module_page"
+    MODULE_PAGE="module_page",
+    ROLE_PAGE="role_page",
+    ROLEOPERATION_PAGE="roleoperation_page",
   }
   
   
