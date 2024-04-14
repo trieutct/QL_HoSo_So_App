@@ -6,5 +6,5 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import 'remixicon/fonts/remixicon.css'
 import pinia from './plugins/pinia/index';
-
-createApp(App).use(ElementPlus).use(router).use(pinia).mount('#app')
+import i18n from './plugins/vue-i18n/index'
+createApp(App).use(ElementPlus).use(router).use(pinia).use(i18n).mount('#app')

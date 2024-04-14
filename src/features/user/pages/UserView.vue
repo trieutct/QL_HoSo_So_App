@@ -1,5 +1,5 @@
 <template>
-    <h2 class="text-main font-semibold text-xl">Quản lý người dùng</h2>
+    <h2 class="text-main font-semibold text-xl">{{ t('user.title.title') }}</h2>
     <div class="flex mt-5">
         <div class="w-8/12 flex">
             <el-input v-model="value" style="width: 30%;" size="large" placeholder="Tìm kiếm" :prefix-icon="Search" />
@@ -87,6 +87,8 @@
     </div>
 </template>
 <script lang="ts" setup>
+import { useI18n } from 'vue-i18n';
+const {t}=useI18n();
 import DialogView from './DialogView.vue';
 import { ref, watch } from 'vue'
 import { Search, Edit, MoreFilled } from '@element-plus/icons-vue'

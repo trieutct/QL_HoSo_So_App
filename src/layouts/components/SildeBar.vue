@@ -8,7 +8,7 @@
     <img class="w-[80%] m-4" src="https://hoctest.hrm.sorameet.xyz/assets/sidebar-logo-0f38fc94.svg" alt="">
     <div class="overflow-y-auto h-[calc(100vh-20%)] scrollbar-none">
 
-      <el-sub-menu v-for="(item,index) in modules" :key="index" :index="index+1">
+      <el-sub-menu v-for="(item, index) in modules" :key="index" :index="index + 1">
         <template #title>
           <el-icon>
             <i :class="item.icon"></i>
@@ -19,8 +19,8 @@
           <div v-if="!isCollapse" class="w-[3px] bg-white ml-6 rounded-s-md"></div>
           <div :class="!isCollapse ? 'w-[80%] mr-2' : 'w-full'">
             <el-menu-item v-for="i in item.operations" :key="i.id" @click="routerURL(i.url)"
-              :class="!isCollapse ? 'rounded-md font-normal' : 'rounded-none font-normal'"
-              style="height: 40px;" :index="'1-4-1-' + i.id">{{ i.name }}</el-menu-item>
+              :class="!isCollapse ? 'rounded-md font-normal' : 'rounded-none font-normal'" style="height: 40px;"
+              :index="'1-4-1-' + i.id">{{ i.name }}</el-menu-item>
           </div>
         </div>
       </el-sub-menu>
@@ -45,6 +45,18 @@
             style="background-color: #4764c3;">
             <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="ri-user-line mr-2"></i>Hồ sơ của tôi</a>
             <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-key mr-2"></i>Đổi mật khẩu</a>
+            <!-- <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="ri-global-line  mr-2"></i>Ngôn ngữ</a> -->
+            <el-dropdown :hide-on-click="false">
+              <span class="px-4 py-2 text-white" >
+                <i class="ri-global-line  mr-2"></i>Ngôn ngữ
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item class="px-4 py-2"><img width="25" height="25" src="https://tse4.mm.bing.net/th?id=OIP.bsAUet3tu20BMiLW93wTqQHaE3&pid=Api&P=0&h=220"> <p class="ml-2">English</p></el-dropdown-item>
+                  <el-dropdown-item class="px-4 py-2"><img width="25" height="25" src="https://tse1.explicit.bing.net/th?id=OIP.dR1wHZnKnzai7BDYhts1uwHaFj&pid=Api&P=0&h=220s"> <p class="ml-2">Tiếng Việt</p></el-dropdown-item>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
             <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i
                 class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Đăng xuất</a>
           </div>
@@ -54,9 +66,9 @@
   </el-menu>
 </template>
 <script setup>
-import { ref,onMounted } from 'vue'
-import {CaretRight} from '@element-plus/icons-vue'
-import {moduleServiceApi} from '../../features/module/service/module.service'
+import { ref, onMounted } from 'vue'
+import { CaretRight } from '@element-plus/icons-vue'
+import { moduleServiceApi } from '../../features/module/service/module.service'
 const isCollapse = ref(true)
 import router from "../../plugins/vue-router";
 const routerURL = (name) => {
@@ -65,13 +77,13 @@ const routerURL = (name) => {
 const showMenuUser = ref(false)
 
 
-const modules=ref([])
-const getmodules=async()=>{
-  const res= await moduleServiceApi.getMouduleByToken();
-  if(res.success)
-    modules.value=res.data
+const modules = ref([])
+const getmodules = async () => {
+  const res = await moduleServiceApi.getMouduleByToken();
+  if (res.success)
+    modules.value = res.data
 }
-onMounted(async()=>{
+onMounted(async () => {
   getmodules()
 })
 </script>
