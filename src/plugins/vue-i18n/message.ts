@@ -6,8 +6,12 @@ import user from '../../features/user/locale/index';
 import {module} from '../../features/module/locale/index';
 import { operation } from '../../features/operation/locale';
 import { role } from '../../features/role/locale';
+import { app as appVi } from '../../common/locale/vi/app.vi';
+import { app as appEn } from '../../common/locale/en/app.en';
+
 const messages={
     vi:{
+        app: appVi,
         user:user.vi,
         auth:auth.vi,
         day:day.vi,
@@ -18,6 +22,7 @@ const messages={
         role:role.vi
     },
     en:{
+        app: appEn,
         user:user.en,
         auth:auth.en,
         day:day.en,

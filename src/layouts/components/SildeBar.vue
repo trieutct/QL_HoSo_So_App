@@ -43,35 +43,45 @@
           <div v-if="showMenuUser"
             class="w-48 duration-700 shadow-xl absolute right-[-200px] bottom-1 text-white font-normal text-sm z-20"
             style="background-color: #4764c3;">
-            <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="ri-user-line mr-2"></i>Hồ sơ của tôi</a>
-            <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-key mr-2"></i>Đổi mật khẩu</a>
-            <!-- <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i class="ri-global-line  mr-2"></i>Ngôn ngữ</a> -->
-            <el-dropdown :hide-on-click="false">
-              <span class="px-4 py-2 text-white" >
-                <i class="ri-global-line  mr-2"></i>Ngôn ngữ
-              </span>
-              <template #dropdown>
-                <el-dropdown-menu>
-                  <el-dropdown-item class="px-4 py-2"><img width="25" height="25" src="https://tse4.mm.bing.net/th?id=OIP.bsAUet3tu20BMiLW93wTqQHaE3&pid=Api&P=0&h=220"> <p class="ml-2">English</p></el-dropdown-item>
-                  <el-dropdown-item class="px-4 py-2"><img width="25" height="25" src="https://tse1.explicit.bing.net/th?id=OIP.dR1wHZnKnzai7BDYhts1uwHaFj&pid=Api&P=0&h=220s"> <p class="ml-2">Tiếng Việt</p></el-dropdown-item>
-                </el-dropdown-menu>
-              </template>
-            </el-dropdown>
-            <a href="#" class="block hover:bg-blue-hover px-4 py-2"><i
-                class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Đăng xuất</a>
+            <p class="block hover:bg-blue-hover px-4 py-2"><i class="ri-user-line mr-2"></i>Hồ sơ của tôi</p>
+            <p class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-key mr-2"></i>Đổi mật khẩu</p>
+            <!-- <a class="block hover:bg-blue-hover px-4 py-2"><i class="ri-global-line  mr-2"></i>Ngôn ngữ</a> -->
+              <el-dropdown :hide-on-click="false">
+                <span class="px-4 py-2 text-white">
+                  <i class="ri-global-line  mr-2"></i>Ngôn ngữ
+                </span>
+                <template #dropdown>
+                  <el-dropdown-menu>
+                    <el-dropdown-item v-for="item in Languages" @click="onChangeLanguage(item.value)" :key="item" class="px-4 py-2"><img width="25" height="25"
+                        :src="item.img">
+                      <p class="ml-2">{{ item.name }}</p>
+                    </el-dropdown-item>
+
+                    <!-- <el-dropdown-item class="px-4 py-2"><img width="25" height="25"
+                        src="https://tse1.explicit.bing.net/th?id=OIP.dR1wHZnKnzai7BDYhts1uwHaFj&pid=Api&P=0&h=220s">
+                      <p class="ml-2">Tiếng Việt</p>
+                    </el-dropdown-item> -->
+                  </el-dropdown-menu>
+                </template>
+              </el-dropdown>
+            <p class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Đăng
+              xuất
+            </p>
           </div>
         </div>
       </div>
     </div>
   </el-menu>
 </template>
-<script setup>
-import { ref, onMounted } from 'vue'
+<script lang="ts" setup>
+import { SupportLanguage } from '../../common/contants/contants';
+import { ref, onMounted,computed } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import { moduleServiceApi } from '../../features/module/service/module.service'
 const isCollapse = ref(true)
 import router from "../../plugins/vue-router";
-const routerURL = (name) => {
+import localStorageAuthService from '../../common/storages/authStorage';
+const routerURL = (name:string) => {
   router.push({ path: name })
 }
 const showMenuUser = ref(false)
@@ -85,5 +95,32 @@ const getmodules = async () => {
 }
 onMounted(async () => {
   getmodules()
+})
+
+
+
+
+
+import { useI18n } from 'vue-i18n';
+
+const { t, locale } = useI18n({ useScope: 'global' });
+
+const onChangeLanguage = (language: SupportLanguage) => {
+    localStorageAuthService.setLanguage(language);
+    locale.value = language;
+};
+const Languages=computed(()=>{
+  return [
+    {
+      name:t('app.header.languages.en'),
+      img:"https://tse4.mm.bing.net/th?id=OIP.bsAUet3tu20BMiLW93wTqQHaE3&pid=Api&P=0&h=220",
+      value:SupportLanguage.EN
+    },
+    {
+      name:t('app.header.languages.vi'),
+      img:"https://tse1.explicit.bing.net/th?id=OIP.dR1wHZnKnzai7BDYhts1uwHaFj&pid=Api&P=0&h=220ss",
+      value:SupportLanguage.VI
+    }
+  ]
 })
 </script>
