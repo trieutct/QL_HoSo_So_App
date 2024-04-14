@@ -37,8 +37,7 @@
         </template>
     </el-dialog>
 </template>
-<script lang="ts" setup>
-
+<script setup>
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
 import { MESSAGE_ERROR, Regex } from '../../../common/contants/contants';
@@ -47,7 +46,6 @@ import { roleServiceApi } from '../service/role.service';
 import { useLoadingStore } from '../../loading/store/index'
 import { watch, ref, onMounted } from 'vue'
 import { operationerviceApi } from '../../operation/service/operation.service';
-import { da } from 'element-plus/es/locale/index.mjs';
 const props = defineProps(['itemEdit'])
 const emits = defineEmits(['close', 'loadData'])
 watch(() => props.itemEdit, (newValue) => {
@@ -56,10 +54,10 @@ watch(() => props.itemEdit, (newValue) => {
         getquyenById(newValue)
     }
 });
-const getquyenById = async (id:string) => {
+const getquyenById = async (id) => {
     try {
         loading.setLoading(true)
-        const data:any = await roleServiceApi._getDetail(id);
+        const data = await roleServiceApi._getDetail(id);
         console.log(data)
         if (data.success) {
             name.value = data.data.role.name;
@@ -97,10 +95,10 @@ const submit = handleSubmit(async () => {
     try {
         if (props.itemEdit === null) {
             const formData = new FormData();
-            console.log(opeationIds.value)
-            formData.append('Code', Code.value);
-            formData.append('Name', name.value);
-            formData.append('operationIds', opeationIds.value);
+            // console.log(opeationIds.value)
+            formData.append('Code', Code.value+"");
+            formData.append('Name', name.value+"");
+            formData.append('operationIds', opeationIds.value+"");
             loading.setLoading(true)
             const res = await roleServiceApi.create(formData)
             if (res.success) {
@@ -115,11 +113,11 @@ const submit = handleSubmit(async () => {
         else {
             const formData = new FormData();
             formData.append('Id', props.itemEdit);
-            formData.append('Code', Code.value);
-            formData.append('Name', name.value);
+            formData.append('Code', Code.value+"");
+            formData.append('Name', name.value+"");
             formData.append('operationIds', opeationIds.value);
             loading.setLoading(true)
-            const res:any = await roleServiceApi.update(props.itemEdit, formData)
+            const res = await roleServiceApi.update(props.itemEdit, formData)
             if (res.success) {
                 emits('close')
                 emits('loadData')
@@ -129,7 +127,7 @@ const submit = handleSubmit(async () => {
                 showErrorNotification(res.message)
             }
         }
-    } catch (error:any) {
+    } catch (error) {
         showErrorNotification(error.message)
     } finally {
         loading.setLoading(false)
@@ -141,7 +139,7 @@ const submit = handleSubmit(async () => {
 onMounted(async () => {
     await getDropdownOperations()
 })
-const opeationIds = ref<string[]>([])
+const opeationIds = ref([])
 const operations = ref(null)
 const getDropdownOperations = async () => {
     const res = await operationerviceApi._getDropDown();
