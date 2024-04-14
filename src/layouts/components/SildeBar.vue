@@ -73,7 +73,7 @@
     </div>
   </el-menu>
 </template>
-<script lang="ts" setup>
+<script setup>
 import { SupportLanguage } from '../../common/contants/contants';
 import { ref, onMounted,computed } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
@@ -81,7 +81,7 @@ import { moduleServiceApi } from '../../features/module/service/module.service'
 const isCollapse = ref(true)
 import router from "../../plugins/vue-router";
 import localStorageAuthService from '../../common/storages/authStorage';
-const routerURL = (name:string) => {
+const routerURL = (name) => {
   router.push({ path: name })
 }
 const showMenuUser = ref(false)
@@ -105,7 +105,7 @@ import { useI18n } from 'vue-i18n';
 
 const { t, locale } = useI18n({ useScope: 'global' });
 
-const onChangeLanguage = (language: SupportLanguage) => {
+const onChangeLanguage = (language) => {
     localStorageAuthService.setLanguage(language);
     locale.value = language;
 };
