@@ -59,7 +59,7 @@
 import DialogView from './DialogView.vue';
 import ConfirmView from '../../../layouts/components/ConfirmView.vue'
 import { ref, onMounted, watch } from 'vue'
-import { Search, Edit, Delete, Setting } from '@element-plus/icons-vue'
+import { Search, Edit, Delete } from '@element-plus/icons-vue'
 import { DEFAULT_LIMIT_FOR_PAGINATION, OPTION_SELECTED_PAGE } from '../../../common/contants/contants';
 import { useRole } from '../role'
 import { useLoadingTableStore } from '../../loading/store/loading_table';
