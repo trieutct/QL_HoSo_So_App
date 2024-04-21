@@ -22,20 +22,10 @@
             :height="'calc(100vh - 220px)'" :data="roles" border width="100%">
             <!-- <el-table  v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="roles" border width="100%"> -->
             <el-table-column fixed type="selection" width="55" />
-            <!-- <el-table-column type="expand">
-                <template #default="props">
-                    
-                </template>
-            </el-table-column> -->
             <el-table-column prop="code" label="Mã Quyền" width="200" />
             <el-table-column prop="name" label="Quyền" width="300" />
             <el-table-column fixed="right" label="Hành Động" width="200">
                 <template #default="scope">
-                    <el-popover lacement="top" :width="100" trigger="hover" content="Cài đặt chức năng">
-                        <template #reference>
-                            <el-button type="info" :icon="Setting" circle />
-                        </template>
-                    </el-popover>
                     <el-button type="warning" :icon="Edit" circle @click="handleEdit(scope.row)" />
                     <el-button type="danger" :icon="Delete" circle
                         @click="idDelete = scope.row.id; showDialogDelete = true" />
@@ -45,7 +35,7 @@
         <div class="mt-5 flex items-center">
             <div class="w-[15%]">
                 <p style="color: #5b6178;" class="text-sm">Tổng số bản ghi: <span style="color: #454a5f">{{
-                Total }}</span>
+                    Total }}</span>
                 </p>
             </div>
             <div class="w-full flex justify-end">
