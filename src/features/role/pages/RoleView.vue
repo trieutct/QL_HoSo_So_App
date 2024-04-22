@@ -1,5 +1,5 @@
 <template>
-    <h2 class="text-main font-semibold text-xl">Quản lý vài trò</h2>
+    <h2 class="text-main font-semibold text-xl">{{ t('role.title.title') }}</h2>
     <div class="flex mt-5">
         <div class="w-8/12 flex">
             <el-input v-model="search" @keyup.enter="searchData" style="width: 30%;" size="large" placeholder="Tìm kiếm"
@@ -22,9 +22,9 @@
             :height="'calc(100vh - 220px)'" :data="roles" border width="100%">
             <!-- <el-table  v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="roles" border width="100%"> -->
             <el-table-column fixed type="selection" width="55" />
-            <el-table-column prop="code" label="Mã Quyền" width="200" />
-            <el-table-column prop="name" label="Quyền" width="300" />
-            <el-table-column fixed="right" label="Hành Động" width="200">
+            <el-table-column prop="code" :label="t('role.table.code')" width="200" />
+            <el-table-column prop="name" :label="t('role.table.role')" width="300" />
+            <el-table-column fixed="right" :label="t('role.table.action')" width="200">
                 <template #default="scope">
                     <el-button type="warning" :icon="Edit" circle @click="handleEdit(scope.row)" />
                     <el-button type="danger" :icon="Delete" circle
@@ -59,13 +59,14 @@
 import DialogView from './DialogView.vue';
 import ConfirmView from '../../../layouts/components/ConfirmView.vue'
 import { ref, onMounted, watch } from 'vue'
+import { useI18n } from 'vue-i18n';
 import { Search, Edit, Delete } from '@element-plus/icons-vue'
 import { DEFAULT_LIMIT_FOR_PAGINATION, OPTION_SELECTED_PAGE } from '../../../common/contants/contants';
 import { useRole } from '../role'
 import { useLoadingTableStore } from '../../loading/store/loading_table';
 import { roleServiceApi } from '../service/role.service';
 import { showErrorNotification, showSuccessNotification } from '../../../common/helper/helpers';
-
+const { t } = useI18n()
 const idEdit = ref(null)
 const idDelete = ref(null)
 const loading = useLoadingTableStore()

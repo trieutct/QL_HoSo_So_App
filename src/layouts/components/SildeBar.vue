@@ -5,7 +5,7 @@
     <el-button type="primary" style="background-color: #4764c3!important;border-color: rgb(255 255 255);"
       :icon="CaretRight" @click="isCollapse = !isCollapse" circle
       :class="!isCollapse ? 'absolute right-[-18px] top-4 rotate-180' : 'absolute right-[-18px] top-2'" />
-    <img class="w-[80%] m-4" src="https://hoctest.hrm.sorameet.xyz/assets/sidebar-logo-0f38fc94.svg" alt="">
+    <img class="w-[80%] m-4" src="https://tokyotechlab.ttloffice.com/assets/sidebar-logo-0f38fc94.svg" alt="">
     <div class="overflow-y-auto h-[calc(100vh-20%)] scrollbar-none">
 
       <el-sub-menu v-for="(item, index) in modules" :key="index" :index="index + 1">
@@ -46,24 +46,24 @@
             <p class="block hover:bg-blue-hover px-4 py-2"><i class="ri-user-line mr-2"></i>Hồ sơ của tôi</p>
             <p class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-key mr-2"></i>Đổi mật khẩu</p>
             <!-- <a class="block hover:bg-blue-hover px-4 py-2"><i class="ri-global-line  mr-2"></i>Ngôn ngữ</a> -->
-              <el-dropdown :hide-on-click="false">
-                <span class="px-4 py-2 text-white">
-                  <i class="ri-global-line  mr-2"></i>Ngôn ngữ
-                </span>
-                <template #dropdown>
-                  <el-dropdown-menu>
-                    <el-dropdown-item v-for="item in Languages" @click="onChangeLanguage(item.value)" :key="item" class="px-4 py-2"><img width="25" height="25"
-                        :src="item.img">
-                      <p class="ml-2">{{ item.name }}</p>
-                    </el-dropdown-item>
+            <el-dropdown :hide-on-click="false">
+              <span class="px-4 py-2 text-white">
+                <i class="ri-global-line  mr-2"></i>Ngôn ngữ
+              </span>
+              <template #dropdown>
+                <el-dropdown-menu>
+                  <el-dropdown-item v-for="item in Languages" @click="onChangeLanguage(item.value)" :key="item"
+                    class="px-4 py-2"><img width="25" height="25" :src="item.img">
+                    <p class="ml-2">{{ item.name }}</p>
+                  </el-dropdown-item>
 
-                    <!-- <el-dropdown-item class="px-4 py-2"><img width="25" height="25"
+                  <!-- <el-dropdown-item class="px-4 py-2"><img width="25" height="25"
                         src="https://tse1.explicit.bing.net/th?id=OIP.dR1wHZnKnzai7BDYhts1uwHaFj&pid=Api&P=0&h=220s">
                       <p class="ml-2">Tiếng Việt</p>
                     </el-dropdown-item> -->
-                  </el-dropdown-menu>
-                </template>
-              </el-dropdown>
+                </el-dropdown-menu>
+              </template>
+            </el-dropdown>
             <p class="block hover:bg-blue-hover px-4 py-2"><i class="fa-solid fa-arrow-right-from-bracket mr-2"></i>Đăng
               xuất
             </p>
@@ -75,7 +75,7 @@
 </template>
 <script setup>
 import { SupportLanguage } from '../../common/contants/contants';
-import { ref, onMounted,computed } from 'vue'
+import { ref, onMounted, computed } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import { moduleServiceApi } from '../../features/module/service/module.service'
 const isCollapse = ref(true)
@@ -106,20 +106,20 @@ import { useI18n } from 'vue-i18n';
 const { t, locale } = useI18n({ useScope: 'global' });
 
 const onChangeLanguage = (language) => {
-    localStorageAuthService.setLanguage(language);
-    locale.value = language;
+  localStorageAuthService.setLanguage(language);
+  locale.value = language;
 };
-const Languages=computed(()=>{
+const Languages = computed(() => {
   return [
     {
-      name:t('app.header.languages.en'),
-      img:"https://tse4.mm.bing.net/th?id=OIP.bsAUet3tu20BMiLW93wTqQHaE3&pid=Api&P=0&h=220",
-      value:SupportLanguage.EN
+      name: t('app.header.languages.en'),
+      img: "https://tse4.mm.bing.net/th?id=OIP.bsAUet3tu20BMiLW93wTqQHaE3&pid=Api&P=0&h=220",
+      value: SupportLanguage.EN
     },
     {
-      name:t('app.header.languages.vi'),
-      img:"https://tse1.explicit.bing.net/th?id=OIP.dR1wHZnKnzai7BDYhts1uwHaFj&pid=Api&P=0&h=220ss",
-      value:SupportLanguage.VI
+      name: t('app.header.languages.vi'),
+      img: "https://tse1.explicit.bing.net/th?id=OIP.dR1wHZnKnzai7BDYhts1uwHaFj&pid=Api&P=0&h=220ss",
+      value: SupportLanguage.VI
     }
   ]
 })

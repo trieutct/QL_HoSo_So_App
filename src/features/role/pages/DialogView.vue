@@ -1,9 +1,9 @@
 <template>
-    <el-dialog style="border-radius: 5px !important;" :title="props.itemEdit ? 'Cập nhật quyền' : 'Tạo mới quyền'"
+    <el-dialog style="border-radius: 5px !important;" :title="props.itemEdit ? t('role.form.update') : t('role.form.add')"
         width="700">
         <el-row :gutter="20">
             <el-col :span="24">
-                <p>Mã Quyền
+                <p>{{ t('role.form.code') }}
                     <span class="text-red-500">*</span>
                 </p>
                 <el-input :disabled="props.itemEdit" v-model="Code" size="large" style="width: 100%"
@@ -11,27 +11,27 @@
                 <span class="text-red-500 ml-2">{{ CodeError }}</span>
             </el-col>
             <el-col class="mt-4" :span="24">
-                <p>Tên Quyền
+                <p>{{ t('role.form.name') }}
                     <span class="text-red-500">*</span>
                 </p>
                 <el-input v-model="name" size="large" style="width: 100%" placeholder="Tên quyền" />
                 <span class="text-red-500 ml-2">{{ nameError }}</span>
             </el-col>
             <el-col class="mt-4" :span="24">
-                <p>Thao tác chức năng
+                <p>{{ t('role.form.operation') }}
                     <span class="text-red-500">*</span>
                 </p>
                 <el-select size="large" v-model="opeationIds" multiple filterable allow-create default-first-option
-                    :reserve-keyword="false" placeholder="Chọn thao tác chức năng" >
+                    :reserve-keyword="false" placeholder="Chọn thao tác chức năng">
                     <el-option v-for="item in operations" :key="item.value" :label="item.text" :value="item.value" />
                 </el-select>
             </el-col>
         </el-row>
         <template #footer>
             <div class="dialog-footer">
-                <el-button @click="emits('close')">Cancel</el-button>
+                <el-button @click="emits('close')">{{ t('role.button.cancel') }}</el-button>
                 <el-button @click="submit" type="primary">
-                    {{ props.itemEdit ? "Cập nhật" : "Tạo mới" }}
+                    {{ props.itemEdit ? t('role.button.update') : t('role.button.create') }}
                 </el-button>
             </div>
         </template>
@@ -40,6 +40,7 @@
 <script setup>
 import { useForm, useField } from 'vee-validate';
 import * as yup from 'yup';
+import { useI18n } from 'vue-i18n';
 import { MESSAGE_ERROR, Regex } from '../../../common/contants/contants';
 import { showErrorNotification, showSuccessNotification } from '../../../common/helper/helpers';
 import { roleServiceApi } from '../service/role.service';
@@ -48,6 +49,7 @@ import { watch, ref, onMounted } from 'vue'
 import { operationerviceApi } from '../../operation/service/operation.service';
 const props = defineProps(['itemEdit'])
 const emits = defineEmits(['close', 'loadData'])
+const { t } = useI18n()
 watch(() => props.itemEdit, (newValue) => {
     resetForm()
     if (props.itemEdit !== null) {
@@ -62,7 +64,7 @@ const getquyenById = async (id) => {
         if (data.success) {
             name.value = data.data.role.name;
             Code.value = data.data.role.code;
-            opeationIds.value=data.data.operationIds
+            opeationIds.value = data.data.operationIds
         }
         else {
             showWarningsNotification(data.message)
@@ -96,9 +98,9 @@ const submit = handleSubmit(async () => {
         if (props.itemEdit === null) {
             const formData = new FormData();
             // console.log(opeationIds.value)
-            formData.append('Code', Code.value+"");
-            formData.append('Name', name.value+"");
-            formData.append('operationIds', opeationIds.value+"");
+            formData.append('Code', Code.value + "");
+            formData.append('Name', name.value + "");
+            formData.append('operationIds', opeationIds.value + "");
             loading.setLoading(true)
             const res = await roleServiceApi.create(formData)
             if (res.success) {
@@ -113,8 +115,8 @@ const submit = handleSubmit(async () => {
         else {
             const formData = new FormData();
             formData.append('Id', props.itemEdit);
-            formData.append('Code', Code.value+"");
-            formData.append('Name', name.value+"");
+            formData.append('Code', Code.value + "");
+            formData.append('Name', name.value + "");
             formData.append('operationIds', opeationIds.value);
             loading.setLoading(true)
             const res = await roleServiceApi.update(props.itemEdit, formData)

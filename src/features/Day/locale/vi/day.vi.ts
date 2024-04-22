@@ -1,6 +1,6 @@
 const DayVi = {
-    title:{
-        title:'Quản lý dãy'
-    }
+  title: {
+    title: "Quản lý dãy",
+  },
 };
 export default DayVi;
