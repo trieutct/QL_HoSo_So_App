@@ -9,7 +9,7 @@ const RoleVi = {
   },
   form: {
     add: "Tạo mới vai trò",
-    update: "Tạo mới vai trò",
+    update: "Cập nhật vai trò",
     code: "Mã vai trò",
     name: "Tên vai trò",
     operation: "Thao tác chức năng",

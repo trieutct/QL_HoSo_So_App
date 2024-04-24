@@ -1,6 +1,6 @@
 <template>
-    <el-dialog style="border-radius: 5px !important;" :title="props.itemEdit ? t('role.form.update') : t('role.form.add')"
-        width="700">
+    <el-dialog style="border-radius: 5px !important;"
+        :title="props.itemEdit ? t('role.form.update') : t('role.form.add')" width="700">
         <el-row :gutter="20">
             <el-col :span="24">
                 <p>{{ t('role.form.code') }}
@@ -52,6 +52,7 @@ const emits = defineEmits(['close', 'loadData'])
 const { t } = useI18n()
 watch(() => props.itemEdit, (newValue) => {
     resetForm()
+    opeationIds.value = []
     if (props.itemEdit !== null) {
         getquyenById(newValue)
     }

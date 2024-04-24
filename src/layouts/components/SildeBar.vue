@@ -5,7 +5,8 @@
     <el-button type="primary" style="background-color: #4764c3!important;border-color: rgb(255 255 255);"
       :icon="CaretRight" @click="isCollapse = !isCollapse" circle
       :class="!isCollapse ? 'absolute right-[-18px] top-4 rotate-180' : 'absolute right-[-18px] top-2'" />
-    <img class="w-[80%] m-4" src="https://tokyotechlab.ttloffice.com/assets/sidebar-logo-0f38fc94.svg" alt="">
+    <!-- <img class="w-[80%] m-4" src="https://tokyotechlab.ttloffice.com/assets/sidebar-logo-0f38fc94.svg" alt=""> -->
+    <div class="w-[80%] m-4 text-white text-3xl flex justify-center">Kho Hồ Sơ</div>
     <div class="overflow-y-auto h-[calc(100vh-20%)] scrollbar-none">
 
       <el-sub-menu v-for="(item, index) in modules" :key="index" :index="index + 1">
