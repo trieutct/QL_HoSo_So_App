@@ -6,7 +6,7 @@
       :icon="CaretRight" @click="isCollapse = !isCollapse" circle
       :class="!isCollapse ? 'absolute right-[-18px] top-4 rotate-180' : 'absolute right-[-18px] top-2'" />
     <!-- <img class="w-[80%] m-4" src="https://tokyotechlab.ttloffice.com/assets/sidebar-logo-0f38fc94.svg" alt=""> -->
-    <div class="w-[80%] m-4 text-white text-3xl flex justify-center">Kho Hồ Sơ</div>
+    <div class="w-[80%] m-4 text-white text-3xl flex justify-center" style="font-family: cursive;">Le0 TCT</div>
     <div class="overflow-y-auto h-[calc(100vh-20%)] scrollbar-none">
 
       <el-sub-menu v-for="(item, index) in modules" :key="index" :index="index + 1">
@@ -79,13 +79,13 @@ import { SupportLanguage } from '../../common/contants/contants';
 import { ref, onMounted, computed } from 'vue'
 import { CaretRight } from '@element-plus/icons-vue'
 import { moduleServiceApi } from '../../features/module/service/module.service'
-const isCollapse = ref(true)
 import router from "../../plugins/vue-router";
 import localStorageAuthService from '../../common/storages/authStorage';
 const routerURL = (name) => {
   router.push({ path: name })
 }
 const showMenuUser = ref(false)
+const isCollapse = ref(false)
 
 
 const modules = ref([])

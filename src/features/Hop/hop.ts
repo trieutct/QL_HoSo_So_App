@@ -1,20 +1,22 @@
 import { ref } from "vue";
 import { DEFAULT_COMMON_LIST_QUERY } from "../../common/contants/contants";
-import { IKe } from "./interface";
-import { keServiceApi } from "./service/ke.service";
+import { IHop } from "./interface";
+import { hopServiceApi } from "./service/hop.service";
 import { showErrorNotification } from "../../common/helper/helpers";
 import { useLoadingTableStore } from "../loading/store/loading_table";
 
-export const useKe = () => {
+export const useHop = () => {
   const loading = useLoadingTableStore();
-  const kes = ref<IKe[]>([]);
+  const kes = ref<IHop[]>([]);
   const query = {
     ...DEFAULT_COMMON_LIST_QUERY,
     MaKho: "",
   };
-  const getDataKes = async () => {
+  const getDataHops = async () => {
     try {
-      const res = await keServiceApi._getList<IKe>(query);
+      const res = await hopServiceApi._getList<IHop>(query);
+      console.log(res);
+
       loading.setLoading(true);
       if (res.success)
         return {
@@ -35,6 +37,6 @@ export const useKe = () => {
   return {
     kes,
     query,
-    getDataKes,
+    getDataHops,
   };
 };
