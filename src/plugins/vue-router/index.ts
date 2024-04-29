@@ -51,6 +51,11 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.HOP_PAGE,
         component: () => import("../../features/Hop/pages/HopView.vue"),
       },
+      {
+        path: "hoso",
+        name: PageName.HOSO_PAGE,
+        component: () => import("../../features/HoSo/pages/HosoView.vue"),
+      },
     ],
   },
   {

@@ -1,5 +1,5 @@
 import { SupportLanguage } from "../contants/contants";
-import { DEFAULT_LANGUAGE } from '../../common/contants/contants';
+import { DEFAULT_LANGUAGE } from "../../common/contants/contants";
 import { storage } from "./localStorage";
 const BUFFER_TIME = 60 * 1000; // 60s
 

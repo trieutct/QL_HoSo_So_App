@@ -1,7 +1,7 @@
 import { IBodyResponse } from "../../../common/interface/interfaces";
 import axiosInstance, { ApiService } from "../../../plugins/axios";
 
-class KeApiService extends ApiService {
+class HosoApiService extends ApiService {
   async create(formData: FormData): Promise<IBodyResponse<any>> {
     return await this.client.post(`${this.baseUrl}`, formData);
   }
@@ -10,4 +10,7 @@ class KeApiService extends ApiService {
   }
 }
 
-export const keServiceApi = new KeApiService({ baseUrl: "/Ke" }, axiosInstance);
+export const hosoServiceApi = new HosoApiService(
+  { baseUrl: "/Hoso" },
+  axiosInstance
+);

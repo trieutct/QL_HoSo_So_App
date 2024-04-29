@@ -7,8 +7,8 @@ import { PageName } from "../../../common/contants/contants";
 import { useLoadingStore } from "../../loading/store";
 import { showSuccessNotification } from "../../../common/helper/helpers";
 export const userLoginForm = () => {
-  const authStore=AuthStore();
-  const loading=useLoadingStore()
+  const authStore = AuthStore();
+  const loading = useLoadingStore();
   const {
     handleSubmit,
     values: formValue,
@@ -32,16 +32,15 @@ export const userLoginForm = () => {
 
   const handleLogin = handleSubmit(async (values) => {
     // alert(values.email);
-    loading.setLoading(true)
-    const res= await authStore.login({
-      email:values.email,
-      password:values.password
-    })
-    loading.setLoading(false)
-    if(res)
-    {
-      showSuccessNotification("Đăng nhập thành công")
-      router.push({name:PageName.DASHBOARD_PAGE})
+    loading.setLoading(true);
+    const res = await authStore.login({
+      email: values.email,
+      password: values.password,
+    });
+    loading.setLoading(false);
+    if (res) {
+      showSuccessNotification("Đăng nhập thành công");
+      router.push({ name: PageName.DASHBOARD_PAGE });
     }
   });
 

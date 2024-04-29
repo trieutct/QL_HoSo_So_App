@@ -1,5 +1,5 @@
-import { type AxiosResponse } from 'axios';
-import type { Ref } from 'vue';
+import { type AxiosResponse } from "axios";
+import type { Ref } from "vue";
 import {
   ErrorCode,
   Gender,
@@ -9,7 +9,7 @@ import {
   ProfileType,
   Role,
   UserStatus,
-} from '../contants/contants';
+} from "../contants/contants";
 
 export interface IResponseError<T = any> {
   key: string;
@@ -25,9 +25,9 @@ export interface IBodyResponse<T> extends AxiosResponse {
   message: string;
   error: string;
   data: T;
-  items:T;
+  items: T;
   errors?: IResponseError<any>[];
-  totalItems:number
+  totalItems: number;
 }
 
 export interface ICommonListQuery {
@@ -208,22 +208,21 @@ export interface IUserRole {
 }
 
 export interface IAuthUserInterface {
-  username: string
-  email: string
-  password: string
-  passwordConfirm: string
+  username: string;
+  email: string;
+  password: string;
+  passwordConfirm: string;
 }
 export interface IUserInterface {
-  user: string
-  isUserLoggedIn: boolean
-  token: string | undefined
+  user: string;
+  isUserLoggedIn: boolean;
+  token: string | undefined;
 }
 export interface IEmployees {
-  id: Number
-  firstname: String
-  lastname: String
+  id: Number;
+  firstname: String;
+  lastname: String;
 }
 export interface TokenResponse {
-  accessToken: string
+  accessToken: string;
 }
-

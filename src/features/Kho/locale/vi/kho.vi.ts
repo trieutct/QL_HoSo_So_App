@@ -1,6 +1,6 @@
 const KhoVi = {
-    title:{
-        title:'Quản lý kho'
-    }
+  title: {
+    title: "Quản lý kho",
+  },
 };
 export default KhoVi;

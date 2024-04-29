@@ -1,17 +1,16 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-*{
+* {
   margin: 0;
   padding: 0;
 }
 :root {
-  --el-color-primary: #4764c3!important;
-  
+  --el-color-primary: #4764c3 !important;
 }
 .el-button--danger,
 .el-button--error {
-    background-color: #e02b1d !important;
-    border-color: #e02b1d !important;
-    color: #fff !important;
+  background-color: #e02b1d !important;
+  border-color: #e02b1d !important;
+  color: #fff !important;
 }

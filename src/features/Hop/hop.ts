@@ -15,7 +15,6 @@ export const useHop = () => {
   const getDataHops = async () => {
     try {
       const res = await hopServiceApi._getList<IHop>(query);
-      console.log(res);
 
       loading.setLoading(true);
       if (res.success)

@@ -1,54 +1,116 @@
 <template>
-  <el-dialog align-center style="border-radius: 5px !important;" :title="props.itemEdit ? 'Cập nhật kệ' : 'Tạo mới kệ'" width="700">
+  <el-dialog
+    align-center
+    style="border-radius: 5px !important"
+    :title="props.itemEdit ? 'Cập nhật kệ' : 'Tạo mới kệ'"
+    width="700"
+  >
     <el-row :gutter="20">
       <el-col :span="12">
-        <p>Mã kệ
+        <p>
+          Mã kệ
           <span class="text-red-500">*</span>
         </p>
-        <el-input :disabled="props.itemEdit" v-model="MaKe" size="large" style="width: 100%" placeholder="Nhập mã kệ" />
+        <el-input
+          :disabled="props.itemEdit"
+          v-model="MaKe"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập mã kệ"
+        />
         <span class="text-red-500 ml-2">{{ MaKeError }}</span>
       </el-col>
-      
+
       <el-col :span="12">
-        <p>Tên kệ
+        <p>
+          Tên kệ
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="name" size="large" style="width: 100%" placeholder="Nhập tên kệ" />
+        <el-input
+          v-model="name"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập tên kệ"
+        />
         <span class="text-red-500 ml-2">{{ nameError }}</span>
       </el-col>
-      <el-col  class="mt-4" :span="12">
-        <p>Tên Kho
+      <el-col class="mt-4" :span="12">
+        <p>
+          Tên Kho
           <span class="text-red-500">*</span>
         </p>
-        <el-select v-model="MaKho"  class="w-full" size="large" clearable collapse-tags placeholder="Chọn kho"
-              popper-class="custom-header" :max-collapse-tags="1" >
-              <el-option v-for="item in kho_dropdown" :key="item.value" :label="item.text" :value="item.value" />
-          </el-select>
+        <el-select
+          v-model="MaKho"
+          class="w-full"
+          size="large"
+          clearable
+          collapse-tags
+          placeholder="Chọn kho"
+          popper-class="custom-header"
+          :max-collapse-tags="1"
+        >
+          <el-option
+            v-for="item in kho_dropdown"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value"
+          />
+        </el-select>
         <span class="text-red-500 ml-2">{{ MaKhoError }}</span>
       </el-col>
-      <el-col  class="mt-4" :span="12">
-        <p>Tên Dãy
+      <el-col class="mt-4" :span="12">
+        <p>
+          Tên Dãy
           <span class="text-red-500">*</span>
         </p>
-        <el-select v-model="MaDay"  class="w-full" size="large" clearable collapse-tags placeholder="Chọn kho"
-              popper-class="custom-header" :max-collapse-tags="1" >
-              <el-option v-for="item in Day_dropdown" :key="item.value" :label="item.text" :value="item.value" />
-          </el-select>
+        <el-select
+          v-model="MaDay"
+          class="w-full"
+          size="large"
+          clearable
+          collapse-tags
+          placeholder="Chọn kho"
+          popper-class="custom-header"
+          :max-collapse-tags="1"
+        >
+          <el-option
+            v-for="item in Day_dropdown"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value"
+          />
+        </el-select>
         <span class="text-red-500 ml-2">{{ MaDayError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Vị Trí</p>
-        <el-input v-model="ViTri" size="large" style="width: 100%" placeholder="Nhập vị trí" />
+        <el-input
+          v-model="ViTri"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập vị trí"
+        />
         <span class="text-red-500 ml-2">{{ ViTriError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Mô tả</p>
-        <el-input v-model="MoTa" size="large" style="width: 100%" placeholder="Nhập mô tả" />
+        <el-input
+          v-model="MoTa"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập mô tả"
+        />
         <span class="text-red-500 ml-2">{{ MoTaError }}</span>
       </el-col>
       <el-col class="mt-4" :span="24">
         <p>Ghi chú</p>
-        <el-input v-model="GhiChu" size="large" :rows="4" type="textarea" placeholder="Ghi chú" />
+        <el-input
+          v-model="GhiChu"
+          size="large"
+          :rows="4"
+          type="textarea"
+          placeholder="Ghi chú"
+        />
         <span class="text-red-500 ml-2">{{ GhiChuError }}</span>
       </el-col>
     </el-row>
@@ -63,74 +125,73 @@
   </el-dialog>
 </template>
 <script setup>
-import {ref,onMounted } from 'vue';
-import { useForm, useField } from 'vee-validate';
-import * as yup from 'yup';
-import { MESSAGE_ERROR, Regex } from '../../../common/contants/contants';
-import { showErrorNotification, showSuccessNotification } from '../../../common/helper/helpers';
-import { keServiceApi } from '../service/ke.service';
-import { KhoServiceApi } from '../../Kho/service/kho.service';
-import { useLoadingStore } from '../../loading/store/index'
-import { watch } from 'vue'
-import { dayServiceApi } from '../../Day/service/day.service';
-const props = defineProps(['itemEdit'])
-const emits = defineEmits(['close', 'loadData'])
-watch(() => props.itemEdit, (newValue) => {
-  resetForm()
-  if (props.itemEdit !== null) {
-    getKhoById(newValue)
+import { ref, onMounted } from "vue";
+import { useForm, useField } from "vee-validate";
+import * as yup from "yup";
+import { MESSAGE_ERROR, Regex } from "../../../common/contants/contants";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../../../common/helper/helpers";
+import { keServiceApi } from "../service/ke.service";
+import { KhoServiceApi } from "../../Kho/service/kho.service";
+import { useLoadingStore } from "../../loading/store/index";
+import { watch } from "vue";
+import { dayServiceApi } from "../../Day/service/day.service";
+const props = defineProps(["itemEdit"]);
+const emits = defineEmits(["close", "loadData"]);
+watch(
+  () => props.itemEdit,
+  (newValue) => {
+    resetForm();
+    if (props.itemEdit !== null) {
+      getKhoById(newValue);
+    }
   }
-});
+);
 
 onMounted(() => {
-  getKho_dropdown()
-})
+  getKho_dropdown();
+});
 const getKhoById = async (id) => {
   try {
-    loading.setLoading(true)
+    loading.setLoading(true);
     const data = await keServiceApi._getDetail(id);
     if (data.success) {
-      MaKe.value=data.data.maKe;
-      MaKho.value = data.data.maKho
+      MaKe.value = data.data.maKe;
+      MaKho.value = data.data.maKho;
       name.value = data.data.name;
       ViTri.value = data.data.location;
       MoTa.value = data.data.description;
       GhiChu.value = data.data.note;
-      MaDay.value=data.data.maDay
-    }
-    else {
-      showWarningsNotification(data.message)
+      MaDay.value = data.data.maDay;
+    } else {
+      showWarningsNotification(data.message);
     }
   } catch (error) {
-    console.error('Error fetching product detail:', error);
+    console.error("Error fetching product detail:", error);
   } finally {
-    loading.setLoading(false)
+    loading.setLoading(false);
   }
-}
+};
 
-const loading = useLoadingStore()
+const loading = useLoadingStore();
 const { handleSubmit, resetForm } = useForm();
 
 const { value: MaKho, errorMessage: MaKhoError } = useField(
-  'MaKho',
-  yup
-    .string()
-    .required(MESSAGE_ERROR.REQUIRE)
+  "MaKho",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
 const { value: MaDay, errorMessage: MaDayError } = useField(
-  'MaDay',
-  yup
-    .string()
-    .required(MESSAGE_ERROR.REQUIRE)
+  "MaDay",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
 const { value: MaKe, errorMessage: MaKeError } = useField(
-  'MaKe',
-  yup
-    .string()
-    .required(MESSAGE_ERROR.REQUIRE)
+  "MaKe",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
 const { value: name, errorMessage: nameError } = useField(
-  'name',
+  "name",
   yup
     .string()
     .required(MESSAGE_ERROR.REQUIRE)
@@ -138,88 +199,76 @@ const { value: name, errorMessage: nameError } = useField(
 );
 
 const { value: ViTri, errorMessage: ViTriError } = useField(
-  'ViTri',
-  yup
-    .string()
+  "ViTri",
+  yup.string()
 );
 
-const { value: MoTa, errorMessage: MoTaError } = useField(
-  'MoTa',
-  yup
-    .string()
-);
+const { value: MoTa, errorMessage: MoTaError } = useField("MoTa", yup.string());
 const { value: GhiChu, errorMessage: GhiChuError } = useField(
-  'GhiChu',
-  yup
-    .string()
+  "GhiChu",
+  yup.string()
 );
 const submit = handleSubmit(async () => {
   try {
     if (props.itemEdit === null) {
       const formData = new FormData();
-      alert(MaKho.value)
-      formData.append('MaKe', MaKe.value);
-      formData.append('Name', name.value);
-      formData.append('Location', ViTri.value ? ViTri.value : "");
-      formData.append('Description', MoTa.value ? MoTa.value : "");
-      formData.append('Note', GhiChu.value ? GhiChu.value : "");
-      formData.append('MaDay', MaDay.value);
-      loading.setLoading(true)
-      const res = await keServiceApi.create(formData)
+      alert(MaKho.value);
+      formData.append("MaKe", MaKe.value);
+      formData.append("Name", name.value);
+      formData.append("Location", ViTri.value ? ViTri.value : "");
+      formData.append("Description", MoTa.value ? MoTa.value : "");
+      formData.append("Note", GhiChu.value ? GhiChu.value : "");
+      formData.append("MaDay", MaDay.value);
+      loading.setLoading(true);
+      const res = await keServiceApi.create(formData);
       if (res.success) {
-        emits('close')
-        emits('loadData')
-        showSuccessNotification(res.message)
+        emits("close");
+        emits("loadData");
+        showSuccessNotification(res.message);
+      } else {
+        showErrorNotification(res.message);
       }
-      else {
-        showErrorNotification(res.message)
-      }
-    }
-    else
-    {
+    } else {
       const formData = new FormData();
-      formData.append('Id',props.itemEdit);
-      formData.append('MaKe',MaKe.value);
-      formData.append('MaDay',MaDay.value);
-      formData.append('Name',name.value);
-      formData.append('Location',ViTri.value?ViTri.value:"");
-      formData.append('Description',MoTa.value?MoTa.value:"");
-      formData.append('Note',GhiChu.value?GhiChu.value:"");
-      loading.setLoading(true)
-      const res=await keServiceApi.update(props.itemEdit,formData)
+      formData.append("Id", props.itemEdit);
+      formData.append("MaKe", MaKe.value);
+      formData.append("MaDay", MaDay.value);
+      formData.append("Name", name.value);
+      formData.append("Location", ViTri.value ? ViTri.value : "");
+      formData.append("Description", MoTa.value ? MoTa.value : "");
+      formData.append("Note", GhiChu.value ? GhiChu.value : "");
+      loading.setLoading(true);
+      const res = await keServiceApi.update(props.itemEdit, formData);
       if (res.success) {
-        emits('close')
-        emits('loadData')
-        showSuccessNotification(res.message)
-      }
-      else {
-        showErrorNotification(res.message)
+        emits("close");
+        emits("loadData");
+        showSuccessNotification(res.message);
+      } else {
+        showErrorNotification(res.message);
       }
     }
   } catch (error) {
-    showErrorNotification(error.message)
+    showErrorNotification(error.message);
   } finally {
-    loading.setLoading(false)
+    loading.setLoading(false);
   }
-})
-const kho_dropdown = ref(null)
-const getKho_dropdown=async()=>{
-  const res=await KhoServiceApi._getDropDown();
-  if(res.success)
-  {
-      kho_dropdown.value=res.data
+});
+const kho_dropdown = ref(null);
+const getKho_dropdown = async () => {
+  const res = await KhoServiceApi._getDropDown();
+  if (res.success) {
+    kho_dropdown.value = res.data;
   }
-}
-watch(MaKho,async(newVal)=>{
+};
+watch(MaKho, async (newVal) => {
   // alert(newVal)
-  getDay_dropdown(newVal)
-})
-const Day_dropdown = ref(null)
-const getDay_dropdown=async(maKho)=>{
-  const res=await dayServiceApi._getDropDownByMa(maKho);
-  if(res.success)
-  {
-    Day_dropdown.value=res.data
+  getDay_dropdown(newVal);
+});
+const Day_dropdown = ref(null);
+const getDay_dropdown = async (maKho) => {
+  const res = await dayServiceApi._getDropDownByMa(maKho);
+  if (res.success) {
+    Day_dropdown.value = res.data;
   }
-}
+};
 </script>

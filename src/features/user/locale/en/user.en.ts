@@ -1,6 +1,6 @@
 const userEn = {
-    title:{
-        title:'User management'
-    }
+  title: {
+    title: "User management",
+  },
 };
 export default userEn;

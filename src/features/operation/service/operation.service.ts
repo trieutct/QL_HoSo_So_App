@@ -9,7 +9,9 @@ class OperationApiService extends ApiService {
     return await this.client.patch(`${this.baseUrl}/${id}`, formData);
   }
   async getOperationByModuleId(id: string): Promise<IBodyResponse<any>> {
-    return await this.client.get(`${this.baseUrl}/getOperationByModuleId/${id}`);
+    return await this.client.get(
+      `${this.baseUrl}/getOperationByModuleId/${id}`
+    );
   }
 }
 export const operationerviceApi = new OperationApiService(

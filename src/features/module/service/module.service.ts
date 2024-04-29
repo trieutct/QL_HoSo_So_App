@@ -9,10 +9,12 @@ class ModuleApiService extends ApiService {
     return await this.client.patch(`${this.baseUrl}/${id}`, formData);
   }
   async getMouduleByToken(): Promise<IBodyResponse<any>> {
-    return await this.client.get(`${this.baseUrl}`+'/getMoudlueByRoleId');
+    return await this.client.get(`${this.baseUrl}` + "/getMoudlueByRoleId");
   }
   async getMoudle_Operation(): Promise<IBodyResponse<any>> {
-    return await this.client.get(`${this.baseUrl}`+'/getModule_OperationDropdown');
+    return await this.client.get(
+      `${this.baseUrl}` + "/getModule_OperationDropdown"
+    );
   }
 }
 export const moduleServiceApi = new ModuleApiService(

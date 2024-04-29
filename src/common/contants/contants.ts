@@ -71,6 +71,7 @@ export enum PageName {
   ROLE_PAGE = "role_page",
   ROLEOPERATION_PAGE = "roleoperation_page",
   HOP_PAGE = "Hop_Page",
+  HOSO_PAGE = "Hoso_Page",
 }
 
 export enum SupportLanguage {

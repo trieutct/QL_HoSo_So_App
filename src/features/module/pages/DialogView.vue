@@ -1,20 +1,35 @@
 <template>
-  <el-dialog style="border-radius: 5px !important;" :title="props.itemEdit ? 'Cập nhật chức năng' : 'Tạo mới chức năng'"
-    width="700">
+  <el-dialog
+    style="border-radius: 5px !important"
+    :title="props.itemEdit ? 'Cập nhật chức năng' : 'Tạo mới chức năng'"
+    width="700"
+  >
     <el-row :gutter="20">
       <el-col :span="12">
-        <p>Mã Chức Năng
+        <p>
+          Mã Chức Năng
           <span class="text-red-500">*</span>
         </p>
-        <el-input :disabled="props.itemEdit" v-model="MaModule" size="large" style="width: 100%"
-          placeholder="Mã chức năng" />
+        <el-input
+          :disabled="props.itemEdit"
+          v-model="MaModule"
+          size="large"
+          style="width: 100%"
+          placeholder="Mã chức năng"
+        />
         <span class="text-red-500 ml-2">{{ MaModuleError }}</span>
       </el-col>
       <el-col :span="12">
-        <p>Tên Chức Năng
+        <p>
+          Tên Chức Năng
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="name" size="large" style="width: 100%" placeholder="Tên chức năng" />
+        <el-input
+          v-model="name"
+          size="large"
+          style="width: 100%"
+          placeholder="Tên chức năng"
+        />
         <span class="text-red-500 ml-2">{{ nameError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -26,10 +41,16 @@
         <p class="text-red-500 ml-2">{{ isShowError }}</p>
       </el-col>
       <el-col class="mt-4" :span="12">
-        <p>Icon
+        <p>
+          Icon
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="icon" size="large" style="width: 100%" placeholder="Nhập class icon" />
+        <el-input
+          v-model="icon"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập class icon"
+        />
         <span class="text-red-500 ml-2">{{ iconError }}</span>
       </el-col>
     </el-row>
@@ -44,66 +65,64 @@
   </el-dialog>
 </template>
 <script setup>
-
-import { useForm, useField } from 'vee-validate';
-import * as yup from 'yup';
-import { MESSAGE_ERROR, Regex } from '../../../common/contants/contants';
-import { showErrorNotification, showSuccessNotification } from '../../../common/helper/helpers';
-import { useLoadingStore } from '../../loading/store/index'
-import { watch } from 'vue'
-import { moduleServiceApi } from '../service/module.service';
-const props = defineProps(['itemEdit'])
-const emits = defineEmits(['close', 'loadData'])
-watch(() => props.itemEdit, (newValue) => {
-  resetForm()
-  if (props.itemEdit !== null) {
-    getKhoById(newValue)
+import { useForm, useField } from "vee-validate";
+import * as yup from "yup";
+import { MESSAGE_ERROR, Regex } from "../../../common/contants/contants";
+import {
+  showErrorNotification,
+  showSuccessNotification,
+} from "../../../common/helper/helpers";
+import { useLoadingStore } from "../../loading/store/index";
+import { watch } from "vue";
+import { moduleServiceApi } from "../service/module.service";
+const props = defineProps(["itemEdit"]);
+const emits = defineEmits(["close", "loadData"]);
+watch(
+  () => props.itemEdit,
+  (newValue) => {
+    resetForm();
+    if (props.itemEdit !== null) {
+      getKhoById(newValue);
+    }
   }
-});
+);
 const getKhoById = async (id) => {
   try {
-    loading.setLoading(true)
+    loading.setLoading(true);
     const data = await moduleServiceApi._getDetail(id);
     if (data.success) {
-      MaModule.value = data.data.code
+      MaModule.value = data.data.code;
       name.value = data.data.name;
-      isShow.value = data.data.isShow+"";
+      isShow.value = data.data.isShow + "";
       icon.value = data.data.icon;
-    }
-    else {
-      showWarningsNotification(data.message)
+    } else {
+      showWarningsNotification(data.message);
     }
   } catch (error) {
-    console.error('Error fetching product detail:', error);
+    console.error("Error fetching product detail:", error);
   } finally {
-    loading.setLoading(false)
+    loading.setLoading(false);
   }
-}
+};
 
-const loading = useLoadingStore()
+const loading = useLoadingStore();
 const { handleSubmit, resetForm } = useForm();
 
 const { value: MaModule, errorMessage: MaModuleError } = useField(
-  'MaModule',
-  yup
-    .string()
-    .required(MESSAGE_ERROR.REQUIRE)
+  "MaModule",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
 
 const { value: icon, errorMessage: iconError } = useField(
-  'icon',
-  yup
-    .string()
-    .required(MESSAGE_ERROR.REQUIRE)
+  "icon",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
 const { value: isShow, errorMessage: isShowError } = useField(
-  'isShow',
-  yup
-    .boolean()
-    .required(MESSAGE_ERROR.REQUIRE)
+  "isShow",
+  yup.boolean().required(MESSAGE_ERROR.REQUIRE)
 );
 const { value: name, errorMessage: nameError } = useField(
-  'name',
+  "name",
   yup
     .string()
     .required(MESSAGE_ERROR.REQUIRE)
@@ -113,44 +132,41 @@ const submit = handleSubmit(async () => {
   try {
     if (props.itemEdit === null) {
       const formData = new FormData();
-      formData.append('Code', MaModule.value);
-      formData.append('Name', name.value);
-      formData.append('IsShow',isShow.value);
-      formData.append('Icon', icon.value );
-      loading.setLoading(true)
-      const res = await moduleServiceApi.create(formData)
+      formData.append("Code", MaModule.value);
+      formData.append("Name", name.value);
+      formData.append("IsShow", isShow.value);
+      formData.append("Icon", icon.value);
+      loading.setLoading(true);
+      const res = await moduleServiceApi.create(formData);
       if (res.success) {
-        emits('close')
-        emits('loadData')
-        showSuccessNotification(res.message)
+        emits("close");
+        emits("loadData");
+        showSuccessNotification(res.message);
+      } else {
+        showErrorNotification(res.message);
       }
-      else {
-        showErrorNotification(res.message)
-      }
-    }
-    else {
+    } else {
       const formData = new FormData();
-      formData.append('Id', props.itemEdit);
-      formData.append('Code', MaModule.value);
-      formData.append('Name', name.value);
-      formData.append('IsShow',isShow.value);
-      formData.append('Icon', icon.value );
+      formData.append("Id", props.itemEdit);
+      formData.append("Code", MaModule.value);
+      formData.append("Name", name.value);
+      formData.append("IsShow", isShow.value);
+      formData.append("Icon", icon.value);
 
-      loading.setLoading(true)
-      const res = await moduleServiceApi.update(props.itemEdit, formData)
+      loading.setLoading(true);
+      const res = await moduleServiceApi.update(props.itemEdit, formData);
       if (res.success) {
-        emits('close')
-        emits('loadData')
-        showSuccessNotification(res.message)
-      }
-      else {
-        showErrorNotification(res.message)
+        emits("close");
+        emits("loadData");
+        showSuccessNotification(res.message);
+      } else {
+        showErrorNotification(res.message);
       }
     }
   } catch (error) {
-    showErrorNotification(error.message)
+    showErrorNotification(error.message);
   } finally {
-    loading.setLoading(false)
+    loading.setLoading(false);
   }
-})
+});
 </script>

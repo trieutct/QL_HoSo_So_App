@@ -1,6 +1,6 @@
 const KeEn = {
-    title:{
-        title:'Shelf management'
-    }
+  title: {
+    title: "Shelf management",
+  },
 };
 export default KeEn;

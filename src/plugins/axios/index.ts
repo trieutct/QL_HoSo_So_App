@@ -1,24 +1,24 @@
-import { HttpStatus } from '../../common/contants/contants';
-import { type IBodyResponse } from '../../common/interface/interfaces';
+import { HttpStatus } from "../../common/contants/contants";
+import { type IBodyResponse } from "../../common/interface/interfaces";
 import axios, {
   type AxiosRequestConfig,
   type AxiosRequestHeaders,
   type AxiosResponse,
-} from 'axios';
-import { throttle } from 'lodash';
-import localStorageAuthService from '../../common/storages/authStorage';
-import dayjs from '../dayjs';
-import { sendRefreshToken } from './utils';
-import { showWarningsNotification } from '../../common/helper/helpers';
+} from "axios";
+import { throttle } from "lodash";
+import localStorageAuthService from "../../common/storages/authStorage";
+import dayjs from "../dayjs";
+import { sendRefreshToken } from "./utils";
+import { showWarningsNotification } from "../../common/helper/helpers";
 
 const options: AxiosRequestConfig = {
   headers: {
-    'Content-Type': 'application/json',
-    'X-Timezone': dayjs().format('Z'),
-    'X-Timezone-Name': dayjs.tz.guess(),
+    "Content-Type": "application/json",
+    "X-Timezone": dayjs().format("Z"),
+    "X-Timezone-Name": dayjs.tz.guess(),
   } as unknown as AxiosRequestHeaders,
   baseURL: "http://localhost:5235/api",
-  responseType: 'json',
+  responseType: "json",
   withCredentials: false,
 };
 
@@ -27,12 +27,12 @@ const throttled = throttle(sendRefreshToken, 10000, { trailing: false });
 
 axiosInstance.interceptors.request.use(async (config: any) => {
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
-  if (tokenExpiredAt && dayjs().isAfter(dayjs(tokenExpiredAt), 'second')) {
-    alert("token hết hạn. bắt đầu lấy lại token")
+  if (tokenExpiredAt && dayjs().isAfter(dayjs(tokenExpiredAt), "second")) {
+    alert("token hết hạn. bắt đầu lấy lại token");
     await throttled();
   }
   // alert("gán header"),
-  Object.assign(config,{
+  Object.assign(config, {
     headers: {
       ...localStorageAuthService.getHeader(),
       ...config.headers,
@@ -50,7 +50,7 @@ axiosInstance.interceptors.response.use(
         success: true,
       };
     }
-    if (typeof response?.data === 'string') {
+    if (typeof response?.data === "string") {
       response.data = JSON.parse(response.data);
     }
     response.data = {
@@ -60,10 +60,10 @@ axiosInstance.interceptors.response.use(
     return response.data;
   },
   async (error) => {
-    if(error.response?.status==HttpStatus.FORBIDDEN)
-      showWarningsNotification("Bạn không có quyền")
-    if (error.code === 'ERR_NETWORK') {
-      showWarningsNotification(error.message)
+    if (error.response?.status == HttpStatus.FORBIDDEN)
+      showWarningsNotification("Bạn không có quyền");
+    if (error.code === "ERR_NETWORK") {
+      showWarningsNotification(error.message);
 
       error.request.data = {
         ...(error?.request?.data || {}),
@@ -74,7 +74,7 @@ axiosInstance.interceptors.response.use(
       };
       return error.request.data;
     } else if (error.response) {
-      if (typeof error?.response?.data === 'string') {
+      if (typeof error?.response?.data === "string") {
         error.response.data = JSON.parse(error.response.data);
       }
       if (error?.response?.data) {
@@ -98,16 +98,16 @@ axiosInstance.interceptors.response.use(
       ...error,
       config: error?.config as AxiosRequestConfig,
       status: HttpStatus.INTERNAL_SERVER_ERROR,
-      statusText: 'System error, please try again later',
+      statusText: "System error, please try again later",
       headers: error?.request?.headers || {},
       success: false,
-      message: 'System error, please try again later',
+      message: "System error, please try again later",
       data: null,
       code: HttpStatus.INTERNAL_SERVER_ERROR,
     };
-  },
+  }
 );
 
 export default axiosInstance;
-export * from './api';
-export * from './utils';
+export * from "./api";
+export * from "./utils";

@@ -1,11 +1,11 @@
-import { isValidJSON } from '../helper/helpers';
+import { isValidJSON } from "../helper/helpers";
 
 export class LocalStorage {
   getLocalStorage(key: string): string {
     if (!localStorage) {
-      return '';
+      return "";
     }
-    return localStorage.getItem(key) || '';
+    return localStorage.getItem(key) || "";
   }
 
   setLocalStorage(key: string, value: string): void {

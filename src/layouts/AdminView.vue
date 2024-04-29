@@ -8,7 +8,7 @@
 </template>
 
 <script lang="ts" setup>
-import SideBar from "./components/SildeBar.vue"
+import SideBar from "./components/SildeBar.vue";
 </script>
 
 <style>
@@ -17,8 +17,6 @@ import SideBar from "./components/SildeBar.vue"
   color: #4764c3;
   font-weight: 700;
 }
-
-
 
 .scrollbar-none::-webkit-scrollbar {
   width: 0;
