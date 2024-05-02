@@ -2,33 +2,8 @@
   <h2 class="text-main font-semibold text-xl">Quản lý hồ sơ</h2>
   <div class="flex mt-5">
     <div class="w-8/12 flex">
-      <el-input
-        v-model="search"
-        @keyup.enter="searchData"
-        clearable
-        style="width: 30%"
-        size="large"
-        placeholder="Tìm kiếm"
-        :prefix-icon="Search"
-      />
-      <el-select
-        class="ml-2"
-        size="large"
-        v-model="value"
-        clearable
-        collapse-tags
-        placeholder="Tìm kiếm theo kho"
-        popper-class="custom-header"
-        :max-collapse-tags="1"
-        style="width: 240px"
-      >
-        <el-option
-          v-for="item in kho_dropdown"
-          :key="item.value"
-          :label="item.text"
-          :value="item.value"
-        />
-      </el-select>
+      <el-input v-model="search" @keyup.enter="searchData" clearable style="width: 30%" size="large"
+        placeholder="Tìm kiếm" :prefix-icon="Search" />
     </div>
     <div class="w-4/12 flex justify-end">
       <el-button @click="openDialog" type="primary" size="large">
@@ -38,23 +13,13 @@
   </div>
   <div class="custom-table mt-8">
     <!-- <el-table ref="multipleTableRef" @selection-change="handleSelectionChange" v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="hosos" border width="100%"> -->
-    <el-table
-      v-loading="loading.isLoading"
-      :height="'calc(100vh - 220px)'"
-      :data="hosos"
-      border
-      width="100%"
-    >
+    <el-table v-loading="loading.isLoading" :height="'calc(100vh - 220px)'" :data="hosos" border width="100%">
       <el-table-column fixed type="selection" width="55" />
       <el-table-column prop="fileCode" label="Mã hồ sơ" width="100" />
       <el-table-column prop="title" label="Tiêu đề" width="300" />
       <el-table-column prop="keyword" label="Từ khóa" width="200" />
       <el-table-column prop="fileCatalog" label="Mục lục số" width="150" />
-      <el-table-column
-        prop="fileNotation"
-        label="Số và ký hiệu hồ sơ"
-        width="180"
-      />
+      <el-table-column prop="fileNotation" label="Số và ký hiệu hồ sơ" width="180" />
       <el-table-column prop="maintenance" label="Số lượng tờ" width="150" />
       <el-table-column prop="pageNumber" label="Số lượng trang" width="150" />
       <el-table-column prop="totalDoc" label="Tổng số văn bản" width="150" />
@@ -72,21 +37,11 @@
       <el-table-column prop="description" label="Mô tả" width="400" />
       <el-table-column fixed="right" label="Hành Động" width="120">
         <template #default="scope">
-          <el-button
-            type="warning"
-            :icon="Edit"
-            circle
-            @click="handleEdit(scope.row)"
-          />
-          <el-button
-            type="danger"
-            :icon="Delete"
-            circle
-            @click="
-              idDelete = scope.row.id;
-              showDialogDelete = true;
-            "
-          />
+          <el-button type="warning" :icon="Edit" circle @click="handleEdit(scope.row)" />
+          <el-button type="danger" :icon="Delete" circle @click="
+            idDelete = scope.row.id;
+          showDialogDelete = true;
+          " />
         </template>
       </el-table-column>
     </el-table>
@@ -97,21 +52,10 @@
         </p>
       </div>
       <div class="w-full flex justify-end">
-        <el-pagination
-          v-model:current-page="page"
-          prev-text
-          background
-          layout="prev, pager, next"
-          :total="TotalKho"
-        />
+        <el-pagination v-model:current-page="page" prev-text background layout="prev, pager, next" :total="TotalKho" />
         <el-select class="ml-2" v-model="selectedPage" style="width: 60px">
-          <el-option
-            v-model="selectedPage"
-            v-for="item in options"
-            :key="item.value"
-            :label="item.label"
-            :value="item.value"
-          />
+          <el-option v-model="selectedPage" v-for="item in options" :key="item.value" :label="item.label"
+            :value="item.value" />
         </el-select>
         <div class="ml-2 mr-5 flex items-center">
           <span class="text-sm mr-1" style="color: #5b6178">Trang</span>
@@ -119,18 +63,8 @@
         </div>
       </div>
     </div>
-    <DialogView
-      v-model="showDialog"
-      :itemEdit="idEdit"
-      @close="closeDialog"
-      @loadData="loadData"
-    />
-    <ConfirmView
-      v-model="showDialogDelete"
-      @deleteItem="deleteDay"
-      :idDelete="idDelete"
-      @close="closeDialog"
-    />
+    <DialogView v-model="showDialog" :itemEdit="idEdit" @close="closeDialog" @loadData="loadData" />
+    <ConfirmView v-model="showDialogDelete" @deleteItem="deleteDay" :idDelete="idDelete" @close="closeDialog" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -150,7 +84,6 @@ import {
   showErrorNotification,
   showSuccessNotification,
 } from "../../../common/helper/helpers";
-import { KhoServiceApi } from "../../Kho/service/kho.service";
 
 const idEdit = ref(null);
 const idDelete = ref(null);
@@ -171,7 +104,6 @@ onMounted(async () => {
   query.page = 1;
   query.limit = selectedPage.value;
   loadData();
-  getKho_dropdown();
 });
 watch(selectedPage, (newVal: any) => {
   query.limit = newVal;
@@ -232,16 +164,6 @@ const closeDialog = () => {
   showDialogDelete.value = false;
 };
 
-const value = ref("");
-const kho_dropdown = ref<[] | any>([]);
-const getKho_dropdown = async () => {
-  const res: any = await KhoServiceApi._getDropDown();
-  kho_dropdown.value = res.data;
-};
-// watch(value, async (newval:any) => {
-//     query.MaKho = newval
-//     loadData()
-// })
 </script>
 
 <style scoped>
@@ -272,12 +194,12 @@ const getKho_dropdown = async () => {
   padding: 10px;
 }
 
-.el-button:hover + .button-edit,
+.el-button:hover+.button-edit,
 .button-edit:hover {
   display: block;
 }
 
-.el-button:hover + .button-password,
+.el-button:hover+.button-password,
 .button-password:hover {
   display: inline;
 }

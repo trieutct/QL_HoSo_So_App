@@ -7,21 +7,17 @@ import { IBodyLogin } from "../interface";
 export const AuthStore = defineStore("authStore", () => {
   async function login(body: IBodyLogin) {
     const res = await authServiceApi.login(body);
+    const { profile } = res.data;
     if (res.success && res.data != null) {
       localStorageAuthService.setAccessToken(res.data.accessToken.token);
       localStorageAuthService.setAccessTokenExpiredAt(
         res.data.accessToken.expiresIn
       );
-
       localStorageAuthService.setRefreshToken(res.data.refreshToken.token);
       localStorageAuthService.setRefresh_TokenExpiredAt(
         res.data.refreshToken.expiresIn
       );
-
-      // localStorageAuthService.setUserRole(res.data.profile?.role || "");
-
-      // localStorageAuthService.setAvatarUrl(res.data.profile?.avatar || "")
-
+      localStorageAuthService.setLoginUser(profile);
       return true;
     }
     return false;

@@ -1,6 +1,8 @@
 import { SupportLanguage } from "../contants/contants";
 import { DEFAULT_LANGUAGE } from "../../common/contants/contants";
 import { storage } from "./localStorage";
+import { IUser } from "../../features/auth/interface";
+import { isStringify } from "../helper/helpers";
 const BUFFER_TIME = 60 * 1000; // 60s
 
 export const enum AUTH_SERVICE_KEY {
@@ -14,6 +16,19 @@ export const enum AUTH_SERVICE_KEY {
   AVATAR = "AVATAR",
 }
 class LocalStorageAuthService {
+  setLoginUser(user: null | IUser): void {
+    if (!user) {
+      storage.setLocalStorage(AUTH_SERVICE_KEY.USER, "");
+    }
+    if (!isStringify(user)) {
+      return;
+    }
+    storage.setLocalStorage(AUTH_SERVICE_KEY.USER, JSON.stringify(user));
+  }
+  getLoginUser(): IUser {
+    return storage.getObjectFromKey(AUTH_SERVICE_KEY.USER) as IUser;
+  }
+
   // LANGUAGE
   setLanguage(value: SupportLanguage): void {
     storage.setLocalStorage(AUTH_SERVICE_KEY.LANGUAGE, value);
@@ -90,6 +105,9 @@ class LocalStorageAuthService {
   removeAvatarUrl(): void {
     storage.removeLocalStorage(AUTH_SERVICE_KEY.AVATAR);
   }
+  removeLoginUser(): void {
+    storage.removeLocalStorage(AUTH_SERVICE_KEY.USER);
+  }
 
   resetAccessToken(): void {
     storage.setLocalStorage(AUTH_SERVICE_KEY.ACCESS_TOKEN, "");
@@ -110,6 +128,7 @@ class LocalStorageAuthService {
     this.removeRefresh_TokenExpiredAt();
     this.removeUserRole();
     this.removeAvatarUrl();
+    this.removeLoginUser();
   }
 
   getHeader() {

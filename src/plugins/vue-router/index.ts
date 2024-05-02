@@ -60,8 +60,17 @@ const routes: Array<RouteRecordRaw> = [
   },
   {
     path: "/",
-    name: "login",
+    name: PageName.LOGIN_PAGE,
     component: () => import("../../features/auth/pages/LoginForm.vue"),
+  },
+  {
+    path: "/404",
+    name: PageName.NOT_FOUND_PAGE,
+    component: () => import("../../layouts/NotFoundPage.vue"),
+  },
+  {
+    path: "/:catchAll(.*)*",
+    redirect: "/404",
   },
 ];
 
