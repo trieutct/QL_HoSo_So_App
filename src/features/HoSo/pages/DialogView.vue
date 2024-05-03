@@ -1,23 +1,63 @@
 <template>
-  <el-dialog align-center style="border-radius: 5px !important"
-    :title="props.itemEdit ? 'Cập nhật hồ sơ' : 'Tạo mới hồ sơ'" width="800">
+  <el-dialog
+    align-center
+    style="border-radius: 5px !important"
+    :title="props.itemEdit ? 'Cập nhật hồ sơ' : 'Tạo mới hồ sơ'"
+    width="800"
+  >
     <el-row :gutter="20">
       <el-col :span="12">
         <p>
-          Mã Hồ Sơ
+          Mã hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input :disabled="props.itemEdit" v-model="FileCode" size="large" style="width: 100%"
-          placeholder="Nhập mã hồ sơ" />
+        <el-input
+          :disabled="props.itemEdit"
+          v-model="FileCode"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập mã hồ sơ"
+        />
         <span class="text-red-500 ml-2">{{ FileCodeError }}</span>
       </el-col>
       <el-col :span="12">
         <p>
+          Loại hồ sơ
+          <span class="text-red-500">*</span>
+        </p>
+        <el-select
+          v-model="LoaiHoSoId"
+          class="w-full"
+          size="large"
+          clearable
+          collapse-tags
+          placeholder="Chọn loại hồ sơ"
+          popper-class="custom-header"
+          :max-collapse-tags="1"
+        >
+          <el-option
+            v-for="item in loaiHoSoDropDown"
+            :key="item.name"
+            :label="item.name"
+            :value="item.id"
+          />
+        </el-select>
+        <span class="text-red-500 ml-2">{{ LoaiHoSoIdError }}</span>
+      </el-col>
+      <el-col class="mt-4" :span="12">
+        <p>
           Tên hộp
           <span class="text-red-500">*</span>
         </p>
-        <el-autocomplete v-model="MaHop" :fetch-suggestions="queryHop" size="large" clearable
-          class="inline-input w-full" placeholder="Chọn hộp hồ sơ" @select="handleSelect" />
+        <el-autocomplete
+          v-model="MaHop"
+          :fetch-suggestions="queryHop"
+          size="large"
+          clearable
+          class="inline-input w-full"
+          placeholder="Chọn hộp hồ sơ"
+          @select="handleSelect"
+        />
         <span class="text-red-500 ml-2">{{ MaHopError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -25,8 +65,12 @@
           Mục lục số, năm hình thành hố sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="FileCatalog" size="large" style="width: 100%"
-          placeholder="Nhập mục lục số, năm hình thành hố sơ" />
+        <el-input
+          v-model="FileCatalog"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập mục lục số, năm hình thành hố sơ"
+        />
         <span class="text-red-500 ml-2">{{ FileCatalogError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -34,7 +78,12 @@
           Số và kí hiệu hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="FileNotation" size="large" style="width: 100%" placeholder="Nhập số và kí hiệu hồ sơ" />
+        <el-input
+          v-model="FileNotation"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập số và kí hiệu hồ sơ"
+        />
         <span class="text-red-500 ml-2">{{ FileNotationError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -42,14 +91,24 @@
           Tiêu đề hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="Title" size="large" style="width: 100%" placeholder="Nhập tiêu đề hồ sơ" />
+        <el-input
+          v-model="Title"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập tiêu đề hồ sơ"
+        />
         <span class="text-red-500 ml-2">{{ TitleError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Ngôn ngữ <span class="text-red-500">*</span></p>
         <!-- <el-input v-model="Language" size="large" style="width: 100%" placeholder="Ngôn ngữ" /> -->
         <el-select v-model="Language" placeholder="Ngôn ngữ" size="large">
-          <el-option v-for="item in languages" :key="item.value" :label="item.name" :value="item.value" />
+          <el-option
+            v-for="item in languages"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
         </el-select>
         <span class="text-red-500 ml-2">{{ LanguageError }}</span>
       </el-col>
@@ -58,7 +117,13 @@
           Thời gian bắt đầu
           <span class="text-red-500">*</span>
         </p>
-        <el-date-picker style="width: 100%" v-model="StartDate" type="date" placeholder="Ngày bắt đầu" size="large" />
+        <el-date-picker
+          style="width: 100%"
+          v-model="StartDate"
+          type="date"
+          placeholder="Ngày bắt đầu"
+          size="large"
+        />
         <span class="text-red-500 ml-2">{{ StartDateError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -66,7 +131,13 @@
           Thời gian hết hạn
           <span class="text-red-500">*</span>
         </p>
-        <el-date-picker style="width: 100%" v-model="EndDate" type="date" placeholder="Ngày hết hạn" size="large" />
+        <el-date-picker
+          style="width: 100%"
+          v-model="EndDate"
+          type="date"
+          placeholder="Ngày hết hạn"
+          size="large"
+        />
         <span class="text-red-500 ml-2">{{ EndDateError }}</span>
       </el-col>
 
@@ -75,14 +146,25 @@
           Từ khóa
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="Keyword" size="large" style="width: 100%" placeholder="Nhập từ khóa" />
+        <el-input
+          v-model="Keyword"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập từ khóa"
+        />
         <span class="text-red-500 ml-2">{{ KeywordError }}</span>
       </el-col>
 
       <el-col class="mt-4" :span="12">
         <p>Mô tả</p>
-        <el-input v-model="Description" :rows="4" type="textarea" size="large" style="width: 100%"
-          placeholder="Nhập mô tả" />
+        <el-input
+          v-model="Description"
+          :rows="4"
+          type="textarea"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập mô tả"
+        />
         <span class="text-red-500 ml-2">{{ DescriptionError }}</span>
       </el-col>
     </el-row>
@@ -100,7 +182,11 @@
 import { ref, onMounted, computed } from "vue";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
-import { MESSAGE_ERROR, Regex, SupportLanguage } from "../../../common/contants/contants";
+import {
+  MESSAGE_ERROR,
+  Regex,
+  SupportLanguage,
+} from "../../../common/contants/contants";
 import {
   showErrorNotification,
   showSuccessNotification,
@@ -110,6 +196,7 @@ import { KhoServiceApi } from "../../Kho/service/kho.service";
 import { useLoadingStore } from "../../loading/store/index";
 import { watch } from "vue";
 import { hopServiceApi } from "../../Hop/service/hop.service";
+import { loaiHoSoHoSoServiceApi } from "../../LoaiHoSo/service/LoaiHoSo.service";
 const props = defineProps(["itemEdit"]);
 const emits = defineEmits(["close", "loadData"]);
 watch(
@@ -122,8 +209,8 @@ watch(
   }
 );
 
-onMounted(() => {
-  get_hopDropDown();
+onMounted(async () => {
+  await Promise.all([getLoaiHoSoDropDown(), get_hopDropDown()]);
 });
 const getKhoById = async (id) => {
   try {
@@ -140,6 +227,7 @@ const getKhoById = async (id) => {
       Keyword.value = data.data.keyword;
       MaHop.value = data.data.maHop;
       Description.value = data.data.description;
+      LoaiHoSoId.value = data.data.loaiHoSoId;
     } else {
       showWarningsNotification(data.message);
     }
@@ -196,6 +284,10 @@ const { value: MaHop, errorMessage: MaHopError } = useField(
   "MaHop",
   yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
+const { value: LoaiHoSoId, errorMessage: LoaiHoSoIdError } = useField(
+  "LoaiHoSoId",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
+);
 
 const submit = handleSubmit(async () => {
   console.log(EndDate.value);
@@ -211,6 +303,7 @@ const submit = handleSubmit(async () => {
       formData.append("EndDate", EndDate.value);
       formData.append("Keyword", Keyword.value);
       formData.append("MaHop", MaHop.value);
+      formData.append("LoaiHoSoId", LoaiHoSoId.value);
       formData.append(
         "Description",
         Description.value ? Description.value : ""
@@ -236,6 +329,7 @@ const submit = handleSubmit(async () => {
       formData.append("EndDate", EndDate.value);
       formData.append("Keyword", Keyword.value);
       formData.append("MaHop", MaHop.value);
+      formData.append("LoaiHoSoId", LoaiHoSoId.value);
       formData.append(
         "Description",
         Description.value ? Description.value : ""
@@ -272,7 +366,6 @@ const handleSelect = (item) => {
   console.log(MaHop.value);
 };
 
-
 const languages = computed(() => {
   return [
     {
@@ -282,7 +375,12 @@ const languages = computed(() => {
     {
       name: "English",
       value: "English",
-    }
-  ]
-})
+    },
+  ];
+});
+const loaiHoSoDropDown = ref(null);
+const getLoaiHoSoDropDown = async () => {
+  const { data } = await loaiHoSoHoSoServiceApi.getAll();
+  loaiHoSoDropDown.value = data;
+};
 </script>

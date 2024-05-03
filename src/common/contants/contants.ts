@@ -73,6 +73,10 @@ export enum PageName {
   HOP_PAGE = "Hop_Page",
   HOSO_PAGE = "Hoso_Page",
 }
+export enum NHOMDANHMUC {
+  LOAIVANBAN = "LOAIVANBAN",
+  LOAIHOSO = "LOAIHOSO",
+}
 
 export enum SupportLanguage {
   EN = "en",
