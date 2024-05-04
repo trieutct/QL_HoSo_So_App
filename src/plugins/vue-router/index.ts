@@ -56,6 +56,18 @@ const routes: Array<RouteRecordRaw> = [
         name: PageName.HOSO_PAGE,
         component: () => import("../../features/HoSo/pages/HosoView.vue"),
       },
+      {
+        path: "loaihoso",
+        name: PageName.LOAIHOSO_PAGE,
+        component: () =>
+          import("../../features/LoaiHoSo/pages/LoaiHoSoView.vue"),
+      },
+      {
+        path: "loaivanban",
+        name: PageName.LOAIVANBAN_PAGE,
+        component: () =>
+          import("../../features/LoaiVanBan/pages/LoaiVanBanView.vue"),
+      },
     ],
   },
   {

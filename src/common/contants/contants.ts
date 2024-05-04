@@ -72,6 +72,8 @@ export enum PageName {
   ROLEOPERATION_PAGE = "roleoperation_page",
   HOP_PAGE = "Hop_Page",
   HOSO_PAGE = "Hoso_Page",
+  LOAIHOSO_PAGE = "LoaiHoSo",
+  LOAIVANBAN_PAGE = "LoaiVanBan",
 }
 export enum NHOMDANHMUC {
   LOAIVANBAN = "LOAIVANBAN",

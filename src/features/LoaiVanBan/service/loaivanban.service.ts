@@ -1,7 +1,7 @@
 import { IBodyResponse } from "../../../common/interface/interfaces";
 import axiosInstance, { ApiService } from "../../../plugins/axios";
 
-class LoaiHoSoApiService extends ApiService {
+class LoaiVanBanApiService extends ApiService {
   async getAll() {
     return await this.client.get(`${this.baseUrl}`);
   }
@@ -21,7 +21,7 @@ class LoaiHoSoApiService extends ApiService {
   }
 }
 
-export const loaiHoSoHoSoServiceApi = new LoaiHoSoApiService(
-  { baseUrl: "/LoaiHoSo" },
+export const loaiVanBanServiceApi = new LoaiVanBanApiService(
+  { baseUrl: "/LoaiVanBan" },
   axiosInstance
 );
