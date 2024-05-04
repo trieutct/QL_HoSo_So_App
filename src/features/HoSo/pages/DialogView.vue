@@ -46,6 +46,78 @@
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>
+          Tên kho
+          <span class="text-red-500">*</span>
+        </p>
+        <el-select
+          v-model="MaKho"
+          class="w-full"
+          size="large"
+          clearable
+          collapse-tags
+          placeholder="Chọn kho"
+          popper-class="custom-header"
+          :max-collapse-tags="1"
+        >
+          <el-option
+            v-for="item in kho_dropdown"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value"
+          />
+        </el-select>
+        <span class="text-red-500 ml-2">{{ MaKhoError }}</span>
+      </el-col>
+      <el-col class="mt-4" :span="12">
+        <p>
+          Tên dãy
+          <span class="text-red-500">*</span>
+        </p>
+        <el-select
+          v-model="MaDay"
+          class="w-full"
+          size="large"
+          clearable
+          collapse-tags
+          placeholder="Chọn dãy"
+          popper-class="custom-header"
+          :max-collapse-tags="1"
+        >
+          <el-option
+            v-for="item in Day_dropdown"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value"
+          />
+        </el-select>
+        <span class="text-red-500 ml-2">{{ MaDayError }}</span>
+      </el-col>
+      <el-col class="mt-4" :span="12">
+        <p>
+          Tên kệ
+          <span class="text-red-500">*</span>
+        </p>
+        <el-select
+          v-model="MaKe"
+          class="w-full"
+          size="large"
+          clearable
+          collapse-tags
+          placeholder="Chọn kệ"
+          popper-class="custom-header"
+          :max-collapse-tags="1"
+        >
+          <el-option
+            v-for="item in ke_dropdown"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value"
+          />
+        </el-select>
+        <span class="text-red-500 ml-2">{{ MaKeError }}</span>
+      </el-col>
+      <el-col class="mt-4" :span="12">
+        <p>
           Tên hộp
           <span class="text-red-500">*</span>
         </p>
@@ -197,6 +269,8 @@ import { useLoadingStore } from "../../loading/store/index";
 import { watch } from "vue";
 import { hopServiceApi } from "../../Hop/service/hop.service";
 import { loaiHoSoHoSoServiceApi } from "../../LoaiHoSo/service/LoaiHoSo.service";
+import { dayServiceApi } from "../../Day/service/day.service";
+import { keServiceApi } from "../../Ke/service/ke.service";
 const props = defineProps(["itemEdit"]);
 const emits = defineEmits(["close", "loadData"]);
 watch(
@@ -210,7 +284,7 @@ watch(
 );
 
 onMounted(async () => {
-  await Promise.all([getLoaiHoSoDropDown(), get_hopDropDown()]);
+  await Promise.all([getLoaiHoSoDropDown(), getKho_dropdown()]);
 });
 const getKhoById = async (id) => {
   try {
@@ -228,6 +302,9 @@ const getKhoById = async (id) => {
       MaHop.value = data.data.maHop;
       Description.value = data.data.description;
       LoaiHoSoId.value = data.data.loaiHoSoId;
+      MaKho.value = data.data.maKho;
+      MaDay.value = data.data.maDay;
+      MaKe.value = data.data.maKe;
     } else {
       showWarningsNotification(data.message);
     }
@@ -288,7 +365,18 @@ const { value: LoaiHoSoId, errorMessage: LoaiHoSoIdError } = useField(
   "LoaiHoSoId",
   yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
-
+const { value: MaKho, errorMessage: MaKhoError } = useField(
+  "MaKho",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
+);
+const { value: MaDay, errorMessage: MaDayError } = useField(
+  "MaDay",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
+);
+const { value: MaKe, errorMessage: MaKeError } = useField(
+  "MaKe",
+  yup.string().required(MESSAGE_ERROR.REQUIRE)
+);
 const submit = handleSubmit(async () => {
   console.log(EndDate.value);
   try {
@@ -352,9 +440,10 @@ const submit = handleSubmit(async () => {
   }
 });
 const hop_dropdown = ref(null);
-const get_hopDropDown = async () => {
-  const res = await hopServiceApi._getDropDown();
+const get_hopDropDown = async (make) => {
+  const res = await hopServiceApi._getDropDownByMa(make);
   hop_dropdown.value = res.data;
+  console.log(hop_dropdown.value);
 };
 const queryHop = (queryString, cb) => {
   const results = queryString
@@ -383,4 +472,36 @@ const getLoaiHoSoDropDown = async () => {
   const { data } = await loaiHoSoHoSoServiceApi.getAll();
   loaiHoSoDropDown.value = data;
 };
+const kho_dropdown = ref(null);
+const getKho_dropdown = async () => {
+  const res = await KhoServiceApi._getDropDown();
+  if (res.success) {
+    kho_dropdown.value = res.data;
+  }
+};
+
+const Day_dropdown = ref(null);
+const getDay_dropdown = async (maKho) => {
+  const res = await dayServiceApi._getDropDownByMa(maKho);
+  if (res.success) {
+    Day_dropdown.value = res.data;
+  }
+};
+watch(MaKho, async () => {
+  await getDay_dropdown(MaKho.value);
+});
+const ke_dropdown = ref(null);
+const getKe_dropdown = async (maKho) => {
+  const res = await keServiceApi._getDropDownByMa(maKho);
+  if (res.success) {
+    ke_dropdown.value = res.data;
+  }
+};
+watch(MaDay, async () => {
+  await getKe_dropdown(MaDay.value);
+});
+
+watch(MaKe, async () => {
+  await get_hopDropDown(MaKe.value);
+});
 </script>
