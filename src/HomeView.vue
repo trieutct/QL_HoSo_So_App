@@ -1,273 +1,316 @@
 <template>
-  <h2 class="text-main font-semibold">Quản lý tài sản</h2>
-  <div class="flex mt-5">
-    <div class="w-8/12 flex">
-      <el-input
-        v-model="value"
-        style="width: 240px"
-        size="large"
-        placeholder="Tìm kiếm"
-        :prefix-icon="Search"
-      />
-      <el-select
-        class="ml-2"
-        size="large"
-        v-model="value"
-        multiple
-        clearable
-        collapse-tags
-        placeholder="Select"
-        popper-class="custom-header"
-        :max-collapse-tags="1"
-        style="width: 240px"
-      >
-        <template #header>
-          <el-checkbox
-            v-model="checkAll"
-            :indeterminate="indeterminate"
-            @change="handleCheckAll"
-          >
-            All
-          </el-checkbox>
-        </template>
-        <el-option
-          v-for="item in cities"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-      <el-select
-        class="ml-2"
-        size="large"
-        v-model="value"
-        multiple
-        clearable
-        collapse-tags
-        placeholder="Select"
-        popper-class="custom-header"
-        :max-collapse-tags="1"
-        style="width: 240px"
-      >
-        <template #header>
-          <el-checkbox
-            v-model="checkAll"
-            :indeterminate="indeterminate"
-            @change="handleCheckAll"
-          >
-            All
-          </el-checkbox>
-        </template>
-        <el-option
-          v-for="item in cities"
-          :key="item.value"
-          :label="item.label"
-          :value="item.value"
-        />
-      </el-select>
-    </div>
-    <div class="w-4/12 flex justify-end">
-      <el-button type="primary" size="large">
-        <i class="ri-add-line text-xl font-bold"></i>
-      </el-button>
-    </div>
-  </div>
-  <!-- <el-row >
-    <e-col :span="16" :gutter="20">
-      <el-row :gutter="20">
-        <el-col :span="8">
-          <el-input style="width: 240px;" size="large" placeholder="Tìm kiếm" :prefix-icon="Search" />
-        </el-col>
-        <el-col :span="8">
-          <el-select size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
-            popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
-            <template #header>
-              <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
-                All
-              </el-checkbox>
-            </template>
-            <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-col>
-        <el-col :span="8">
-          <el-select size="large" v-model="value" multiple clearable collapse-tags placeholder="Select"
-            popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
-            <template #header>
-              <el-checkbox v-model="checkAll" :indeterminate="indeterminate" @change="handleCheckAll">
-                All
-              </el-checkbox>
-            </template>
-            <el-option v-for="item in cities" :key="item.value" :label="item.label" :value="item.value" />
-          </el-select>
-        </el-col>
-      </el-row>
-
-
-    </e-col>
-    <el-col :span="8" style="text-align: right;" >
-        <el-button type="primary" size="large">
-        <i class="ri-add-line text-xl font-bold"></i>
-      </el-button>
-    </el-col>
-  </el-row> -->
-  <div class="custom-table mt-10">
-    <el-table :data="tableData" border width="100%">
-      <el-table-column fixed type="selection" width="55" />
-      <el-table-column prop="date" label="Date" width="150" />
-      <el-table-column prop="name" label="Name" width="120" />
-      <el-table-column prop="state" label="State" width="120" />
-      <el-table-column prop="city" label="City" width="120" />
-      <el-table-column prop="address" label="Address" width="600" />
-      <el-table-column prop="zip" label="Zip" width="120" />
-      <el-table-column fixed="right" label="Operations" width="120">
-        <template #default>
-          <el-button link type="primary" size="small">Detail</el-button>
-          <el-button link type="primary" size="small">Edit</el-button>
-        </template>
-      </el-table-column>
+  <div>
+    <el-table :data="tableData" :span-method="objectSpanMethod" border style="width: 100%; margin-top: 20px">
+      <el-table-column prop="id" label="ID" width="180" />
+      <el-table-column prop="name" label="Name" />
+      <el-table-column prop="amount1" label="Amount 1" />
+      <el-table-column prop="amount2" label="Amount 2" />
+      <el-table-column prop="amount3" label="Amount 3" />
     </el-table>
   </div>
+  <el-table :data="assets" :span-method="objectSpanMethod1" border style="width: 100%; margin-top: 20px">
+    <el-table-column label="ID" width="180">
+      <template #default="scope">
+        {{ scope.row.asset.id }}
+      </template>
+    </el-table-column>
+    <el-table-column prop="NameGroup" label="NameGroup" width="180">
+      <template #default="scope">
+        {{ scope.row.asset.kpiCriteriaGroup.name }}
+      </template>
+    </el-table-column>
+    <el-table-column label="NameGroup" width="180">
+      <template #default="scope">
+        {{ scope.row.asset.name }}
+      </template>
+    </el-table-column>
+
+  </el-table>
 </template>
+
 <script lang="ts" setup>
-import { ref, watch } from "vue";
-import { Search } from "@element-plus/icons-vue";
-const tableData = [
-  {
-    date: "2016-05-03",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Home",
-  },
-  {
-    date: "2016-05-02",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Office",
-  },
-  {
-    date: "2016-05-04",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Home",
-  },
-  {
-    date: "2016-05-01",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Office",
-  },
-  {
-    date: "2016-05-03",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Home",
-  },
-  {
-    date: "2016-05-02",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Office",
-  },
-  {
-    date: "2016-05-04",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Home",
-  },
-  {
-    date: "2016-05-01",
-    name: "Tom",
-    state: "California",
-    city: "Los Angeles",
-    address: "No. 189, Grove St, Los Angeles",
-    zip: "CA 90036",
-    tag: "Office",
-  },
-];
+import type { TableColumnCtx } from 'element-plus'
+import { ref, onMounted } from 'vue'
+interface User {
+  id: string
+  name: string
+  amount1: string
+  amount2: string
+  amount3: number
+}
 
-//select all
-import type { CheckboxValueType } from "element-plus";
+interface SpanMethodProps {
+  row: User
+  column: TableColumnCtx<User>
+  rowIndex: number
+  columnIndex: number
+}
 
-const checkAll = ref(false);
-const indeterminate = ref(false);
-const value = ref<CheckboxValueType[]>([]);
-const cities = ref([
-  {
-    value: "Beijing",
-    label: "Beijing",
-  },
-  {
-    value: "Shanghai",
-    label: "Shanghai",
-  },
-  {
-    value: "Nanjing",
-    label: "Nanjing",
-  },
-  {
-    value: "Chengdu",
-    label: "Chengdu",
-  },
-  {
-    value: "Shenzhen",
-    label: "Shenzhen",
-  },
-  {
-    value: "Guangzhou",
-    label: "Guangzhou",
-  },
-]);
 
-watch(value, (val) => {
-  if (val.length === 0) {
-    checkAll.value = false;
-    indeterminate.value = false;
-  } else if (val.length === cities.value.length) {
-    checkAll.value = true;
-    indeterminate.value = false;
-  } else {
-    indeterminate.value = true;
+const objectSpanMethod = ({
+  row,
+  column,
+  rowIndex,
+  columnIndex,
+}: SpanMethodProps) => {
+  if (columnIndex === 0) {
+    if (rowIndex % 2 === 0) {
+      return {
+        rowspan: 2,
+        colspan: 1,
+      }
+    } else {
+      return {
+        rowspan: 0,
+        colspan: 0,
+      }
+    }
   }
+}
+const objectSpanMethod1 = (row: any) => {
+  console.log(row.column.property);
+  if (row.column.property === 'NameGroup') {
+    const rowIndex = row.rowIndex;
+    if (assets[rowIndex]) {
+      return {
+        rowspan: assets[rowIndex].rowspan,
+        colspan: assets[rowIndex].colspan,
+      };
+    }
+
+    // return {
+    //   rowspan:
+    // }
+  }
+}
+
+const items = ref([
+  {
+    "id": 26,
+    "createdAt": "2024-05-09T16:16:09.000Z",
+    "updatedAt": "2024-05-09T16:16:09.000Z",
+    "name": "Đi đúng giờ",
+    "description": "....",
+    "type": "rating_scale",
+    "status": "active",
+    "criteriaValues": [
+      {
+        "scoreMin": 8,
+        "scoreMax": 9,
+        "description": "Khá"
+      },
+      {
+        "scoreMin": 8,
+        "scoreMax": 9,
+        "description": "TB"
+      }
+    ],
+    "kpiCriteriaGroup": {
+      "id": 4,
+      "name": "nhóm 1"
+    }
+  },
+  {
+    "id": 25,
+    "createdAt": "2024-05-09T16:16:07.000Z",
+    "updatedAt": "2024-05-09T16:16:07.000Z",
+    "name": "Đi đúng giờ",
+    "description": "....",
+    "type": "rating_scale",
+    "status": "active",
+    "criteriaValues": [
+      {
+        "scoreMin": 8,
+        "scoreMax": 9,
+        "description": "Khá"
+      },
+      {
+        "scoreMin": 8,
+        "scoreMax": 9,
+        "description": "TB"
+      }
+    ],
+    "kpiCriteriaGroup": {
+      "id": 4,
+      "name": "nhóm 1"
+    }
+  },
+  {
+    "id": 8,
+    "createdAt": "2024-05-08T16:56:32.000Z",
+    "updatedAt": "2024-05-08T16:56:32.000Z",
+    "name": "Khả năng code nhanh",
+    "description": "Thường xuyên hoàn thành task trước thời gian estimate",
+    "type": "grading_level",
+    "status": "active",
+    "criteriaValues": [
+      {
+        "level": "A",
+        "description": "Là hoàn thành xuất sắc"
+      },
+      {
+        "level": "B",
+        "description": "Là hoàn thành mức độ khá"
+      }
+    ],
+    "kpiCriteriaGroup": {
+      "id": 1,
+      "name": "Chuyên môn"
+    }
+  },
+  {
+    "id": 7,
+    "createdAt": "2024-05-08T16:30:03.000Z",
+    "updatedAt": "2024-05-09T13:33:04.000Z",
+    "name": "sdsd",
+    "description": "sdsd",
+    "type": "grading_level",
+    "status": "active",
+    "criteriaValues": [
+      {
+        "level": "A",
+        "description": "tốt"
+      },
+      {
+        "level": "B",
+        "description": "Khá"
+      }
+    ],
+    "kpiCriteriaGroup": {
+      "id": 3,
+      "name": "Khác"
+    }
+  },
+  {
+    "id": 6,
+    "createdAt": "2024-05-08T16:12:24.000Z",
+    "updatedAt": "2024-05-08T16:12:24.000Z",
+    "name": "Đi đúng giờ",
+    "description": "....",
+    "type": "grading_level",
+    "status": "active",
+    "criteriaValues": [
+      {
+        "level": "A",
+        "description": "Tốt"
+      },
+      {
+        "level": "B",
+        "description": "Khá"
+      }
+    ],
+    "kpiCriteriaGroup": {
+      "id": 2,
+      "name": "Chuyên cần"
+    }
+  },
+  {
+    "id": 5,
+    "createdAt": "2024-05-07T16:56:42.000Z",
+    "updatedAt": "2024-05-07T16:56:42.000Z",
+    "name": "Đi đúng giờ",
+    "description": "....",
+    "type": "grading_level",
+    "status": "active",
+    "criteriaValues": [
+      {
+        "level": "A",
+        "description": "Tốt"
+      },
+      {
+        "level": "B",
+        "description": "Khá"
+      }
+    ],
+    "kpiCriteriaGroup": {
+      "id": 2,
+      "name": "Chuyên cần"
+    }
+  },
+  {
+    "id": 2,
+    "createdAt": "2024-05-07T14:36:08.000Z",
+    "updatedAt": "2024-05-07T14:36:08.000Z",
+    "name": "Khả năng code nhanh",
+    "description": "Thường xuyên hoàn thành task trước thời gian estimate",
+    "type": "grading_level",
+    "status": "active",
+    "criteriaValues": [
+      {
+        "level": "A",
+        "description": "Là hoàn thành xuất sắc"
+      },
+      {
+        "level": "B",
+        "description": "Là hoàn thành mức độ khá"
+      }
+    ],
+    "kpiCriteriaGroup": {
+      "id": 1,
+      "name": "Chuyên môn"
+    }
+  }
+])
+const Name = ref(["Chuyên cần", "Chuyên môn", "Khác", "nhóm 1"])
+const data = Name.value.map((name: any) => {
+  const levelData = {
+    name: '',
+    items: [] as any[],
+  };
+  levelData.name = name;
+  levelData.items = items.value.filter(
+    (item: any) => item.kpiCriteriaGroup.name === name,
+  );
+  return levelData;
 });
-
-const handleCheckAll = (val: CheckboxValueType) => {
-  indeterminate.value = false;
-  if (val) {
-    value.value = cities.value.map((_) => _.value);
-  } else {
-    value.value = [];
-  }
-};
+const assets: any[] = data.reduce((arr, item) => {
+  const { items } = item
+  return arr.concat(
+    items.map((value: any, index: number) => ({
+      asset: value,
+      rowspan: index == 0 ? items.length : 0,
+      colspan: index == 0 ? 1 : 0
+    }))
+  )
+}, [])
+onMounted(() => {
+  console.log(assets);
+})
+const tableData: User[] = [
+  {
+    id: '12987122',
+    name: 'Tom',
+    amount1: '234',
+    amount2: '3.2',
+    amount3: 10,
+  },
+  {
+    id: '12987123',
+    name: 'Tom',
+    amount1: '165',
+    amount2: '4.43',
+    amount3: 12,
+  },
+  {
+    id: '12987124',
+    name: 'Tom',
+    amount1: '324',
+    amount2: '1.9',
+    amount3: 9,
+  },
+  {
+    id: '12987125',
+    name: 'Tom',
+    amount1: '621',
+    amount2: '2.2',
+    amount3: 17,
+  },
+  {
+    id: '12987126',
+    name: 'Tom',
+    amount1: '539',
+    amount2: '4.1',
+    amount3: 15,
+  },
+]
 </script>
-
-<style scoped>
-.custom-table .el-table {
-  border-radius: 8px;
-  overflow: hidden;
-}
-
-.custom-table .el-table {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-</style>
