@@ -28,7 +28,6 @@ const throttled = throttle(sendRefreshToken, 10000, { trailing: false });
 axiosInstance.interceptors.request.use(async (config: any) => {
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
   if (tokenExpiredAt && dayjs().isAfter(dayjs(tokenExpiredAt), "second")) {
-    alert("token hết hạn. bắt đầu lấy lại token");
     await throttled();
   }
   Object.assign(config, {

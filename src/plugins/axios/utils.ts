@@ -4,7 +4,6 @@ import axios from "axios";
 import router from "../../plugins/vue-router/index";
 
 export const logout = (redirectToLogin = true) => {
-  alert("?");
   localStorageAuthService.removeAll();
   const currentPage = router.currentRoute;
   if (redirectToLogin && currentPage.value.name !== PageName.LOGIN_PAGE) {
