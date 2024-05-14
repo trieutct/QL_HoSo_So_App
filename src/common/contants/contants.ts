@@ -74,6 +74,7 @@ export enum PageName {
   HOSO_PAGE = "Hoso_Page",
   LOAIHOSO_PAGE = "LoaiHoSo",
   LOAIVANBAN_PAGE = "LoaiVanBan",
+  DOC_PAGE = "Doc",
 }
 export enum NHOMDANHMUC {
   LOAIVANBAN = "LOAIVANBAN",
