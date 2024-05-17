@@ -1,8 +1,19 @@
 <template>
-  <el-table border :data="tableData" style="width: 100%" header-row-class-name="table-header">
+  <el-table
+    border
+    :data="tableData"
+    style="width: 100%"
+    header-row-class-name="table-header"
+  >
     <el-table-column prop="groupName" label="Date" width="150" />
     <el-table-column prop="name" label="Name" width="120" />
-    <el-table-column v-for="(i) in 4" :key="i" :label="i" width="120" :class-name="`custom-red-background-${i % 2}`">
+    <el-table-column
+      v-for="i in 4"
+      :key="i"
+      :label="i"
+      width="120"
+      :class-name="`custom-red-background-${i % 2}`"
+    >
       <el-table-column prop="type" :label="i + 1" width="120">
         <template #default="scope">
           {{ scope.row }}
