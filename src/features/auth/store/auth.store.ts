@@ -7,8 +7,8 @@ import { IBodyLogin } from "../interface";
 export const AuthStore = defineStore("authStore", () => {
   async function login(body: IBodyLogin) {
     const res = await authServiceApi.login(body);
-    const { profile } = res.data;
     if (res.success && res.data != null) {
+      const { profile } = res.data;
       localStorageAuthService.setAccessToken(res.data.accessToken.token);
       localStorageAuthService.setAccessTokenExpiredAt(
         res.data.accessToken.expiresIn

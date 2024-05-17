@@ -3,10 +3,6 @@
     <div class="flex mt-5">
         <div class="w-8/12 flex">
             <el-input clearable style="width: 30%" size="large" placeholder="Tìm kiếm" :prefix-icon="Search" />
-            <el-select class="ml-2" size="large" clearable collapse-tags placeholder="Tìm kiếm theo kho"
-                popper-class="custom-header" :max-collapse-tags="1" style="width: 240px">
-                <!-- <el-option v-for="item in kho_dropdown" :key="item.value" :label="item.text" :value="item.value" /> -->
-            </el-select>
         </div>
         <div class="w-4/12 flex justify-end">
             <el-button @click="docStore.setIsShowPopup(true)" type="primary" size="large">
