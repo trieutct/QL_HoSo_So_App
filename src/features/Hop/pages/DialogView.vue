@@ -242,7 +242,6 @@ const submit = handleSubmit(async () => {
   try {
     if (props.itemEdit === null) {
       const formData = new FormData();
-      alert(MaKho.value);
       formData.append("MaKe", MaKe.value);
       formData.append("MaHop", MaHop.value);
       formData.append("Name", name.value);
