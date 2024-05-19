@@ -69,7 +69,7 @@ const routes: Array<RouteRecordRaw> = [
           import("../../features/LoaiVanBan/pages/LoaiVanBanView.vue"),
       },
       {
-        path: "doc",
+        path: "doc/:id",
         name: PageName.DOC_PAGE,
         component: () => import("../../features/Doc/pages/DocPage.vue"),
       },

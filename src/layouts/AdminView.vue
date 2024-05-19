@@ -1,7 +1,7 @@
 <template>
   <el-container class="min-h-screen">
     <SideBar />
-    <el-main class="w-full">
+    <el-main class="w-full" style="background-color: #f1f4fb; width: 100%; min-height: 100vh;">
       <router-view></router-view>
     </el-main>
   </el-container>
