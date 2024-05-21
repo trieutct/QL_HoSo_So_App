@@ -33,6 +33,13 @@ class DocApiService extends ApiService {
       responseType: "blob",
     });
   }
+  async update(id: string, formData: FormData): Promise<IBodyResponse<any>> {
+    return await this.client.put(`${this.baseUrl}/${id}`, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
 }
 
 export const docServiceApi = new DocApiService(

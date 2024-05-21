@@ -24,6 +24,7 @@ export const useDocStore = defineStore("useDocStore", () => {
   const hosoId = ref<string | number>("");
   //mã fileCode của hồ sơ để lấy danh sách DOC
   const fileCode = ref<string>("");
+  const selectedDocId = ref<string>();
 
   async function fetchData(maHoSo: string) {
     const res = await docServiceApi.getAllDocByFileCode(maHoSo as string);
@@ -44,6 +45,9 @@ export const useDocStore = defineStore("useDocStore", () => {
   function setFileCode(value: string) {
     fileCode.value = value;
   }
+  function setSelectedDocId(value: string) {
+    selectedDocId.value = value;
+  }
   return {
     isShowPopup,
     setIsShowPopup,
@@ -52,7 +56,8 @@ export const useDocStore = defineStore("useDocStore", () => {
     fileCode,
     setFileCode,
     listDocs,
-
+    setSelectedDocId,
     fetchData,
+    selectedDocId,
   };
 });

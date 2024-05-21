@@ -1,5 +1,6 @@
 <template>
-  <el-dialog @close="closeDialog" width="850" v-model="isShowPopup" title="Thêm văn bản" align-center>
+  <el-dialog @close="closeDialog" width="850" v-model="isShowPopup"
+    :title="docStore.selectedDocId ? 'Cập nhật văn bản' : 'Thêm văn bản'" align-center>
     <el-scrollbar :height="calculatedHeight">
       <el-row :gutter="20">
         <el-col :span="12">
@@ -7,7 +8,8 @@
             Mã văn bản
             <span class="text-red-500">*</span>
           </p>
-          <el-input v-model="docForm.docCode" size="large" style="width: 100%" placeholder="Nhập mã văn bản" />
+          <el-input :disabled="docStore.selectedDocId" v-model="docForm.docCode" size="large" style="width: 100%"
+            placeholder="Nhập mã văn bản" />
           <span class="text-red-500">{{ docForm.errors.docCode }}</span>
         </el-col>
         <el-col :span="12">
@@ -123,11 +125,14 @@ import { loaiVanBanServiceApi } from '../../LoaiVanBan/service/loaivanban.servic
 import { hosoServiceApi } from '../../HoSo/service/hoso.service';
 import router from '../../../plugins/vue-router/index';
 import { PageName } from '../../../common/contants/contants';
+import { docServiceApi } from '../service/doc.service';
+import { showErrorNotification } from '../../../common/helper/helpers';
 const docForm = reactive(UseDocForm())
 const docStore = useDocStore();
 const isShowPopup = computed(() => docStore.isShowPopup);
 function closeDialog() {
   docStore.setIsShowPopup(false)
+  docStore.setSelectedDocId('');
 }
 const windowHeight = ref(window.innerHeight);
 const calculatedHeight = computed(() => {
@@ -136,11 +141,13 @@ const calculatedHeight = computed(() => {
 onMounted(async () => {
   await getLoaiVanBanDropDown();
   window.addEventListener('resize', handleWindowResize);
+
 });
 onUpdated(async () => {
   if (docStore.isShowPopup) {
     await getNameHoSo()
   }
+  await getDetailDoc()
 }),
   onBeforeUnmount(() => {
     window.removeEventListener('resize', handleWindowResize);
@@ -164,7 +171,32 @@ async function getNameHoSo() {
     router.push({ name: PageName.HOSO_PAGE })
   }
 }
-
+async function getDetailDoc() {
+  if (docStore.selectedDocId) {
+    const res: any = await docServiceApi.getDetail(docStore.selectedDocId as string);
+    if (res.success) {
+      console.log(res);
+      docForm.resetForm({
+        values: {
+          docCode: res.data.docCode,
+          codeNumber: res.data.codeNumber,
+          codeNotation: res.data.codeNotation,
+          issuedDate: res.data.issuedDate,
+          organName: res.data.organName,
+          subject: res.data.subject,
+          note: res.data.note,
+          keyword: res.data.keyword,
+          FileCode: undefined,
+          LoaiVanBanId: res.data.loaiVanBanId
+        }
+      });
+      loaiVanBan.value = res.data.loaiVanBanId
+      docStore.setIsShowPopup(true);
+    } else {
+      showErrorNotification(res.message);
+    }
+  }
+}
 
 
 

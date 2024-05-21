@@ -7,6 +7,19 @@ import {
   showErrorNotification,
   showSuccessNotification,
 } from "../../common/helper/helpers";
+export const initDoc = {
+  docCode: "",
+  codeNumber: "",
+  codeNotation: "",
+  issuedDate: "",
+  organName: "",
+  subject: "",
+  note: "",
+  keyword: "",
+  FileCode: "",
+  LoaiVanBanId: "",
+  file: null as any,
+};
 export const schema = yup.object({
   docCode: yup.string().required(MESSAGE_ERROR.REQUIRE),
   codeNumber: yup.string().optional(),
@@ -32,6 +45,7 @@ export const UseDocForm = () => {
     errors,
     resetForm,
   } = useForm({
+    initialValues: initDoc,
     validationSchema: schema,
   });
   const { value: docCode, errorMessage: docCodeErro } = useField("docCode");
@@ -57,6 +71,7 @@ export const UseDocForm = () => {
 
   const handle = handleSubmit(async (values) => {
     const formData = new FormData();
+    formData.append("Id", docStore.selectedDocId ? docStore.selectedDocId : "");
     formData.append("codeNotation", values.codeNotation);
     formData.append("codeNumber", values.codeNumber);
     formData.append("docCode", values.docCode);
@@ -68,7 +83,9 @@ export const UseDocForm = () => {
     formData.append("organName", values.organName);
     formData.append("subject", values.subject);
     formData.append("file", values.file.raw);
-    const res = await docServiceApi.create(formData);
+    const res = docStore.selectedDocId
+      ? await docServiceApi.update(docStore.selectedDocId, formData)
+      : await docServiceApi.create(formData);
     if (res.success) {
       showSuccessNotification(res.message);
       docStore.setIsShowPopup(false);
@@ -86,7 +103,6 @@ export const UseDocForm = () => {
     validate,
     errors,
     handle,
-
     docCode,
     LoaiVanBanId,
     FileCode,

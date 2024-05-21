@@ -190,12 +190,13 @@ import { computed } from "vue";
 import { formatDateString, showErrorNotification, showSuccessNotification } from "../../../common/helper/helpers";
 import { docServiceApi } from "../service/doc.service";
 import { UseDocForm } from "../doc.form";
+import { reactive } from 'vue';
 const route = useRoute();
 const typeTable = ref('table')
 const docStore = useDocStore();
 const showDialogDelete = ref(false);
 const idDelete = ref('')
-const docForm = UseDocForm()
+const docForm = reactive(UseDocForm())
 const nameHoSo = ref<string>('')
 onBeforeMount(async () => {
     docStore.setHosoId(route.params.id as string);
@@ -225,17 +226,8 @@ async function deleteVanBan(id: string) {
     }
 }
 async function editDoc(id: string) {
-    const res: any = await docServiceApi.getDetail(id);
-    if (res.success) {
-        docForm.resetForm({
-            values: {
-                docCode: res.data.docCode
-            }
-        })
-        docStore.setIsShowPopup(true);
-    } else {
-        showErrorNotification(res.message);
-    }
+    docStore.setSelectedDocId(id as string);
+    docStore.setIsShowPopup(true);
 }
 async function dowloadFile(fileName: string) {
     const res = await docServiceApi.dowloadFile(fileName);
