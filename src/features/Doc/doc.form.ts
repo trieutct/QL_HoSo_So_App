@@ -22,13 +22,13 @@ export const initDoc = {
 };
 export const schema = yup.object({
   docCode: yup.string().required(MESSAGE_ERROR.REQUIRE),
-  codeNumber: yup.string().optional(),
-  codeNotation: yup.string().optional(),
+  codeNumber: yup.string().optional().nullable(),
+  codeNotation: yup.string().optional().nullable(),
   issuedDate: yup.string().required(MESSAGE_ERROR.REQUIRE),
   organName: yup.string().required(MESSAGE_ERROR.REQUIRE),
   subject: yup.string().required(MESSAGE_ERROR.REQUIRE),
-  note: yup.string().optional(),
-  keyword: yup.string().optional(),
+  note: yup.string().optional().nullable(),
+  keyword: yup.string().optional().nullable(),
   FileCode: yup.string().required(MESSAGE_ERROR.REQUIRE),
   LoaiVanBanId: yup.string().required(MESSAGE_ERROR.REQUIRE),
   file: yup.mixed().required("Vui lòng chọn file"),

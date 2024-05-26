@@ -175,7 +175,6 @@ async function getDetailDoc() {
   if (docStore.selectedDocId) {
     const res: any = await docServiceApi.getDetail(docStore.selectedDocId as string);
     if (res.success) {
-      console.log(res);
       docForm.resetForm({
         values: {
           docCode: res.data.docCode,
@@ -186,7 +185,7 @@ async function getDetailDoc() {
           subject: res.data.subject,
           note: res.data.note,
           keyword: res.data.keyword,
-          FileCode: undefined,
+          FileCode: res.data.fileCode,
           LoaiVanBanId: res.data.loaiVanBanId
         }
       });

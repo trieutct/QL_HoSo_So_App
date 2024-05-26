@@ -155,7 +155,7 @@ const submit = handleSubmit(async () => {
       formData.append("Birthday", Birthday.value as string);
       formData.append("Phone", Phone.value as string);
       formData.append("RoleId", RoleId.value as string);
-      formData.append("file", file.value.raw);
+      formData.append("file", file.value.raw as any);
       const res = await userServiceApi.create(formData);
       if (res.success) {
         emits("close");
