@@ -1,13 +1,22 @@
 <template>
-  <el-dialog style="border-radius: 5px !important"
-    :title="props.itemEdit ? 'Cập nhật người dùng' : 'Tạo mới người dùng'" width="700" align-center>
+  <el-dialog
+    style="border-radius: 5px !important"
+    :title="props.itemEdit ? 'Cập nhật người dùng' : 'Tạo mới người dùng'"
+    width="700"
+    align-center
+  >
     <el-row :gutter="20">
       <el-col :span="12">
         <p>
           Họ và tên
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="FullName" size="large" style="width: 100%" placeholder="Nhập hộ và tên" />
+        <el-input
+          v-model="FullName"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập hộ và tên"
+        />
         <span class="text-red-500 ml-2">{{ FullNameError }}</span>
       </el-col>
       <el-col :span="12">
@@ -15,34 +24,66 @@
           Email
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="Email" size="large" style="width: 100%" placeholder="Nhập Email" />
+        <el-input
+          v-model="Email"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập Email"
+        />
         <span class="text-red-500 ml-2">{{ EmailError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Ngày sinh</p>
-        <el-date-picker v-model="Birthday" style="width: 100%" type="date" placeholder="Chọn ngày tháng năm của văn bản"
-          size="large" />
+        <el-date-picker
+          v-model="Birthday"
+          style="width: 100%"
+          type="date"
+          placeholder="Chọn ngày tháng năm của văn bản"
+          size="large"
+        />
         <span class="text-red-500 ml-2">{{ BirthdayError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Số điện thoại <span class="text-red-500">*</span></p>
-        <el-input v-model="Phone" size="large" style="width: 100%" placeholder="Nhập số điện thoại" />
+        <el-input
+          v-model="Phone"
+          size="large"
+          style="width: 100%"
+          placeholder="Nhập số điện thoại"
+        />
         <span class="text-red-500 ml-2">{{ PhoneError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Vai trò<span class="text-red-500">*</span></p>
-        <el-select v-model="RoleId" class="w-full" size="large" clearable collapse-tags placeholder="Chọn kho"
-          popper-class="custom-header" :max-collapse-tags="1">
-          <el-option v-for="item in roleOptions" :key="item.value" :label="item.text" :value="item.value" />
+        <el-select
+          v-model="RoleId"
+          class="w-full"
+          size="large"
+          clearable
+          collapse-tags
+          placeholder="Chọn kho"
+          popper-class="custom-header"
+          :max-collapse-tags="1"
+        >
+          <el-option
+            v-for="item in roleOptions"
+            :key="item.value"
+            :label="item.text"
+            :value="item.value"
+          />
         </el-select>
         <span class="text-red-500 ml-2">{{ RoleIdError }}</span>
       </el-col>
       <el-col class="mt-4" :span="24">
-        <el-upload class="upload-demo " :auto-upload="false" drag :limit="1" @change="handleFileChange">
+        <el-upload
+          class="upload-demo"
+          :auto-upload="false"
+          drag
+          :limit="1"
+          @change="handleFileChange"
+        >
           <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-          <div class="el-upload__text">
-            Chọn ảnh <em>Chọn file</em>
-          </div>
+          <div class="el-upload__text">Chọn ảnh <em>Chọn file</em></div>
           {{ fileError }}
         </el-upload>
       </el-col>
@@ -58,20 +99,20 @@
   </el-dialog>
 </template>
 <script lang="ts" setup>
-import { UploadFilled } from '@element-plus/icons-vue'
+import { UploadFilled } from "@element-plus/icons-vue";
 import { useForm, useField } from "vee-validate";
 import * as yup from "yup";
 import { MESSAGE_ERROR, Regex } from "../../../common/contants/contants";
-import { userServiceApi } from "../service/user.service"
+import { userServiceApi } from "../service/user.service";
 import { useLoadingStore } from "../../loading/store/index";
 import {
   showErrorNotification,
   showSuccessNotification,
   showWarningsNotification,
 } from "../../../common/helper/helpers";
-import { roleServiceApi } from '../../role/service/role.service';
-import { onMounted, ref, watch } from 'vue';
-import { ISelectOption } from '../interface'
+import { roleServiceApi } from "../../role/service/role.service";
+import { onMounted, ref, watch } from "vue";
+import { ISelectOption } from "../interface";
 const props = defineProps(["itemEdit"]);
 const emits = defineEmits(["close", "loadData"]);
 const roleOptions = ref<ISelectOption>();
@@ -86,10 +127,9 @@ watch(
   }
 );
 onMounted(async () => {
-  await getDropDownRole()
-})
+  await getDropDownRole();
+});
 const { handleSubmit, resetForm } = useForm();
-
 
 const { value: FullName, errorMessage: FullNameError } = useField(
   "FullName",
@@ -108,24 +148,23 @@ const { value: Birthday, errorMessage: BirthdayError } = useField(
 );
 const { value: Phone, errorMessage: PhoneError } = useField(
   "Phone",
-  yup.string().matches(/^(?:\+?84|0)(?:\d{9,10})$/, "Số điện thoại không hợp lệ").required(MESSAGE_ERROR.REQUIRE)
+  yup
+    .string()
+    .matches(/^(?:\+?84|0)(?:\d{9,10})$/, "Số điện thoại không hợp lệ")
+    .required(MESSAGE_ERROR.REQUIRE)
 );
 const { value: RoleId, errorMessage: RoleIdError } = useField(
   "RoleId",
   yup.string().required(MESSAGE_ERROR.REQUIRE)
 );
-const { value: file, errorMessage: fileError } = useField(
-  "file",
-  yup.mixed()
-);
-
+const { value: file, errorMessage: fileError } = useField("file", yup.mixed());
 
 const getDropDownRole = async () => {
   const res: any = await roleServiceApi._getDropDown();
   if (res.success) {
-    roleOptions.value = res.data
+    roleOptions.value = res.data;
   }
-}
+};
 const getUserById = async (id: string) => {
   try {
     loading.setLoading(true);
@@ -160,10 +199,9 @@ const submit = handleSubmit(async () => {
       if (res.success) {
         emits("close");
         emits("loadData");
-        showSuccessNotification(res.message)
-      }
-      else {
-        showErrorNotification(res.message)
+        showSuccessNotification(res.message);
+      } else {
+        showErrorNotification(res.message);
       }
     } else {
       const formData = new FormData();
@@ -178,20 +216,17 @@ const submit = handleSubmit(async () => {
       if (res.success) {
         emits("close");
         emits("loadData");
-        showSuccessNotification(res.message)
-      }
-      else {
-        showErrorNotification(res.message)
+        showSuccessNotification(res.message);
+      } else {
+        showErrorNotification(res.message);
       }
     }
   } catch (error: any) {
-    showErrorNotification(error.message)
+    showErrorNotification(error.message);
   }
-})
-
+});
 
 const handleFileChange = (image: any) => {
-  file.value = image
+  file.value = image;
 };
-
 </script>
