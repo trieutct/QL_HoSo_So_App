@@ -8,7 +8,7 @@ const routes: Array<RouteRecordRaw> = [
     children: [
       {
         path: "",
-        name: PageName.DASHBOARD_PAGE,
+        name: "sss",
         component: () => import("../../HomeView.vue"),
       },
       {
@@ -72,6 +72,12 @@ const routes: Array<RouteRecordRaw> = [
         path: "doc/:id",
         name: PageName.DOC_PAGE,
         component: () => import("../../features/Doc/pages/DocPage.vue"),
+      },
+      {
+        path: "dashboard",
+        name: PageName.DASHBOARD_PAGE,
+        component: () =>
+          import("../../features/dashboard/pages/DashboardView.vue"),
       },
     ],
   },
