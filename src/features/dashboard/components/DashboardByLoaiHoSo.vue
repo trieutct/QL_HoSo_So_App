@@ -23,37 +23,39 @@ const chartSeries = computed(() => {
 })
 
 const chartHeight = ref(300);
-const chartOptions = ref({
-    chart: {
-        type: 'bar',
-        toolbar: {
-            show: false,
+const chartOptions = computed(() => {
+    return {
+        chart: {
+            type: 'bar',
+            toolbar: {
+                show: false,
+            },
         },
-    },
-    plotOptions: {
-        bar: {
-            horizontal: true,
-            borderRadius: 5,
-            borderRadiusApplication: 'end',
-            barHeight: '40%',
+        plotOptions: {
+            bar: {
+                horizontal: true,
+                borderRadius: 5,
+                borderRadiusApplication: 'end',
+                barHeight: '40%',
+            },
         },
-    },
-    dataLabels: {
-        enabled: false
-    },
-    xaxis: {
-        categories: hosoTheoLoaiHoSo.value.map((item: any) => item.name) || [],
-        labels: {
-            show: true,
-        }
-    },
-    yaxis: {
-        labels: {
-            show: true,
-        }
-    },
-    colors: ["#4764C3"]
-});
+        dataLabels: {
+            enabled: false
+        },
+        xaxis: {
+            categories: hosoTheoLoaiHoSo.value.map((item: any) => item.name) || [],
+            labels: {
+                show: true,
+            }
+        },
+        yaxis: {
+            labels: {
+                show: true,
+            }
+        },
+        colors: ["#4764C3"]
+    }
+})
 </script>
 <style scoped>
 .el-card {

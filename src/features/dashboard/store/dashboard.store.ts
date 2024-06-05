@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import { ref } from "vue";
 import { dashboardSoHoSoServiceApi } from "../service/dashboard.service";
+import { IHoso } from "../../HoSo/interface";
 export interface ITem {
   name: string;
   count: number;
@@ -11,6 +12,8 @@ export const useDashboardDocStore = defineStore("dashboardDocStore", () => {
   const totalHoso = ref<number>(0);
   const hosoTheoLoaiHoSo = ref<ITem[]>([]);
   const hosoTheoLoaiVanBan = ref<ITem[]>([]);
+  const expricedHoSo = ref<IHoso[]>([]);
+  const userByRole = ref<IHoso[]>([]);
 
   async function getInfoDashboard() {
     const res: any = await dashboardSoHoSoServiceApi.get();
@@ -20,6 +23,8 @@ export const useDashboardDocStore = defineStore("dashboardDocStore", () => {
       totalHoso.value = res.data.totalHoso;
       hosoTheoLoaiHoSo.value = res.data.hosoTheoLoaiHoSo;
       hosoTheoLoaiVanBan.value = res.data.hosoTheoLoaiVanBan;
+      expricedHoSo.value = res.data.expricedHoSo;
+      userByRole.value = res.data.userByRole;
     }
   }
   return {
@@ -29,5 +34,7 @@ export const useDashboardDocStore = defineStore("dashboardDocStore", () => {
     getInfoDashboard,
     hosoTheoLoaiVanBan,
     hosoTheoLoaiHoSo,
+    expricedHoSo,
+    userByRole,
   };
 });

@@ -2,13 +2,18 @@
     <el-card class="box-card">
         <p class="text-base font-bold">Tổng số hồ sơ hết hạn</p>
         <div class="w-100 flex justify-end">
-            <img :src="icon" alt="">
+            <img :src="icon" alt="" height="50" width="50">
         </div>
-        <p class="text-4xl font-bold mt-[-30px]">79</p>
+        <p class="text-4xl font-bold mt-[-20px]">{{ expricedHoSo.length }}</p>
     </el-card>
 </template>
 <script lang="ts" setup>
-import icon from "../../../assets/Icon.svg"
+import icon from "../../../assets/expired.png"
+
+import { useDashboardDocStore } from "../store/dashboard.store"
+import { computed } from 'vue'
+const dashboardDocStore = useDashboardDocStore();
+const expricedHoSo = computed(() => dashboardDocStore.expricedHoSo);
 </script>
 <style scoped>
 .el-card {

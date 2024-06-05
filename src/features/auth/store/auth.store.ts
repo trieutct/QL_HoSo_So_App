@@ -2,11 +2,13 @@ import { defineStore } from "pinia";
 import localStorageAuthService from "../../../common/storages/authStorage";
 import { authServiceApi } from "../services/auth.service";
 import { IBodyLogin } from "../interface";
-// import { showErrorNotification } from "../../../common/helper/helpers";
+import { showErrorNotification } from "../../../common/helper/helpers";
 
 export const AuthStore = defineStore("authStore", () => {
   async function login(body: IBodyLogin) {
     const res = await authServiceApi.login(body);
+    console.log(res);
+
     if (res.success && res.data != null) {
       const { profile } = res.data;
       localStorageAuthService.setAccessToken(res.data.accessToken.token);
@@ -20,6 +22,7 @@ export const AuthStore = defineStore("authStore", () => {
       localStorageAuthService.setLoginUser(profile);
       return true;
     }
+    showErrorNotification(res.message);
     return false;
   }
   return {

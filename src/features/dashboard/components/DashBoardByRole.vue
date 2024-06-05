@@ -1,6 +1,6 @@
 <template>
     <el-card class="box-card">
-        <p class="text-base font-bold">Thống kê hồ sơ theo loại hồ sơ</p>
+        <p class="text-base font-bold">Thống kê người dùng theo vai trò</p>
         <VueApexCharts :height="chartHeight" :options="chartOptions" :series="chartSeries">
         </VueApexCharts>
     </el-card>
@@ -12,12 +12,12 @@ import VueApexCharts from "vue3-apexcharts";
 import { useDashboardDocStore } from "../store/dashboard.store"
 import { computed } from 'vue'
 const dashboardDocStore = useDashboardDocStore();
-const hosoTheoLoaiVanBan = computed(() => dashboardDocStore.hosoTheoLoaiVanBan);
+const userByRole = computed(() => dashboardDocStore.userByRole);
 const chartSeries = computed(() => {
     return [
         {
             name: 'Số lượng',
-            data: hosoTheoLoaiVanBan.value.map((item: any) => item.count) || [],
+            data: userByRole.value.map((item: any) => item.count) || [],
         }
     ]
 })
@@ -33,17 +33,16 @@ const chartOptions = computed(() => {
         },
         plotOptions: {
             bar: {
-                horizontal: true,
+                horizontal: false,
                 borderRadius: 5,
                 borderRadiusApplication: 'end',
-                barHeight: '40%',
             },
         },
         dataLabels: {
             enabled: false
         },
         xaxis: {
-            categories: hosoTheoLoaiVanBan.value.map((item: any) => item.name) || [],
+            categories: userByRole.value.map((item: any) => item.name) || [],
             labels: {
                 show: true,
             }

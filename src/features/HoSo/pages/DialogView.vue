@@ -1,23 +1,14 @@
 <template>
-  <el-dialog
-    align-center
-    style="border-radius: 5px !important"
-    :title="props.itemEdit ? 'Cập nhật hồ sơ' : 'Tạo mới hồ sơ'"
-    width="800"
-  >
+  <el-dialog align-center style="border-radius: 5px !important"
+    :title="props.itemEdit ? 'Cập nhật hồ sơ' : 'Tạo mới hồ sơ'" width="800">
     <el-row :gutter="20">
       <el-col :span="12">
         <p>
           Mã hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input
-          :disabled="props.itemEdit"
-          v-model="FileCode"
-          size="large"
-          style="width: 100%"
-          placeholder="Nhập mã hồ sơ"
-        />
+        <el-input :disabled="props.itemEdit" v-model="FileCode" size="large" style="width: 100%"
+          placeholder="Nhập mã hồ sơ" />
         <span class="text-red-500 ml-2">{{ FileCodeError }}</span>
       </el-col>
       <el-col :span="12">
@@ -25,22 +16,9 @@
           Loại hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-select
-          v-model="LoaiHoSoId"
-          class="w-full"
-          size="large"
-          clearable
-          collapse-tags
-          placeholder="Chọn loại hồ sơ"
-          popper-class="custom-header"
-          :max-collapse-tags="1"
-        >
-          <el-option
-            v-for="item in loaiHoSoDropDown"
-            :key="item.name"
-            :label="item.name"
-            :value="item.id"
-          />
+        <el-select v-model="LoaiHoSoId" class="w-full" size="large" clearable collapse-tags
+          placeholder="Chọn loại hồ sơ" popper-class="custom-header" :max-collapse-tags="1">
+          <el-option v-for="item in loaiHoSoDropDown" :key="item.name" :label="item.name" :value="item.id" />
         </el-select>
         <span class="text-red-500 ml-2">{{ LoaiHoSoIdError }}</span>
       </el-col>
@@ -49,22 +27,9 @@
           Tên kho
           <span class="text-red-500">*</span>
         </p>
-        <el-select
-          v-model="MaKho"
-          class="w-full"
-          size="large"
-          clearable
-          collapse-tags
-          placeholder="Chọn kho"
-          popper-class="custom-header"
-          :max-collapse-tags="1"
-        >
-          <el-option
-            v-for="item in kho_dropdown"
-            :key="item.value"
-            :label="item.text"
-            :value="item.value"
-          />
+        <el-select v-model="MaKho" class="w-full" size="large" clearable collapse-tags placeholder="Chọn kho"
+          popper-class="custom-header" :max-collapse-tags="1">
+          <el-option v-for="item in kho_dropdown" :key="item.value" :label="item.text" :value="item.value" />
         </el-select>
         <span class="text-red-500 ml-2">{{ MaKhoError }}</span>
       </el-col>
@@ -73,22 +38,9 @@
           Tên dãy
           <span class="text-red-500">*</span>
         </p>
-        <el-select
-          v-model="MaDay"
-          class="w-full"
-          size="large"
-          clearable
-          collapse-tags
-          placeholder="Chọn dãy"
-          popper-class="custom-header"
-          :max-collapse-tags="1"
-        >
-          <el-option
-            v-for="item in Day_dropdown"
-            :key="item.value"
-            :label="item.text"
-            :value="item.value"
-          />
+        <el-select v-model="MaDay" class="w-full" size="large" clearable collapse-tags placeholder="Chọn dãy"
+          popper-class="custom-header" :max-collapse-tags="1">
+          <el-option v-for="item in Day_dropdown" :key="item.value" :label="item.text" :value="item.value" />
         </el-select>
         <span class="text-red-500 ml-2">{{ MaDayError }}</span>
       </el-col>
@@ -97,22 +49,9 @@
           Tên kệ
           <span class="text-red-500">*</span>
         </p>
-        <el-select
-          v-model="MaKe"
-          class="w-full"
-          size="large"
-          clearable
-          collapse-tags
-          placeholder="Chọn kệ"
-          popper-class="custom-header"
-          :max-collapse-tags="1"
-        >
-          <el-option
-            v-for="item in ke_dropdown"
-            :key="item.value"
-            :label="item.text"
-            :value="item.value"
-          />
+        <el-select v-model="MaKe" class="w-full" size="large" clearable collapse-tags placeholder="Chọn kệ"
+          popper-class="custom-header" :max-collapse-tags="1">
+          <el-option v-for="item in ke_dropdown" :key="item.value" :label="item.text" :value="item.value" />
         </el-select>
         <span class="text-red-500 ml-2">{{ MaKeError }}</span>
       </el-col>
@@ -121,15 +60,8 @@
           Tên hộp
           <span class="text-red-500">*</span>
         </p>
-        <el-autocomplete
-          v-model="MaHop"
-          :fetch-suggestions="queryHop"
-          size="large"
-          clearable
-          class="inline-input w-full"
-          placeholder="Chọn hộp hồ sơ"
-          @select="handleSelect"
-        />
+        <el-autocomplete v-model="MaHop" :fetch-suggestions="queryHop" size="large" clearable
+          class="inline-input w-full" placeholder="Chọn hộp hồ sơ" @select="handleSelect" />
         <span class="text-red-500 ml-2">{{ MaHopError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -137,12 +69,8 @@
           Mục lục số, năm hình thành hố sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input
-          v-model="FileCatalog"
-          size="large"
-          style="width: 100%"
-          placeholder="Nhập mục lục số, năm hình thành hố sơ"
-        />
+        <el-input v-model="FileCatalog" size="large" style="width: 100%"
+          placeholder="Nhập mục lục số, năm hình thành hố sơ" />
         <span class="text-red-500 ml-2">{{ FileCatalogError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -150,12 +78,7 @@
           Số và kí hiệu hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input
-          v-model="FileNotation"
-          size="large"
-          style="width: 100%"
-          placeholder="Nhập số và kí hiệu hồ sơ"
-        />
+        <el-input v-model="FileNotation" size="large" style="width: 100%" placeholder="Nhập số và kí hiệu hồ sơ" />
         <span class="text-red-500 ml-2">{{ FileNotationError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -163,24 +86,14 @@
           Tiêu đề hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input
-          v-model="Title"
-          size="large"
-          style="width: 100%"
-          placeholder="Nhập tiêu đề hồ sơ"
-        />
+        <el-input v-model="Title" size="large" style="width: 100%" placeholder="Nhập tiêu đề hồ sơ" />
         <span class="text-red-500 ml-2">{{ TitleError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
         <p>Ngôn ngữ <span class="text-red-500">*</span></p>
         <!-- <el-input v-model="Language" size="large" style="width: 100%" placeholder="Ngôn ngữ" /> -->
         <el-select v-model="Language" placeholder="Ngôn ngữ" size="large">
-          <el-option
-            v-for="item in languages"
-            :key="item.value"
-            :label="item.name"
-            :value="item.value"
-          />
+          <el-option v-for="item in languages" :key="item.value" :label="item.name" :value="item.value" />
         </el-select>
         <span class="text-red-500 ml-2">{{ LanguageError }}</span>
       </el-col>
@@ -189,13 +102,7 @@
           Thời gian bắt đầu
           <span class="text-red-500">*</span>
         </p>
-        <el-date-picker
-          style="width: 100%"
-          v-model="StartDate"
-          type="date"
-          placeholder="Ngày bắt đầu"
-          size="large"
-        />
+        <el-date-picker style="width: 100%" v-model="StartDate" type="date" placeholder="Ngày bắt đầu" size="large" />
         <span class="text-red-500 ml-2">{{ StartDateError }}</span>
       </el-col>
       <el-col class="mt-4" :span="12">
@@ -203,13 +110,7 @@
           Thời gian hết hạn
           <span class="text-red-500">*</span>
         </p>
-        <el-date-picker
-          style="width: 100%"
-          v-model="EndDate"
-          type="date"
-          placeholder="Ngày hết hạn"
-          size="large"
-        />
+        <el-date-picker style="width: 100%" v-model="EndDate" type="date" placeholder="Ngày hết hạn" size="large" />
         <span class="text-red-500 ml-2">{{ EndDateError }}</span>
       </el-col>
 
@@ -218,25 +119,14 @@
           Từ khóa
           <span class="text-red-500">*</span>
         </p>
-        <el-input
-          v-model="Keyword"
-          size="large"
-          style="width: 100%"
-          placeholder="Nhập từ khóa"
-        />
+        <el-input v-model="Keyword" size="large" style="width: 100%" placeholder="Nhập từ khóa" />
         <span class="text-red-500 ml-2">{{ KeywordError }}</span>
       </el-col>
 
       <el-col class="mt-4" :span="12">
         <p>Mô tả</p>
-        <el-input
-          v-model="Description"
-          :rows="4"
-          type="textarea"
-          size="large"
-          style="width: 100%"
-          placeholder="Nhập mô tả"
-        />
+        <el-input v-model="Description" :rows="4" type="textarea" size="large" style="width: 100%"
+          placeholder="Nhập mô tả" />
         <span class="text-red-500 ml-2">{{ DescriptionError }}</span>
       </el-col>
     </el-row>
@@ -260,6 +150,7 @@ import {
   SupportLanguage,
 } from "../../../common/contants/contants";
 import {
+  formatDateString,
   showErrorNotification,
   showSuccessNotification,
 } from "../../../common/helper/helpers";
@@ -387,8 +278,8 @@ const submit = handleSubmit(async () => {
       formData.append("FileNotation", FileNotation.value);
       formData.append("Title", Title.value);
       formData.append("Language", Language.value);
-      formData.append("StartDate", StartDate.value);
-      formData.append("EndDate", EndDate.value);
+      formData.append("StartDate", formatDateString(StartDate.value));
+      formData.append("EndDate", formatDateString(EndDate.value));
       formData.append("Keyword", Keyword.value);
       formData.append("MaHop", MaHop.value);
       formData.append("LoaiHoSoId", LoaiHoSoId.value);

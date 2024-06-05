@@ -16,6 +16,9 @@ class UserApiService extends ApiService {
       },
     });
   }
+  async resetPassword(id: string): Promise<IBodyResponse<any>> {
+    return await this.client.patch(`${this.baseUrl}/resetPassword/${id}`);
+  }
 }
 export const userServiceApi = new UserApiService(
   { baseUrl: "/User" },
