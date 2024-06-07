@@ -25,3 +25,7 @@ export interface ILoginResponse {
   };
   profile: IUser;
 }
+export interface IChangePassword {
+  oldPassword: string;
+  newPassword: string;
+}

@@ -68,6 +68,8 @@ export enum PageName {
   DAY_PAGE = "day_page",
   KE_PAGE = "ke_page",
   USER_PAGE = "user_page",
+  CHANGEPASSWORD_PAGE = "change_password",
+  USERDETAIL_PAGE = "userdetail_page",
   MODULE_PAGE = "module_page",
   ROLE_PAGE = "role_page",
   ROLEOPERATION_PAGE = "roleoperation_page",

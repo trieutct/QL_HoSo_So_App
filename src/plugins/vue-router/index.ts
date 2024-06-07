@@ -12,9 +12,19 @@ const routes: Array<RouteRecordRaw> = [
         component: () => import("../../HomeView.vue"),
       },
       {
+        path: "change_password",
+        name: PageName.CHANGEPASSWORD_PAGE,
+        component: () => import("../../features/user/pages/ChangePassword.vue"),
+      },
+      {
         path: "user",
         name: PageName.USER_PAGE,
         component: () => import("../../features/user/pages/UserView.vue"),
+      },
+      {
+        path: "user/:id",
+        name: PageName.USERDETAIL_PAGE,
+        component: () => import("../../features/user/pages/UserDetailPage.vue"),
       },
       {
         path: "kho",
