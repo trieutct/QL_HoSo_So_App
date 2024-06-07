@@ -1,14 +1,22 @@
 <template>
-  <el-dialog style="border-radius: 5px !important"
-    :title="props.itemEdit ? 'Cập nhật loại hồ sơ' : 'Tạo mới loại hồ sơ'" width="700">
+  <el-dialog
+    style="border-radius: 5px !important"
+    :title="props.itemEdit ? 'Cập nhật loại hồ sơ' : 'Tạo mới loại hồ sơ'"
+    width="700"
+  >
     <el-row :gutter="20">
       <el-col :span="24">
         <p>
           Mã loại hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input :disabled="props.itemEdit" v-model="MaLoaiHoSo" size="large" style="width: 100%"
-          placeholder="Mã loại hồ sơ" />
+        <el-input
+          :disabled="props.itemEdit"
+          v-model="MaLoaiHoSo"
+          size="large"
+          style="width: 100%"
+          placeholder="Mã loại hồ sơ"
+        />
         <span class="text-red-500 ml-2">{{ MaLoaiHoSoError }}</span>
       </el-col>
       <el-col class="mt-4" :span="24">
@@ -16,7 +24,12 @@
           Tên loại hồ sơ
           <span class="text-red-500">*</span>
         </p>
-        <el-input v-model="name" size="large" style="width: 100%" placeholder="Tên loại hồ sơ" />
+        <el-input
+          v-model="name"
+          size="large"
+          style="width: 100%"
+          placeholder="Tên loại hồ sơ"
+        />
         <span class="text-red-500 ml-2">{{ nameError }}</span>
       </el-col>
     </el-row>

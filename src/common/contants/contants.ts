@@ -56,6 +56,7 @@ export enum PageName {
   VERTIFY_PAGE = "vertify_page",
   LOGIN_PAGE = "login_page",
   DASHBOARD_PAGE = "dashboard_page",
+  TRACUU_PAGE = "tracuu_page",
   NOT_FOUND_PAGE = "not_found_page",
   FORBIDDEN_PAGE = "forbidden_page",
   TRANG_CHU = "Trang chu",
@@ -186,10 +187,9 @@ export const OPTION_SELECTED_PAGE = [
 ];
 
 export enum Role {
-  USER = "User",
-  MANAGER = "MANAGER",
-  MASTER = "MASTER",
-  ADMIN = "Admin",
+  SYSADMIN = "SYSADMIN",
+  NHANVIEN = "NHANVIEN",
+  THUKHO = "THUKHO",
 }
 
 export enum RoleType {

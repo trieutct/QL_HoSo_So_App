@@ -79,6 +79,11 @@ const routes: Array<RouteRecordRaw> = [
         component: () =>
           import("../../features/dashboard/pages/DashboardView.vue"),
       },
+      {
+        path: "tracuu",
+        name: PageName.TRACUU_PAGE,
+        component: () => import("../../features/HoSo/pages/TraCuuHoSo.vue"),
+      },
     ],
   },
   {

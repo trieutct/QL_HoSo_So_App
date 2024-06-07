@@ -3,9 +3,10 @@ import { loginWithPasswordSchema } from "../schema";
 import { computed } from "vue";
 import { AuthStore } from "../store/auth.store";
 import router from "../../../plugins/vue-router";
-import { PageName } from "../../../common/contants/contants";
+import { PageName, Role } from "../../../common/contants/contants";
 import { useLoadingStore } from "../../loading/store";
 import { showSuccessNotification } from "../../../common/helper/helpers";
+import localStorageAuthService from "../../../common/storages/authStorage";
 export const userLoginForm = () => {
   const authStore = AuthStore();
   const loading = useLoadingStore();
@@ -39,7 +40,12 @@ export const userLoginForm = () => {
     loading.setLoading(false);
     if (res) {
       showSuccessNotification("Đăng nhập thành công");
-      router.push({ name: PageName.DASHBOARD_PAGE });
+      if (localStorageAuthService.getLoginUser().role === Role.SYSADMIN)
+        router.push({ name: PageName.DASHBOARD_PAGE });
+      if (localStorageAuthService.getLoginUser().role === Role.THUKHO)
+        router.push({ name: PageName.KHO_PAGE });
+      if (localStorageAuthService.getLoginUser().role === Role.NHANVIEN)
+        router.push({ name: PageName.TRACUU_PAGE });
     }
   });
 
