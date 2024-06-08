@@ -13,7 +13,6 @@ export const useKho = () => {
     try {
       const res = await KhoServiceApi._getList<IKho>(query);
       loading.setLoading(true);
-      //   console.log(res)
       if (res.success)
         return {
           data: res.data.items,

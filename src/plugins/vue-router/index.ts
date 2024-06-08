@@ -1,5 +1,13 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
-import { PageName } from "../../common/contants/contants";
+import {
+  createRouter,
+  createWebHistory,
+  NavigationGuardWithThis,
+  RouteRecordRaw,
+} from "vue-router";
+import { PageName, Role } from "../../common/contants/contants";
+import VueRouteMiddleware, { GLOBAL_MIDDLEWARE_NAME } from "./middleware";
+import authMiddleware from "./authMiddleware";
+
 const routes: Array<RouteRecordRaw> = [
   {
     path: "/admin",
@@ -10,6 +18,10 @@ const routes: Array<RouteRecordRaw> = [
         path: "",
         name: "sss",
         component: () => import("../../HomeView.vue"),
+        meta: {
+          role: Role.SYSADMIN,
+          public: false,
+        },
       },
       {
         path: "change_password",
@@ -100,6 +112,9 @@ const routes: Array<RouteRecordRaw> = [
     path: "/",
     name: PageName.LOGIN_PAGE,
     component: () => import("../../features/auth/pages/LoginForm.vue"),
+    meta: {
+      public: true,
+    },
   },
   {
     path: "/404",
@@ -111,10 +126,14 @@ const routes: Array<RouteRecordRaw> = [
     redirect: "/404",
   },
 ];
-
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes,
 });
 
+router.beforeEach(
+  VueRouteMiddleware({
+    [GLOBAL_MIDDLEWARE_NAME]: authMiddleware,
+  }) as NavigationGuardWithThis<unknown>
+);
 export default router;

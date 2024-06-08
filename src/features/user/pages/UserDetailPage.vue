@@ -11,7 +11,9 @@
         <el-divider></el-divider>
         <el-descriptions title="Thông tin hồ sơ" :column="1" border>
             <el-descriptions-item label="Email">{{ user.email }}</el-descriptions-item>
-            <el-descriptions-item label="Birthday">{{ user?.birthday !== 'undefined' ? user?.birthday : "-"
+            <el-descriptions-item label="Birthday">{{ user?.birthday !== 'undefined' ?
+                formatDateString(user?.birthday, "DD/MM/YYYY")
+                : "-"
                 }}</el-descriptions-item>
             <el-descriptions-item label="Phone">{{ user.phone }}</el-descriptions-item>
         </el-descriptions>
@@ -24,6 +26,9 @@ import { onBeforeMount, ref, watch } from 'vue'
 import { IUser } from "../interface";
 import { userServiceApi } from "../service/user.service";
 import { roleServiceApi } from "../../role/service/role.service";
+import {
+    formatDateString,
+} from "../../../common/helper/helpers";
 import UpdateProfile from "./UpdateProfile.vue"
 const showEdit = ref<boolean>(false)
 const route = useRoute();
