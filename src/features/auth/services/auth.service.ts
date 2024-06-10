@@ -11,6 +11,11 @@ class AuthApiService extends ApiService {
   ): Promise<IBodyResponse<IChangePassword>> {
     return await this.client.post(`${this.baseUrl}/changePassword`, body);
   }
+  async checkPermisionRouter(
+    permisions: string[]
+  ): Promise<IBodyResponse<IChangePassword>> {
+    return await this.client.post(`${this.baseUrl}/user-permision`, permisions);
+  }
 }
 
 export const authServiceApi = new AuthApiService(
