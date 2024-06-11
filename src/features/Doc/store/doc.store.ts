@@ -30,12 +30,10 @@ export const useDocStore = defineStore("useDocStore", () => {
     const res = await docServiceApi.getAllDocByFileCode(maHoSo as string);
     if (res.success) {
       listDocs.value = res.data;
-      console.log(listDocs.value);
     } else {
       showErrorNotification(res.message);
     }
   }
-
   function setIsShowPopup(value: boolean) {
     isShowPopup.value = value;
   }

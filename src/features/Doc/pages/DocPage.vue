@@ -1,18 +1,8 @@
 <template>
   <div>
     <div class="w-full flex justify-between">
-      <el-input
-        clearable
-        style="width: 50%"
-        size="large"
-        placeholder="Tìm kiếm"
-        :prefix-icon="Search"
-      />
-      <el-button
-        @click="docStore.setIsShowPopup(true)"
-        type="primary"
-        size="large"
-      >
+      <el-input clearable style="width: 50%" size="large" placeholder="Tìm kiếm" :prefix-icon="Search" />
+      <el-button @click="docStore.setIsShowPopup(true)" type="primary" size="large">
         <i class="ri-add-line text-xl font-bold"></i>
       </el-button>
     </div>
@@ -25,12 +15,7 @@
         </div>
         <div>
           <el-radio-group v-model="typeTable" style="margin-bottom: 30px">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Bố cục kiểu danh sách"
-              placement="bottom"
-            >
+            <el-tooltip class="box-item" effect="dark" content="Bố cục kiểu danh sách" placement="bottom">
               <el-radio-button value="table" size="large">
                 <template #default>
                   <i class="ri-check-line" v-if="typeTable === 'table'"></i>
@@ -38,12 +23,7 @@
                 </template>
               </el-radio-button>
             </el-tooltip>
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Bố cục kiểu lưới"
-              placement="bottom"
-            >
+            <el-tooltip class="box-item" effect="dark" content="Bố cục kiểu lưới" placement="bottom">
               <el-radio-button value="grid" size="large">
                 <template #default>
                   <i class="ri-check-line" v-if="typeTable === 'grid'"></i>
@@ -56,20 +36,15 @@
       </div>
     </div>
     <div v-if="typeTable === 'table'">
-      <el-table :data="docsData" style="width: 100%">
+      <el-table :data="docsData" style="width: 100%" height="480px">
         <el-table-column prop="docCode" label="Tên file" width="400">
           <template #default="scope">
-            <i
-              v-if="
-                getFileInfoFromPath(scope.row.urlFile).extension === 'docx' ||
-                getFileInfoFromPath(scope.row.urlFile).extension === 'doc'
-              "
-              class="ri-article-line text-blue-600 text-xl"
-            ></i>
-            <i
-              v-if="getFileInfoFromPath(scope.row.urlFile).extension === 'pdf'"
-              class="ri-file-pdf-line text-orange-500 text-xl"
-            ></i>
+            <i v-if="
+              getFileInfoFromPath(scope.row.urlFile).extension === 'docx' ||
+              getFileInfoFromPath(scope.row.urlFile).extension === 'doc'
+            " class="ri-article-line text-blue-600 text-xl"></i>
+            <i v-if="getFileInfoFromPath(scope.row.urlFile).extension === 'pdf'"
+              class="ri-file-pdf-line text-orange-500 text-xl"></i>
             {{ getFileInfoFromPath(scope.row.urlFile).fileName }}
           </template>
         </el-table-column>
@@ -105,12 +80,7 @@
         </el-table-column>
         <el-table-column label="" fixed="right">
           <template #default="scope">
-            <el-tooltip
-              class="box-item"
-              effect="dark"
-              content="Thao tác"
-              placement="top"
-            >
+            <el-tooltip class="box-item" effect="dark" content="Thao tác" placement="top">
               <el-dropdown trigger="click">
                 <el-button type="text">
                   <i class="ri-more-2-line text-lg"></i>
@@ -118,18 +88,7 @@
 
                 <template #dropdown>
                   <el-dropdown-menu class="custom-dropdown">
-                    <el-dropdown-item @click="showFile(scope.row.urlFile)"
-                      ><i class="ri-eye-line"></i>
-                      <p class="ml-5">Xem</p>
-                    </el-dropdown-item>
-                    <el-dropdown-item
-                      @click="
-                        dowloadFile(
-                          getFileInfoFromPath(scope.row.urlFile).fileName
-                        )
-                      "
-                    >
-                      <i class="ri-file-download-line"></i>
+                    <el-dropdown-item @click="showFile(scope.row.urlFile)"><i class="ri-eye-line"></i>
                       <p class="ml-5">Tải xuống</p>
                     </el-dropdown-item>
                     <el-dropdown-item divided @click="editDoc(scope.row.id)">
@@ -138,14 +97,12 @@
                       </el-icon>
                       <p class="ml-5">Sửa</p>
                     </el-dropdown-item>
-                    <el-dropdown-item
-                      @click="
+                    <el-dropdown-item @click="
                         {
-                          showDialogDelete = true;
-                          idDelete = scope.row.id;
-                        }
-                      "
-                    >
+                      showDialogDelete = true;
+                      idDelete = scope.row.id;
+                    }
+                      ">
                       <el-icon>
                         <Delete />
                       </el-icon>
@@ -160,117 +117,77 @@
       </el-table>
     </div>
     <div v-if="typeTable === 'grid'">
-      <el-row :gutter="20">
-        <el-col
-          :span="6"
-          class="mt-4"
-          v-for="(doc, index) in docsData"
-          :key="index"
-        >
-          <div
-            class="w-full p-3 h-[200px] rounded-xl"
-            style="background-color: #f0f4f9"
-          >
-            <div class="flex items-center justify-between">
-              <div>
-                <i
-                  v-if="
+      <el-scrollbar height="480px">
+        <el-row :gutter="20">
+          <el-col :span="6" class="mt-4" v-for="(doc, index) in docsData" :key="index">
+            <div class="w-full p-3 h-[200px] rounded-xl" style="background-color: #f0f4f9">
+              <div class="flex items-center justify-between">
+                <div>
+                  <i v-if="
                     getFileInfoFromPath(doc.urlFile).extension === 'docx' ||
                     getFileInfoFromPath(doc.urlFile).extension === 'doc'
-                  "
-                  class="ri-article-line text-blue-600 text-xl"
-                ></i>
-                <i
-                  v-if="getFileInfoFromPath(doc.urlFile).extension === 'pdf'"
-                  class="ri-file-pdf-line text-orange-500 text-xl"
-                ></i>
-              </div>
-              <div class="w-[70%] truncate">
-                <p class="text-sm">
-                  {{ getFileInfoFromPath(doc.urlFile).fileName }}
-                </p>
-              </div>
-              <div>
-                <el-tooltip
-                  class="box-item"
-                  effect="dark"
-                  content="Thao tác"
-                  placement="top"
-                >
-                  <el-dropdown trigger="click">
-                    <el-button type="text">
-                      <i class="ri-more-2-line text-lg"></i>
-                    </el-button>
+                  " class="ri-article-line text-blue-600 text-xl"></i>
+                  <i v-if="getFileInfoFromPath(doc.urlFile).extension === 'pdf'"
+                    class="ri-file-pdf-line text-orange-500 text-xl"></i>
+                </div>
+                <div class="w-[70%] truncate">
+                  <p class="text-sm">
+                    {{ getFileInfoFromPath(doc.urlFile).fileName }}
+                  </p>
+                </div>
+                <div>
+                  <el-tooltip class="box-item" effect="dark" content="Thao tác" placement="top">
+                    <el-dropdown trigger="click">
+                      <el-button type="text">
+                        <i class="ri-more-2-line text-lg"></i>
+                      </el-button>
 
-                    <template #dropdown>
-                      <el-dropdown-menu class="custom-dropdown">
-                        <el-dropdown-item @click="showFile(doc.urlFile)"
-                          ><i class="ri-eye-line"></i>
-                          <p class="ml-5">Xem</p>
-                        </el-dropdown-item>
-                        <el-dropdown-item
-                          @click="
-                            dowloadFile(
-                              getFileInfoFromPath(doc.urlFile).fileName
-                            )
-                          "
-                        >
-                          <i class="ri-file-download-line"></i>
-                          <p class="ml-5">Tải xuống</p>
-                        </el-dropdown-item>
-                        <el-dropdown-item divided @click="editDoc(doc.id)">
-                          <el-icon>
-                            <Edit />
-                          </el-icon>
-                          <p class="ml-5">Sửa</p>
-                        </el-dropdown-item>
-                        <el-dropdown-item
-                          @click="
+                      <template #dropdown>
+                        <el-dropdown-menu class="custom-dropdown">
+                          <el-dropdown-item @click="showFile(doc.urlFile)"><i class="ri-eye-line"></i>
+                            <p class="ml-5">Tải xuống</p>
+                          </el-dropdown-item>
+                          <el-dropdown-item divided @click="editDoc(doc.id)">
+                            <el-icon>
+                              <Edit />
+                            </el-icon>
+                            <p class="ml-5">Sửa</p>
+                          </el-dropdown-item>
+                          <el-dropdown-item @click="
                             {
-                              showDialogDelete = true;
-                              idDelete = doc.id;
-                            }
-                          "
-                        >
-                          <el-icon>
-                            <Delete />
-                          </el-icon>
-                          <p class="ml-5">Xóa</p>
-                        </el-dropdown-item>
-                      </el-dropdown-menu>
-                    </template>
-                  </el-dropdown>
-                </el-tooltip>
+                            showDialogDelete = true;
+                            idDelete = doc.id;
+                          }
+                            ">
+                            <el-icon>
+                              <Delete />
+                            </el-icon>
+                            <p class="ml-5">Xóa</p>
+                          </el-dropdown-item>
+                        </el-dropdown-menu>
+                      </template>
+                    </el-dropdown>
+                  </el-tooltip>
+                </div>
               </div>
-            </div>
-            <div class="flex justify-center mt-2 borde">
-              <img
-                :src="
-                  getFileInfoFromPath(doc.urlFile).extension === 'pdf'
-                    ? PDFIMAGE
-                    : WORDIMAGE
-                "
-                alt=""
-                class="rounded-lg mb-1"
-                :class="
-                  getFileInfoFromPath(doc.urlFile).extension === 'pdf'
+              <div class="flex justify-center mt-2 borde">
+                <img :src="getFileInfoFromPath(doc.urlFile).extension === 'pdf'
+                  ? PDFIMAGE
+                  : WORDIMAGE
+                  " alt="" class="rounded-lg mb-1" :class="getFileInfoFromPath(doc.urlFile).extension === 'pdf'
                     ? 'max-h-[140px] min-w-[200px]'
                     : 'max-h-[140px]'
-                "
-              />
+                    " />
+              </div>
             </div>
-          </div>
-        </el-col>
-      </el-row>
+          </el-col>
+        </el-row>
+      </el-scrollbar>
     </div>
   </div>
   <DocPopup />
-  <ConfirmView
-    v-model="showDialogDelete"
-    @deleteItem="deleteVanBan"
-    :idDelete="idDelete"
-    @close="showDialogDelete = false"
-  />
+  <ConfirmView v-model="showDialogDelete" @deleteItem="deleteVanBan" :idDelete="idDelete"
+    @close="showDialogDelete = false" />
 </template>
 
 <script lang="ts" setup>
@@ -329,22 +246,6 @@ async function deleteVanBan(id: string) {
 async function editDoc(id: string) {
   docStore.setSelectedDocId(id as string);
   docStore.setIsShowPopup(true);
-}
-async function dowloadFile(fileName: string) {
-  const res = await docServiceApi.dowloadFile(fileName);
-  if (res.success) {
-    console.log(res);
-
-    const url = window.URL.createObjectURL(new Blob([res.data]));
-    const link = document.createElement("a");
-    link.href = url;
-    link.setAttribute("download", fileName);
-    document.body.appendChild(link);
-    link.click();
-    document.body.removeChild(link);
-  } else {
-    showErrorNotification(res.message);
-  }
 }
 </script>
 <style scoped>

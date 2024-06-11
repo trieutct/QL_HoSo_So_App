@@ -21,6 +21,10 @@
         </template>
       </el-table-column>
       <el-table-column prop="nameLoaiHoSo" label="Loại hồ sơ" width="300" />
+      <el-table-column prop="tenKho" label="Kho" width="200" />
+      <el-table-column prop="tenDay" label="Dãy" width="200" />
+      <el-table-column prop="tenKe" label="Kệ" width="200" />
+      <el-table-column prop="tenHop" label="Hộp" width="200" />
       <el-table-column prop="keyword" label="Từ khóa" width="200" />
       <el-table-column prop="fileCatalog" label="Mục lục số" width="150" />
       <el-table-column prop="fileNotation" label="Số và ký hiệu hồ sơ" width="180" />

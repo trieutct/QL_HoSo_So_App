@@ -1,7 +1,7 @@
+import { fa } from "element-plus/es/locales.mjs";
 import { PageName, Role } from "../../common/contants/contants";
 import localStorageAuthService from "../../common/storages/authStorage";
 import { authServiceApi } from "../../features/auth/services/auth.service";
-import dayjs from "../../plugins/dayjs/index";
 import type { NavigationGuardNext, RouteLocationNormalized } from "vue-router";
 
 export default async (
@@ -10,9 +10,8 @@ export default async (
   next: NavigationGuardNext
 ): Promise<void> => {
   const isPublic = to?.meta?.public || false;
-  const hasToken = localStorageAuthService.getAccessToken() ? true : false;
+  const hasToken = !!localStorageAuthService.getAccessToken();
   const tokenExpiredAt = localStorageAuthService.getAccessTokenExpiredAt();
-  // const isExpired = dayjs().isAfter(dayjs(tokenExpiredAt), "second");
   const IS_AUTHENTICATED = tokenExpiredAt && hasToken;
   const name = to?.name;
   if (!name) {
@@ -28,19 +27,26 @@ export default async (
   if (IS_AUTHENTICATED && !isPublic) {
     const requiredPermissions =
       (to?.meta?.requiredPermissions as string[]) || [];
-    if (await hasPermissionToAccessRoute(requiredPermissions)) return next();
-    return next({ path: "/404" });
+    try {
+      const hasPermission = await hasPermissionToAccessRoute(
+        requiredPermissions
+      );
+      if (!hasPermission) {
+        alert(1);
+        next({ name: PageName.NOT_FOUND_PAGE });
+        return;
+      }
+    } catch (error) {
+      return next({ name: PageName.NOT_FOUND_PAGE });
+    }
   }
   next();
 };
 
-export async function hasPermissionToAccessRoute(
+async function hasPermissionToAccessRoute(
   requiredPermissions: string[]
 ): Promise<boolean> {
   if (!requiredPermissions || requiredPermissions.length === 0) return true;
-  // const user = localStorageAuthService.getLoginUser();
-  // if (user.role === Role.SYSADMIN) return true;
   const res = await authServiceApi.checkPermisionRouter(requiredPermissions);
-  if (!res) return false;
   return res.success;
 }
