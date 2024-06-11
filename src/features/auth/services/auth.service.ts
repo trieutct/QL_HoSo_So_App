@@ -6,6 +6,9 @@ class AuthApiService extends ApiService {
   async login(body: IBodyLogin): Promise<IBodyResponse<ILoginResponse>> {
     return await this.client.post(`${this.baseUrl}/login`, body);
   }
+  async loginGoogle(email: string): Promise<IBodyResponse<ILoginResponse>> {
+    return await this.client.get(`${this.baseUrl}/login/google/${email}`);
+  }
   async changePassword(
     body: IChangePassword
   ): Promise<IBodyResponse<IChangePassword>> {

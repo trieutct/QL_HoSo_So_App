@@ -22,6 +22,7 @@
     "vue-i18n": "^9.12.1",
     "vue-router": "^4.3.0",
     "vue3-apexcharts": "^1.5.2",
+    "vue3-google-login": "^2.0.26",
     "yup": "^1.4.0"
   },
   "devDependencies": {
